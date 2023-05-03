@@ -21,7 +21,7 @@ Users should be able to:
 
 ## Plan workflow
 
-- [ ] Create drawing from design (structure of design)(1st task)
+- [x] Create drawing from design (structure of design)(1st task)
 - [x] Create of repo (2nd task)
 - [ ] Create HTML layout (3rd task)
 - [ ] Create CSS layout according style guides (4th task)

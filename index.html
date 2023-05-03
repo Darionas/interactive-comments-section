@@ -1,26 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
+  <meta charset="UTF-8" />
   <title>Frontend Mentor | Interactive comments section</title>
-
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="keywords" content="Interactive comments section" />
+  <meta name="description" content="Interactive comments section challenge on Frontend Mentor" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!--<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap" rel="stylesheet" />-->
+  <!--<link rel="stylesheet" href="index.css" />-->
+  <!--<script defer src="index.js"></script>-->
 </head>
 <body>
+    <div class="grid_container">
+       <!--1st component-->
+        <main class="main">
+            <h1 class="title">Interactive comments</h1>
+            <div class="main_comments">
+                <div class="main_comments-section">
+                    <div class="comment">
+                        <div class="comment_header">
+                            <picture>
+                                <source srcset="images/avatars/image-amyrobson.webp" type="image/webp">
+                                <source srcset="images/avatars/image-amyrobson.png" type="image/jpeg"> 
+                                <img class="comment_header-img" src="images/avatars/image-amyrobson.png" alt="Amyrobson">
+                            </picture>
+                            <p class="comment_header-owner">amyrobson</p>
+                            <p class="comment_header-time">1 month ago</p>
+                        </div>
+                        <div class="comment_content">Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.</div>
+                        <div class="comment_vote">
+                            <span class="comment_vote-plus"><img src="images/icon-plus.svg" alt="Plus" /></span>
+                            <span class="comment_vote-content">12</span>
+                            <span class="comment_vote-minus"><img src="images/icon-minus.svg" alt="Minus" /></span>
+                        </div>
+                        <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
+                    </div>
+                </div>
 
-  <!-- Pull dynamic content from the data.json file -->
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
+            </div>
+            <div class="main_respond">
+
+            </div>            
+        </main>
+        <!--2nd component-->
+        <footer class="attribution">
+            Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+            Coded by <a href="#">@Darionas</a>.
+        </footer>
+    </div>
 </body>
 </html>
