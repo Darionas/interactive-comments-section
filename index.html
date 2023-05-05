@@ -15,19 +15,43 @@
 <body>
     <div class="grid_container">
        <!--1st component-->
+        <header class="header">
+            <picture class="header_juliusomo">
+                <source srcset="images/avatars/image-juliusomo.webp" type="image/webp">
+                <source srcset="images/avatars/image-juliusomo.png" type="image/jpeg"> 
+                <img class="comment_header-img" src="images/avatars/image-juliusomo.png" alt="Juliusomo">
+            </picture>
+            <picture class="header_amyrobson">
+                <source srcset="images/avatars/image-amyrobson.webp" type="image/webp">
+                <source srcset="images/avatars/image-amyrobson.png" type="image/jpeg"> 
+                <img class="comment_header-img" src="images/avatars/image-amyrobson.png" alt="Amyrobson">
+             </picture>
+            <picture class="header_maxblagun">
+                <source srcset="images/avatars/image-maxblagun.webp" type="image/webp">
+                <source srcset="images/avatars/image-maxblagun.png" type="image/jpeg"> 
+                <img class="comment_header-img" src="images/avatars/image-maxblagun.png" alt="Maxblagun">
+            </picture>
+            <picture class="header_ramsesmiron">
+                <source srcset="images/avatars/image-ramsesmiron.webp" type="image/webp">
+                <source srcset="images/avatars/image-ramsesmiron.png" type="image/jpeg"> 
+                <img class="comment_header-img" src="images/avatars/image-ramsesmiron.png" alt="Ramsesmiron">
+            </picture>
+        </header>
+        <!--2nd component-->
         <main class="main">
             <h1 class="title">Interactive comments</h1>
             <div class="main_comments">
                 <div class="main_comments-section">
                     <div class="comment">
                         <div class="comment_header">
-                            <picture>
+                            <picture class="picture_amyrobson">
                                 <source srcset="images/avatars/image-amyrobson.webp" type="image/webp">
                                 <source srcset="images/avatars/image-amyrobson.png" type="image/jpeg"> 
-                                <img class="comment_header-img" src="images/avatars/image-amyrobson.png" alt="Amyrobson">
+                                <img class="picture_amyrobson-img" src="images/avatars/image-amyrobson.png" alt="Amyrobson">
                             </picture>
-                            <p class="comment_header-owner">amyrobson</p>
-                            <p class="comment_header-time">1 month ago</p>
+                            <span class="comment_header-name">amyrobson</span>
+                            <span class="comment_header-owner">you</span>
+                            <span class="comment_header-time">1 month ago</span>
                         </div>
                         <div class="comment_content">Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.</div>
                         <div class="comment_vote">
@@ -35,7 +59,34 @@
                             <span class="comment_vote-content">12</span>
                             <span class="comment_vote-minus"><img src="images/icon-minus.svg" alt="Minus" /></span>
                         </div>
+                        <button class="update">update</button>
                         <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
+                        <div class="comment_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
+                        <div class="comment_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
+                    </div>
+                    <div class="reply">
+                        <div class="reply_container">
+                            <div class="reply_header">
+                                <picture class="picture_amyrobson">
+                                    <source srcset="images/avatars/image-amyrobson.webp" type="image/webp">
+                                    <source srcset="images/avatars/image-amyrobson.png" type="image/jpeg"> 
+                                    <img class="picture_amyrobson-img" src="images/avatars/image-amyrobson.png" alt="Amyrobson">
+                                </picture>
+                                <span class="reply_header-name">amyrobson</span>
+                                <span class="reply_header-owner">you</span>
+                                <span class="reply_header-time">1 month ago</span>
+                            </div>
+                            <div class="reply_content">Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.</div>
+                            <div class="reply_vote">
+                                <span class="reply_vote-plus"><img src="images/icon-plus.svg" alt="Plus" /></span>
+                                <span class="reply_vote-content">12</span>
+                                <span class="reply_vote-minus"><img src="images/icon-minus.svg" alt="Minus" /></span>
+                            </div>
+                            <button class="update">update</button>
+                            <div class="reply_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
+                            <div class="reply_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
+                            <div class="reply_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
+                        </div>
                     </div>
                 </div>
 
@@ -44,7 +95,7 @@
 
             </div>            
         </main>
-        <!--2nd component-->
+        <!--3rd component-->
         <footer class="attribution">
             Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
             Coded by <a href="#">@Darionas</a>.
