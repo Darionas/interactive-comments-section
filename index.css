@@ -1,0 +1,333 @@
+@import url(reset.css);
+@import url(FM_part.css);
+
+
+:root {
+    /* colors */
+    /* primary*/
+    --clr-moderate-blue: hsl(238, 40%, 52%);
+    --clr-soft-red: hsl(358, 79%, 66%);
+    --clr-light-grayish-blue: hsl(239, 57%, 85%);
+    --clr-pale-red: hsl(357, 100%, 86%);
+
+     /* neutral */
+     --clr-dark-blue: hsl(212, 24%, 26%);
+     --clr-grayish-blue: hsl(211, 10%, 45%);
+     --clr-light-gray: hsl(223, 19%, 93%);
+     --clr-very-light-gray: hsl(228, 33%, 97%);
+     --clr-white: hsl(0, 0%, 100%);
+  
+    /* typography */
+    /* fonts */
+    --ff-primary: 'Rubik', sans-serif;
+    --fw-400: 400; /* base */
+    --fw-500: 500; 
+    --fw-700: 700; 
+    --fs-16: 1rem; /* 16px base */
+}
+
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
+
+p {
+    line-height: 1.5;
+}
+
+
+body {
+    display: flex;
+    justify-content: center;
+    font-family: var(--ff-primary);
+    font-size: var(--fs-16);
+    font-weight: var(--fw-400);
+    background-color: var(--clr-very-light-gray);
+}
+
+/*---------------------Mobile layout-------------------------*/
+.grid_container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        'header'
+        'main'
+        'attribution';
+    gap: 1rem;
+    justify-items: center;
+    /*border: 2px solid green;*/
+}
+
+/* style 1st component - mobile */
+.header {
+    display: inline-flex;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--clr-very-light-gray);
+    /*border: 2px solid green;*/
+}
+
+[class*='header_'] {
+    margin: .5rem 0 .3rem 0;
+    width: 3.2rem;
+    padding: .2rem;
+}
+
+/* style 2nd component - mobile */
+.main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        'main_title'
+        'main_comments';
+    margin: 4rem 0 0 0;
+}
+
+.main_title {
+    display: none;
+}
+
+.main_comments {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        'main_comments-replies-section'
+        'main_respond';
+    gap: 1.5rem;
+    /*border: 2px solid blue;*/
+}
+
+.main_comments-replies-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        'main_comment-reply-container';
+}
+
+.main_comment-reply-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        'comment'
+        'replies';
+    gap: 1.5rem;
+    justify-items: center;
+}
+
+.comment {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        'comment_header'
+        'comment_content'
+        'comment_update'
+        'comment_tools';
+    gap: 1rem;
+    padding: 1rem;
+    width: 93%;
+    background-color: var(--clr-white);
+    border-radius: .8rem;
+    position: relative;
+}
+
+.comment_header {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin: 0 0 .6rem 0;
+}
+
+.picture_maxblagun {
+    width: 3.2rem;
+}
+
+.comment_header-name {
+    font-weight: var(--fw-500);
+}
+
+.comment_header-owner {
+    background-color: var(--clr-moderate-blue);
+    color: var(--clr-white);
+    font-weight: var(--fw-500);
+    padding: 0 .4rem;
+}
+
+.comment_header-time {
+    color: var(--clr-grayish-blue);
+    font-weight: var(--fw-500);
+}
+
+.comment_content {
+    color: var(--clr-grayish-blue);
+    /*border: 2px solid green;*/
+}
+
+.comment_update {
+    width: 6rem;
+    padding: .6rem .4rem;
+    border-radius: .4rem;
+    border: none;
+    text-transform: uppercase;
+    font-weight: var(--fw-500);
+    color: var(--clr-white);
+    background-color: var(--clr-moderate-blue);
+    justify-self: end;
+    display: none;
+}
+
+.comment_tools {
+    display: grid;
+    grid-template-columns: 2fr;
+    grid-template-areas:
+        'comment_vote editor';
+}
+
+.comment_vote {
+    display: inline-flex;
+    align-items: center;
+    width: 5rem;
+    gap: 1rem;
+    padding: 0 .6rem;
+    height: 2.5rem;
+    background-color: var(--clr-very-light-gray);
+    border-radius: .4rem;
+    /*border: 2px solid green;*/
+}
+
+.editor {
+    display: grid;
+    grid-template-columns: 3fr;
+    grid-template-areas:
+        'comment_delete comment_edit comment_reply';
+    gap: .7rem;
+    height: 2.5rem;
+    justify-self: end;
+    align-items: center;
+    /*border: 2px solid green;*/
+}
+
+.comment_delete {
+    display: inline-flex;
+    align-items: center;
+    color: var(--clr-soft-red);
+    font-weight: var(--fw-500);
+    gap: .3rem;
+    display: none;
+}
+
+.comment_edit {
+    display: inline-flex;
+    align-items: center;
+    font-weight: var(--fw-500);
+    color: var(--clr-moderate-blue);
+    gap: .3rem;
+    display: none;
+}
+
+.comment_reply {
+    display: inline-flex;
+    align-items: center;
+    font-weight: var(--fw-500);
+    color: var(--clr-moderate-blue);
+    gap: .3rem;
+}
+
+/*---------------------Desktop layout-------------------------*/
+@media screen and (min-width: 48rem) {
+
+* {
+    display: none;
+}
+/* style 1st component - desktop */
+
+
+/*style 2nd component - desktop */
+/*Component is styled in external css file*/
+
+}
+
+/*------------------grid area names---------------------------*/
+
+.header {
+    grid-area: header;
+}
+
+.main {
+    grid-area: main;
+}
+
+.main_title {
+    grid-area: main_title;
+}
+
+.main_comments {
+    grid-area: main_comments;
+}
+
+.main_comments-replies-section {
+    grid-area: main_comments-replies-section;
+}
+
+.main_comment-reply-container {
+    grid-area: main_comment-reply-container;
+}
+
+.comment {
+    grid-area: comment;
+}
+
+.comment_header {
+    grid-area: comment_header;
+}
+
+.comment_content {
+    grid-area: comment_content;
+}
+
+.comment_update {
+    grid-area: comment_update;
+}
+
+.comment_tools {
+    grid-area: comment_tools;
+}
+
+.comment_vote {
+    grid-area: comment_vote;
+}
+
+.comment_reply {
+    grid-area: comment_reply;
+}
+
+.comment_delete {
+    grid-area: comment_delete;
+}
+
+.comment_edit {
+    grid-area: comment_edit;
+}
+
+.editor {
+    grid-area: editor;
+}
+
+.replies {
+    grid-area: replies;
+}
+
+.main_respond {
+    grid-area: main_respond;
+}
+
+.attribution {
+    grid-area: attribution;
+}
