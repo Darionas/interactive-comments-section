@@ -135,7 +135,6 @@ body {
     width: 93%;
     background-color: var(--clr-white);
     border-radius: .8rem;
-    position: relative;
 }
 
 .comment_header {
