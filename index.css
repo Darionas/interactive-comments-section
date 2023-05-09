@@ -59,6 +59,7 @@ body {
         'attribution';
     gap: 1rem;
     justify-items: center;
+    align-content: start;
     /*border: 2px solid green;*/
 }
 
@@ -125,12 +126,12 @@ body {
 /*--comment--*/
 .comment {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr;
     grid-template-areas:
-        'comment_header'
-        'comment_content'
-        'comment_update'
-        'comment_tools';
+        'comment_header comment_header'
+        'comment_content comment_content'
+        '. comment_update'
+        'comment_vote comment_editor';
     gap: 1rem;
     padding: 1rem;
     width: 93%;
@@ -181,13 +182,6 @@ body {
     background-color: var(--clr-moderate-blue);
     justify-self: end;
     display: none;
-}
-
-.comment_tools {
-    display: grid;
-    grid-template-columns: 2fr;
-    grid-template-areas:
-        'comment_vote comment_editor';
 }
 
 .comment_vote {
@@ -245,7 +239,9 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
-        'reply';
+        'reply'
+        'reply_owner';
+    gap: 1rem;
     justify-items: end;
     width: 93%;
     border-width: 2px;
@@ -255,12 +251,12 @@ body {
 
 .reply {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr;
     grid-template-areas:
-        'reply_header'
-        'reply_content'
-        'reply_update'
-        'reply_tools';
+        'reply_header reply_header'
+        'reply_content reply_content'
+        '. reply_update'
+        'reply_vote reply_editor';
     gap: 1rem;
     padding: 1rem;
     width: 95%;
@@ -301,7 +297,7 @@ body {
 
 .reply_update {
     width: 6rem;
-    padding: .6rem .4rem;
+    padding: .5rem .2rem;
     border-radius: .4rem;
     border: none;
     text-transform: uppercase;
@@ -310,13 +306,6 @@ body {
     background-color: var(--clr-moderate-blue);
     justify-self: end;
     /*display: none;*/
-}
-
-.reply_tools {
-    display: grid;
-    grid-template-columns: 2fr;
-    grid-template-areas:
-        'reply_vote reply_editor';
 }
 
 .reply_vote {
@@ -369,17 +358,129 @@ body {
     gap: .3rem;
 }
 
+.reply_owner {
+    display: grid;
+    grid-template-columns: 2fr;
+    grid-template-areas:
+        'reply_owner-content reply_owner-content'
+        'picture_owner reply_btn';
+    gap: 1rem;
+    padding: 1rem;
+    width: 95%;
+    background-color: var(--clr-white);
+    border-radius: .8rem;
+}
+
+.reply_owner-content {
+    padding: 1rem;
+    border-radius: .4rem;
+    overflow-y: scroll;
+    color: var(--clr-dark-blue);
+    border-color: var(--clr-light-gray);
+}
+
+.picture_owner {
+    width: 3.2rem;
+}
+
+.reply_btn {
+    width: 5rem;
+    height: 2.6rem;
+    padding: .6rem .4rem;
+    border-radius: .4rem;
+    border: none;
+    text-transform: uppercase;
+    font-weight: var(--fw-500);
+    color: var(--clr-white);
+    background-color: var(--clr-moderate-blue);
+}
+
+.main_respond {
+    display: grid;
+    grid-template-columns: 2fr;
+    grid-template-areas:
+        'main_respond-content main_respond-content'
+        'main_respond-picture send';
+    gap: 1rem;
+    justify-self: center;
+    padding: 1rem;
+    width: 93%;
+    background-color: var(--clr-white);
+    border-radius: .8rem;
+}
+
+.main_respond-content {
+    padding: 1rem;
+    border-radius: .4rem;
+    overflow-y: scroll;
+    width: 93%;
+    color: var(--clr-dark-blue);
+    border-color: var(--clr-light-gray);
+}
+
+.main_respond-picture {
+    width: 3.2rem;
+}
+
+.send {
+    width: 5rem;
+    height: 2.6rem;
+    padding: .6rem .4rem;
+    border-radius: .4rem;
+    border: none;
+    text-transform: uppercase;
+    font-weight: var(--fw-500);
+    color: var(--clr-white);
+    background-color: var(--clr-moderate-blue);
+}
+
 /*---------------------Desktop layout-------------------------*/
 @media screen and (min-width: 48rem) {
-
+/*
 * {
     display: none;
-}
+}*/
 /* style 1st component - desktop */
 
 
 /*style 2nd component - desktop */
-/*Component is styled in external css file*/
+.comment {
+    grid-template-columns: 3fr;
+    grid-template-areas:
+        'comment_vote comment_header comment_editor'
+        'comment_vote comment_content comment_content'
+        '. . comment_update';
+    width: 50%;
+}
+
+.comment_vote {
+    display: grid;
+    width: 2rem;
+    height: 5rem;
+    align-content: center;
+    gap: .6rem;
+    border: 2px solid green;
+}
+
+.comment_header {
+    border: 2px solid green;
+}
+
+.comment_editor {
+    border: 2px solid green;
+}
+
+.comment_content {
+    border: 2px solid green;
+}
+
+.replies {
+    width: 50%;
+}
+
+.main_respond {
+    width: 50%;
+}
 
 }
 
@@ -425,10 +526,6 @@ body {
     grid-area: comment_update;
 }
 
-.comment_tools {
-    grid-area: comment_tools;
-}
-
 .comment_vote {
     grid-area: comment_vote;
 }
@@ -469,10 +566,6 @@ body {
     grid-area: reply_update;
 }
 
-.reply_tools {
-    grid-area: reply_tools;
-}
-
 .reply_vote {
     grid-area: reply_vote;
 }
@@ -493,8 +586,36 @@ body {
     grid-area: reply_reply;
 }
 
+.reply_owner {
+    grid-area: reply_owner;
+}
+
+.picture_owner {
+    grid-area: picture_owner;
+}
+
+.reply_owner-content {
+    grid-area: reply_owner-content;
+}
+
+.reply_btn {
+    grid-area: reply_btn;
+}
+
 .main_respond {
     grid-area: main_respond;
+}
+
+.main_respond-content {
+    grid-area: main_respond-content;
+}
+
+.main_respond-picture {
+    grid-area: main_respond-picture;
+}
+
+.send {
+    grid-area: send;
 }
 
 .attribution {

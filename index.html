@@ -60,17 +60,15 @@
                             </div>
                             <div class="comment_content" contenteditable="false">Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!</div>
                             <button class="comment_update">update</button>
-                            <div class="comment_tools">
-                                <div class="comment_vote">
-                                    <span class="comment_vote-plus"><img src="images/icon-plus.svg" alt="Plus" /></span>
-                                    <span class="comment_vote-content">5</span>
-                                    <span class="comment_vote-minus"><img src="images/icon-minus.svg" alt="Minus" /></span>
-                                </div>
-                                <div class="comment_editor">
-                                    <div class="comment_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
-                                    <div class="comment_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
-                                    <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
-                                </div>
+                            <div class="comment_vote">
+                                <span class="comment_vote-plus"><img src="images/icon-plus.svg" alt="Plus" /></span>
+                                <span class="comment_vote-content">5</span>
+                                <span class="comment_vote-minus"><img src="images/icon-minus.svg" alt="Minus" /></span>
+                            </div>
+                            <div class="comment_editor">
+                                <div class="comment_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
+                                <div class="comment_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
+                                <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
                             </div>
                         </div>
                         <div class="replies">
@@ -88,30 +86,38 @@
                                 </div>
                                 <div class="reply_content" contenteditable="false">If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.</div>
                                 <button class="reply_update">update</button>
-                                <div class="reply_tools">
-                                    <div class="reply_vote">
-                                        <span class="reply_vote-plus"><img src="images/icon-plus.svg" alt="Plus" /></span>
-                                        <span class="reply_vote-content">4</span>
-                                        <span class="reply_vote-minus"><img src="images/icon-minus.svg" alt="Minus" /></span>
-                                    </div>
-                                    <div class="reply_editor">
-                                        <div class="reply_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
-                                        <div class="reply_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
-                                        <div class="reply_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
-                                    </div>
+                                <div class="reply_vote">
+                                    <span class="reply_vote-plus"><img src="images/icon-plus.svg" alt="Plus" /></span>
+                                    <span class="reply_vote-content">4</span>
+                                    <span class="reply_vote-minus"><img src="images/icon-minus.svg" alt="Minus" /></span>
                                 </div>
+                                <div class="reply_editor">
+                                    <div class="reply_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
+                                    <div class="reply_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
+                                    <div class="reply_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
+                                </div>
+                            </div>
+                            <!--Owner reply-->
+                            <div class="reply_owner">
+                                <picture class="picture_owner">
+                                    <source srcset="images/avatars/image-juliusomo.webp" type="image/webp">
+                                    <source srcset="images/avatars/image-juliusomo.png" type="image/jpeg"> 
+                                    <img class="owner-img" src="images/avatars/image-juliusomo.png" alt="Juliusomo">
+                                </picture>
+                                <textarea class="reply_owner-content" rows="4" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+                                <button class="reply_btn">reply</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="main_respond">
-                    <picture class="picture_juliusomo">
+                    <picture class="main_respond-picture">
                         <source srcset="images/avatars/image-juliusomo.webp" type="image/webp">
                         <source srcset="images/avatars/image-juliusomo.png" type="image/jpeg"> 
                         <img class="picture_juliusomo-img" src="images/avatars/image-juliusomo.png" alt="Juliusomo">
                     </picture>
-                    <textarea class="main_respond-content" aria-label="Write comment" placeholder="Add a comment..."></textarea>
-                    <button class="update">send</button>
+                    <textarea class="main_respond-content" rows="4" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+                    <button class="send">send</button>
                 </div>
             </div>            
         </main>
