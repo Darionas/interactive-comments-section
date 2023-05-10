@@ -159,6 +159,7 @@ body {
     color: var(--clr-white);
     font-weight: var(--fw-500);
     padding: 0 .4rem;
+    display: none;
 }
 
 .comment_header-time {
@@ -172,6 +173,7 @@ body {
 }
 
 .comment_update {
+    cursor: pointer;
     width: 6rem;
     padding: .6rem .4rem;
     border-radius: .4rem;
@@ -196,19 +198,24 @@ body {
     /*border: 2px solid green;*/
 }
 
+.comment_vote-plus:hover, .comment_vote-minus:hover {
+    cursor: pointer;
+}
+
 .comment_editor {
     display: grid;
     grid-template-columns: 3fr;
     grid-template-areas:
         'comment_delete comment_edit comment_reply';
     gap: .7rem;
-    height: 2.5rem;
+    height: 3.2rem;
     justify-self: end;
     align-items: center;
     /*border: 2px solid green;*/
 }
 
 .comment_delete {
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     color: var(--clr-soft-red);
@@ -218,6 +225,7 @@ body {
 }
 
 .comment_edit {
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     font-weight: var(--fw-500);
@@ -227,6 +235,7 @@ body {
 }
 
 .comment_reply {
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     font-weight: var(--fw-500);
@@ -284,6 +293,7 @@ body {
     color: var(--clr-white);
     font-weight: var(--fw-500);
     padding: 0 .4rem;
+    display: none;
 }
 
 .reply_header-time {
@@ -291,11 +301,13 @@ body {
     font-weight: var(--fw-500);
 }
 .reply_content {
+    cursor: pointer;
     color: var(--clr-grayish-blue);
     /*border: 2px solid green;*/
 }
 
 .reply_update {
+    cursor: pointer;
     width: 6rem;
     padding: .5rem .2rem;
     border-radius: .4rem;
@@ -320,19 +332,24 @@ body {
     /*border: 2px solid green;*/
 }
 
+.reply_vote-plus, .reply_vote-minus {
+    cursor: pointer;
+}
+
 .reply_editor {
     display: grid;
     grid-template-columns: 3fr;
     grid-template-areas:
         'reply_delete reply_edit reply_reply';
     gap: .7rem;
-    height: 2.5rem;
+    height: 3.2rem;
     justify-self: end;
     align-items: center;
     /*border: 2px solid green;*/
 }
 
 .reply_delete {
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     color: var(--clr-soft-red);
@@ -342,6 +359,7 @@ body {
 }
 
 .reply_edit {
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     font-weight: var(--fw-500);
@@ -351,11 +369,13 @@ body {
 }
 
 .reply_reply {
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     font-weight: var(--fw-500);
     color: var(--clr-moderate-blue);
     gap: .3rem;
+    /*display: none;*/
 }
 
 .reply_owner {
@@ -372,6 +392,7 @@ body {
 }
 
 .reply_owner-content {
+    cursor: pointer;
     padding: 1rem;
     border-radius: .4rem;
     overflow-y: scroll;
@@ -384,6 +405,7 @@ body {
 }
 
 .reply_btn {
+    cursor: pointer;
     width: 5rem;
     height: 2.6rem;
     padding: .6rem .4rem;
@@ -410,6 +432,7 @@ body {
 }
 
 .main_respond-content {
+    cursor: pointer;
     padding: 1rem;
     border-radius: .4rem;
     overflow-y: scroll;
@@ -423,6 +446,7 @@ body {
 }
 
 .send {
+    cursor: pointer;
     width: 5rem;
     height: 2.6rem;
     padding: .6rem .4rem;
@@ -450,37 +474,62 @@ body {
         'comment_vote comment_header comment_editor'
         'comment_vote comment_content comment_content'
         '. . comment_update';
-    width: 50%;
+    width: 43rem;
+    gap: 1rem;
 }
 
 .comment_vote {
     display: grid;
     width: 2rem;
-    height: 5rem;
+    height: 6rem;
     align-content: center;
-    gap: .6rem;
-    border: 2px solid green;
-}
-
-.comment_header {
-    border: 2px solid green;
-}
-
-.comment_editor {
-    border: 2px solid green;
-}
-
-.comment_content {
-    border: 2px solid green;
+    gap: .8rem;
+    /*border: 2px solid green;*/
 }
 
 .replies {
-    width: 50%;
+    width: 41rem;
+    /*border: 2px solid green;*/
+}
+
+.reply {
+    grid-template-columns: 3fr;
+    grid-template-areas:
+        'reply_vote reply_header reply_editor'
+        'reply_vote reply_content reply_content'
+        '. . reply_update';
+    gap: .6rem;
+    width: 95%;
+    margin: 0 -1rem 0 0;
+}
+
+.reply_vote {
+    display: grid;
+    width: 2rem;
+    height: 6rem;
+    align-content: center;
+    gap: .8rem;
+    /*border: 2px solid green;*/
+}
+
+.reply_owner {
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-areas:
+       'picture_owner reply_owner-content reply_owner-content reply_owner-content reply_owner-content reply_owner-content reply_owner-content reply_btn';
+    gap: .6rem;
+    width: 95%;
+    margin: 0 -1rem 0 0;
 }
 
 .main_respond {
-    width: 50%;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-areas:
+        'main_respond-picture main_respond-content main_respond-content main_respond-content main_respond-content main_respond-content main_respond-content send';
+    width: 43rem;
+    gap: .6rem;
+    justify-items: center;
 }
+
 
 }
 
