@@ -26,7 +26,7 @@ Users should be able to:
 - [x] Create HTML layout (3rd task)
 - [x] Create CSS layout according style guides (4th task)
 - [x] Create CSS (grid) layout for mobile first (5th task)
-- [ ] Craete CSS (grid) layout for desktop (6th task)
+- [x] Create CSS (grid) layout for desktop (6th task)
 - [ ] Implement JavaScript (7th task)
 - [ ] Overview of solution and RWD (8th task)
 - [ ] Tada it is done. Congratulation you reach your goal.🎉
