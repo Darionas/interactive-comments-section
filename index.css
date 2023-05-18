@@ -76,9 +76,9 @@ body {
     /*border: 2px solid green;*/
 }
 
-[class*='header_'] {
+.header__image {
     margin: .5rem 0 .3rem 0;
-    width: 3.4rem;
+    width: 3.6rem;
     padding: .2rem;
 }
 
@@ -110,7 +110,10 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
+        'comment'
         'main_comment-reply-container';
+    gap: 1rem;
+    justify-items: center;
 }
 
 .main_comment-reply-container {
@@ -233,7 +236,7 @@ body {
     grid-template-columns: 3fr;
     grid-template-areas:
         'comment_delete comment_edit comment_reply';
-    gap: .7rem;
+    gap: 1rem;
     height: 2.5rem;
     justify-self: end;
     align-items: center;
@@ -393,7 +396,7 @@ body {
     grid-template-columns: 3fr;
     grid-template-areas:
         'reply_delete reply_edit reply_reply';
-    gap: .7rem;
+    gap: 1rem;
     height: 2.5rem;
     justify-self: end;
     align-items: center;
