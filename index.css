@@ -349,6 +349,10 @@ body {
     /*border: 2px solid green;*/
 }
 
+.replyingTo {
+    color: var(--clr-moderate-blue);
+}
+
 .reply_update {
     cursor: pointer;
     width: 6rem;
