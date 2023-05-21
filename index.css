@@ -103,27 +103,34 @@ body {
         'main_comments-replies-section'
         'main_respond';
     gap: 1.5rem;
+    justify-items: center;
+    justify-self: center;
     /*border: 2px solid blue;*/
 }
 
 .main_comments-replies-section {
-    display: grid;
+    /*display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
         'comment'
-        'main_comment-reply-container';
-    gap: 1rem;
-    justify-items: center;
+        'main_comment-reply-container';*/
+    width: 18rem;
+    
+    /*gap: 1rem;*/
+    
+    /*border: 2px solid green;*/
 }
 
 .main_comment-reply-container {
-    display: grid;
+    /*display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
         'comment'
-        'replies';
-    gap: 1.5rem;
-    justify-items: center;
+        'replies';*/
+    
+    /*gap: 1.5rem;*/
+    
+    /*border: 2px solid green;*/
 }
 
 /*--comment--*/
@@ -139,9 +146,10 @@ body {
     padding: 1rem;
     align-content: center;
     justify-items: start;
-    width: 93%;
+    width: 100%;
     background-color: var(--clr-white);
     border-radius: .8rem;
+    /*border: 2px solid green;*/
 }
 
 .comment_header {
@@ -299,9 +307,11 @@ body {
     padding: 1rem;
     align-content: center;
     justify-items: start;
+    float: right;
     width: 95%;
     background-color: var(--clr-white);
     border-radius: .8rem;
+    /*border: 2px solid red;*/
 }
 
 .reply_header {
@@ -519,10 +529,10 @@ body {
 
 /*---------------------Desktop layout-------------------------*/
 @media screen and (min-width: 48rem) {
-/*
+
 * {
     display: none;
-}*/
+}
 /* style 1st component - desktop */
 
 
