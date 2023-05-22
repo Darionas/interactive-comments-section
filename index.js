@@ -4,8 +4,8 @@
 import {members} from './members.js';
 members();
 
-
-let myData, comments, reply, currentUser, comment_container, comment_container_reply, reply_container;
+let myData, comments, reply, currentUser, comment_container, comment_container_reply, reply_container, comment_reply_owner, reply_reply,
+reply_owner;
 
 
 fetch('data.json')
@@ -66,7 +66,7 @@ function exec() {
                     </div>
                 </div>`.trim();
               
-               document.querySelector('.main_comments-replies-section').innerHTML += comment_container;   
+                document.querySelector('.main_comments-replies-section').innerHTML += comment_container;
         }
         
         if(item.replies.length > 0) {
@@ -103,13 +103,39 @@ function exec() {
         comment_reply.classList.add('main_comment-reply-container');
         comm.appendChild(comment_reply);
         document.querySelector('.main_comment-reply-container').innerHTML += comment_container_reply; 
+//***********************************
+         comment_reply_owner = document.getElementsByClassName('comment');
+         let wow = document.getElementsByClassName('comment_reply');
+         
+            reply_owner = 
+                    `<div class="reply_owner">
+                        <picture class="picture_owner">
+                            <source srcset="images/avatars/image-juliusomo.webp" type="image/webp">
+                            <source srcset="images/avatars/image-juliusomo.png" type="image/jpeg"> 
+                            <img class="owner-img" src="images/avatars/image-juliusomo.png" alt="Juliusomo">
+                        </picture>
+                        <textarea class="reply_owner-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+                        <button class="reply_btn">reply</button>
+                    </div>`
+                    
+                    document.querySelector('.main_comments-replies-section').innerHTML += reply_owner;
+                    /*
+                    if(num) {
+                        insertAfter(que, document.querySelector('.main_comments-replies-section').innerHTML += reply_owner);
+                    }*/
+         
+  //*********************************************************              
+         
+        
+            
 
         n++;
         reply = comments[n].replies;
-        console.log(reply);
+        //console.log(reply);
         reply.forEach((items) => {
             reply_container =
-                `<div class="reply" style='margin: 0 0 1rem 0;'>
+                `<div class='replies'>
+                <div class="reply" style='margin: 0 0 1rem 0;'>
                     <div class="reply_header">
                         <picture class="reply_header-picture">
                             <source srcset="${items.user.image.webp}" type="image/webp">
@@ -134,6 +160,7 @@ function exec() {
                         <div class="reply_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
                         <div class="reply_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
                     </div>
+                </div>
                 </div>`.trim();
 
                 document.querySelector('.main_comment-reply-container').innerHTML += reply_container;
@@ -141,6 +168,10 @@ function exec() {
             })
 
         }
+
+        
+        reply_reply = document.querySelector('.reply_reply');
+
     }); 
 } 
 

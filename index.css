@@ -114,24 +114,24 @@ body {
     grid-template-areas:
         'comment'
         'main_comment-reply-container';*/
-    width: 18rem;
-    
+    min-width: 17rem;
+    margin: 0 1rem;
     /*gap: 1rem;*/
     
     /*border: 2px solid green;*/
 }
-
+/*
 .main_comment-reply-container {
-    /*display: grid;
+    display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
         'comment'
         'replies';*/
     
     /*gap: 1.5rem;*/
-    
+
     /*border: 2px solid green;*/
-}
+/*}*/
 
 /*--comment--*/
 .comment {
@@ -282,14 +282,16 @@ body {
 
 /*--reply--*/
 .replies {
-    display: grid;
+    /*display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
         'reply'
-        'reply_owner';
-    gap: 1rem;
+        'reply_owner';*/
+    /*gap: 1rem;*/
     justify-items: end;
-    width: 93%;
+    min-width: 16.5rem;
+    float: right;
+    margin: 0 0 .5rem 0;
     border-width: 2px;
     border-color: hsl(223, 19%, 93%);
     border-style: none none none solid;
@@ -308,7 +310,7 @@ body {
     align-content: center;
     justify-items: start;
     float: right;
-    width: 95%;
+    width: 93%;
     background-color: var(--clr-white);
     border-radius: .8rem;
     /*border: 2px solid red;*/
@@ -455,9 +457,11 @@ body {
         'picture_owner reply_btn';
     gap: 1rem;
     padding: 1rem;
+    margin: 0 0 1rem 0;
     width: 95%;
     background-color: var(--clr-white);
     border-radius: .8rem;
+    /*border: 2px solid red;*/
 }
 
 .reply_owner-content {
