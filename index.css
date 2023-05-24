@@ -289,7 +289,7 @@ body {
         'reply_owner';*/
     /*gap: 1rem;*/
     justify-items: end;
-    min-width: 16.5rem;
+    /*min-width: 16.5rem;*/
     float: right;
     margin: 0 0 .5rem 0;
     border-width: 2px;
@@ -457,8 +457,9 @@ body {
         'picture_owner reply_btn';
     gap: 1rem;
     padding: 1rem;
+    float: right;
     margin: 0 0 1rem 0;
-    width: 95%;
+    width: 93%;
     background-color: var(--clr-white);
     border-radius: .8rem;
     /*border: 2px solid red;*/

@@ -4,7 +4,7 @@
 import {members} from './members.js';
 members();
 
-let myData, comments, reply, currentUser, comment_container, comment_container_reply, reply_container, comment_reply_owner, reply_reply,
+let myData, comments, comm, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container, comment_reply_owner, reply_reply,
 reply_owner;
 
 //fetch data fron json and set it to localStorage and get it from localStorage
@@ -99,8 +99,8 @@ function exec() {
                     <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
                 </div>
             </div>`;    
-            const comm = document.querySelector('.main_comments-replies-section');       
-            const comment_reply = document.createElement('div');
+            comm = document.querySelector('.main_comments-replies-section');       
+            comment_reply = document.createElement('div');
             comment_reply.classList.add('main_comment-reply-container');
             comm.appendChild(comment_reply);
             document.querySelector('.main_comment-reply-container').innerHTML += comment_container_reply; 
@@ -163,12 +163,14 @@ function exec() {
                         <textarea class="reply_owner-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
                         <button class="reply_btn">reply</button>`;
                     
-                    Element.prototype.appendAfter = function(element) {
-                        element.parentNode.insertBefore(this, element.nextSibling);
-                    }
-
-                    newreply.appendAfter(comment_reply_owner[i]);
                     
+                    
+                        Element.prototype.appendAfter = function(element) {
+                            element.parentNode.insertBefore(this, element.nextSibling);
+                        }, false;
+
+                        newreply.appendAfter(comment_reply_owner[i]);
+            
                     
                   
                     
