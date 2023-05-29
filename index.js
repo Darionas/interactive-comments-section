@@ -2,9 +2,12 @@
 /*jshint esversion: 8*/
 
 import {members} from './members.js';
+import {users} from './users.js';
 members();
 
-let myData, comments, comm, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container, comment_reply_owner, reply_reply,
+
+
+let myData, comments, comm,ownerImage, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container, comment_reply_owner, reply_reply,
 reply_owner;
 
 //fetch data fron json and set it to localStorage and get it from localStorage
@@ -26,6 +29,7 @@ fetch('data.json')
         comments = get.comments;
         currentUser = get.currentUser;       
         exec();
+        //ownerMarker();
         }
     })
 
@@ -143,7 +147,8 @@ function exec() {
 
             })
         }
-        reply_reply = document.querySelector('.reply_reply');
+
+                
 
     });
     
@@ -163,8 +168,6 @@ function exec() {
                         <textarea class="reply_owner-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
                         <button class="reply_btn">reply</button>`;
                     
-                    
-                    
                         Element.prototype.appendAfter = function(element) {
                             element.parentNode.insertBefore(this, element.nextSibling);
                         }, false;
@@ -175,9 +178,50 @@ function exec() {
                   
                     
                 }
-        })
+            })
         }
-
-} 
-
+        
+        let x = 0;
+        const owner = document.querySelectorAll('.owner');
+        //click one of iterated value, and on the same event remove class from anothers iterated values
+        //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
+        owner[0].classList.add('userstyle');
+        owner.forEach(function(i) {
+            i.addEventListener('click', function() {
+                for(let i of owner) {
+                    i.classList.remove('userstyle')
+                }
+                x = i.id;
+                //console.log(x);
+                go(x);
+                this.classList.add('userstyle');
+            });  
+        });
     
+        //populate one instance of object in javaScript
+        function go(y) {
+            const main_comments = document.querySelector('.main_comments');
+            for(let e=0; e < users.length; e++) {
+                users[e];
+            }
+                //console.log(users[y].image.png);
+                //console.log(y);
+                
+                ownerImage = 
+                `<picture class="main_respond-picture">
+                    <source srcset="${users[y].image.webp}" type="image/webp">
+                    <source srcset="${users[y].image.png}" type="image/jpeg"> 
+                    <!--stop animation in inline style-->
+                    <img class="${users[y].username} animoDisable" src="${users[y].image.png}" alt="${users[y].username}" style="visibility: visible; animation-duration: 0s; !important;">
+                </picture>
+                <textarea class="main_respond-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+                <button class="send">send</button>`.trim();
+            
+                document.querySelector('.main_respond').innerHTML = ownerImage;
+       }
+       go(x);
+
+      
+ 
+}
+

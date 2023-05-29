@@ -11,9 +11,9 @@ export function members() {
         image.innerHTML =
         `<source srcset="${item.image.webp}" type="image/webp">
         <source srcset="${item.image.png}" type="image/jpeg"> 
-        <img class="${item.username}" src="${item.image.png}" alt="${item.username}">
+        <img id="${item.id}" class="${item.username} owner" src="${item.image.png}" alt="${item.username}">
         `.trim();
-    
+       
     })
 
 const juliusomo = document.querySelector('.juliusomo');
@@ -37,3 +37,4 @@ ramsesmiron.addEventListener('animationstart', function(){
     ramsesmiron.style.visibility = 'visible';
 }, false)
 }
+
