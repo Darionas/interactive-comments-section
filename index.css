@@ -177,6 +177,10 @@ body {
     /*display: none;*/
 }
 
+.you {
+    display: block !important;
+}
+
 .comment_header-time {
     color: var(--clr-grayish-blue);
     font-weight: var(--fw-500);
