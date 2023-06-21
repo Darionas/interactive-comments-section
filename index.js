@@ -7,43 +7,138 @@ members();
 
 
 
-let get, get_update, myData, comments, comm, ownerImage, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container,
-comment_reply_owner, reply_reply, reply_owner, member, comment_header_owner, currentUser_update;
+let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container,
+comment_reply_owner, comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
 
 
+//https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
 //fetch data fron json and set it to localStorage and get it from localStorage
+function got() {
 fetch('data.json')
     .then((response) => response.json())
     .then((data) => {
         if(typeof(Storage) !== 'undefined') {
             //console.log(data);
             localStorage.setItem('data', JSON.stringify(data));
+            init();
         } else {
             alert('Sorry! No Web Storage support.')
         }
+    })
+}
+got();
 
-        myData = localStorage.getItem('data');
+
+
+function init() {
+    getOld = JSON.parse(localStorage.getItem('data'));
+    if(localStorage.getItem('data')) {
+        if(getNew) {
+            while(comm.firstChild) {
+                comm.removeChild(comm.firstChild);
+            }
+            get = Object.assign(getNew, getOld);
+        } else if (!getNew) {
+            get = getOld;
+        } else {
+            return;
+        }
+
+        //console.log(get);
+        comments = get.comments;
+        currentUser = get.currentUser;       
+        exec();
+        go();
+    }
+}
+
+//init();
+
+//--------------------------------------------------------------
+
+//https://stackoverflow.com/questions/50338791/javascript-loop-through-object-array-and-pushing-elements-into-one-array
+/*
+let memb = [];
+for(let i=0; i < users.length; i++) {
+   name = users[i].username;
+    //console.log(name);
+    memb = memb.concat(name.split(','));
+    
+}
+*/
+
+
+//----------------------------------------------------------
+
+    //Main reply construct with optional owner
+    const owner = document.querySelectorAll('.owner');
+    owner[0].classList.add('userstyle');  
+    //window.onload = function() {return comments.} 
+        //click one of iterated value, and on the same event remove class from anothers iterated values
+        //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
+        owner.forEach(function(i) {
+            i.addEventListener('click', function() {
+                for(let i of owner) {
+                    i.classList.remove('userstyle')
+                }
+                x = i.id
+                this.classList.add('userstyle');
+                currentUser.id = users[x].id;              
+                currentUser.username = users[x].username;
+                currentUser.image.png = users[x].image.png;
+                currentUser.image.webp = users[x].image.webp;
+                comments = get.comments;
+                localStorage.setItem('data', JSON.stringify(get));
+                getNew = JSON.parse(localStorage.getItem('data'));
+                //console.log(JSON.parse(localStorage.getItem('data')));                  
+                init();       
+            });  
+        });
         
 
-        if(localStorage.getItem('data')) {
-            get = JSON.parse(myData);
-            //console.log(get);
-            comments = get.comments;
-            currentUser = get.currentUser;       
-            exec();
-            go();
-        }
-    })
-
+    
+    function go() {
+        get_update = JSON.parse(localStorage.getItem('data'));
+        currentUser_update = get_update.currentUser;
+        
+        ownerImage = 
+        `<picture id="${currentUser_update.id}" class="main_respond-picture">
+            <source srcset="${currentUser_update.image.webp}" type="image/webp">
+            <source srcset="${currentUser_update.image.png}" type="image/jpeg"> 
+            <!--stop animation in inline style-->
+            <img class="${currentUser_update.username}" src="${currentUser_update.image.png}" alt="${currentUser_update.username}" style="visibility: visible; animation-duration: 0s; !important;">
+        </picture>
+        <textarea class="main_respond-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+        <button class="send">send</button>`.trim();
+    
+        document.querySelector('.main_respond').innerHTML = ownerImage;
+    }
+    
 
 //dynamically populate data to html  
 function exec() {
+    let n = 0;
     comments.forEach((item) => {
-        let n = 0;
+        console.log(item.user.username);
+        console.log(currentUser.username);
+        if(item.user.username === currentUser.username) {
+           comment__you = `<span class="comment_header-owner">you</span>`;
+           comment__editor = `<div class="comment_editor">
+           <div class="comment_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
+           <div class="comment_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
+       </div>`
+        } else {
+            comment__you = ``;
+            comment__editor = `<div class="comment_editor">
+            <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
+        </div>`;
+        }
+
+        
         //Comment without reply construct
         if(item.replies.length === 0) {
-            console.log(users[x].username);
+            //console.log(name);
             comment_container =
                 `<div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
                     <div class="comment_header">
@@ -54,7 +149,7 @@ function exec() {
                         </picture>
                         <div class="comment_header-container">
                             <span class="comment_header-name">${item.user.username}</span>
-                            ${item.user.username === users[x].username ? `<span class="comment_header-owner">you</span>` : `<span class="comment_header-owner" style="display: none">you</span>`}
+                            ${comment__you}
                             <span class="comment_header-time">${item.createdAt}</span>
                         </div>
                     </div>
@@ -65,11 +160,7 @@ function exec() {
                         <span class="comment_vote-content">${item.score}</span>
                         <span class="comment_vote-minus"><svg width="11" height="7" xmlns="http://www.w3.org/2000/svg"><path class="minus" d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/></svg></span>
                     </div>
-                    <div class="comment_editor">
-                        <div class="comment_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
-                        <div class="comment_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
-                        <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
-                    </div>
+                    ${comment__editor}
                 </div>`.trim();
               
             document.querySelector('.main_comments-replies-section').innerHTML += comment_container;
@@ -89,7 +180,7 @@ function exec() {
                         </picture>
                         <div class="comment_header-container">
                             <span class="comment_header-name">${item.user.username}</span>
-                            ${item.user.username === users[x].username ? `<span class="comment_header-owner">you</span>` : `<span class="comment_header-owner" style="display: none">you</span>`}
+                            ${comment__you}
                             <span class="comment_header-time">${item.createdAt}</span>
                         </div>
                     </div>
@@ -100,11 +191,7 @@ function exec() {
                         <span class="comment_vote-content">${item.score}</span>
                         <span class="comment_vote-minus"><svg width="11" height="7" xmlns="http://www.w3.org/2000/svg"><path class="minus" d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/></svg></span>
                     </div>
-                    <div class="comment_editor">
-                        <div class="comment_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
-                        <div class="comment_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
-                        <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
-                    </div>
+                    ${comment__editor}
                 </div>`.trim();    
             comm = document.querySelector('.main_comments-replies-section');       
             comment_reply = document.createElement('div');
@@ -116,6 +203,18 @@ function exec() {
             reply = comments[n].replies;
             //console.log(reply);
             reply.forEach((item) => {
+                if(item.user.username === currentUser.username) {
+                    reply__you = `<span class="reply_header-owner">you</span>`;
+                    reply__editor = `<div class="reply_editor">
+                    <div class="reply_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
+                    <div class="reply_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
+                </div>`
+                 } else {
+                     reply__you = ``;
+                     reply__editor = `<div class="reply_editor">
+                     <div class="reply_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
+                 </div>`;
+                 }
                 reply_container =
                     `<div class='replies'>
                         <div class="reply" id="${item.id}" style='margin: 0 0 1rem 0;'>
@@ -127,7 +226,7 @@ function exec() {
                                 </picture>
                                 <div class="reply_header-container">
                                     <span class="reply_header-name">${item.user.username}</span>
-                                    <span class="reply_header-owner">you</span>
+                                    ${reply__you}
                                     <span class="reply_header-time">${item.createdAt}</span>
                                 </div>
                             </div>
@@ -138,11 +237,7 @@ function exec() {
                                 <span class="reply_vote-content">${item.score}</span>
                                 <span class="reply_vote-minus"><svg width="11" height="7" xmlns="http://www.w3.org/2000/svg"><path class="minus" d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/></svg></span>
                             </div>
-                            <div class="reply_editor">
-                                <div class="reply_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
-                                <div class="reply_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
-                                <div class="reply_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
-                            </div>
+                            ${reply__editor}
                         </div>
                     </div>`.trim();
 
@@ -183,56 +278,8 @@ function exec() {
             }
         })
     }
-        
-    //Main reply construct with optional owner
-    const owner = document.querySelectorAll('.owner');
-    //click one of iterated value, and on the same event remove class from anothers iterated values
-    //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
-    owner[0].classList.add('userstyle');
-    owner.forEach(function(i) {
-        i.addEventListener('click', function() {
-            for(let i of owner) {
-                i.classList.remove('userstyle')
-            }
-
-            x = i.id;
-            //console.log(x);
-           //go(x);
-            this.classList.add('userstyle');
-
-            //console.log(users[x].username);
-               get.currentUser.id = users[x].id;              
-               get.currentUser.username = users[x].username;
-               get.currentUser.image.png = users[x].image.png;
-               get.currentUser.image.webp = users[x].image.webp;
-               localStorage.setItem('data', JSON.stringify(get));
-               console.log(currentUser.id);
-               go();
-        });  
-    });
     
 }
 
-
-
-function go() {
-    get_update = JSON.parse(localStorage.getItem('data'));
-    //console.log(get_update);
-    currentUser_update = get_update.currentUser;
-    
-    ownerImage = 
-    `<picture id="${currentUser_update.id}" class="main_respond-picture">
-        <source srcset="${currentUser_update.image.webp}" type="image/webp">
-        <source srcset="${currentUser_update.image.png}" type="image/jpeg"> 
-        <!--stop animation in inline style-->
-        <img class="${currentUser_update.username}" src="${currentUser_update.image.png}" alt="${currentUser_update.username}" style="visibility: visible; animation-duration: 0s; !important;">
-    </picture>
-    <textarea class="main_respond-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
-    <button class="send">send</button>`.trim();
-
-    document.querySelector('.main_respond').innerHTML = ownerImage;
-
-   
-}
 
 
