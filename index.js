@@ -120,8 +120,8 @@ for(let i=0; i < users.length; i++) {
 function exec() {
     let n = 0;
     comments.forEach((item) => {
-        console.log(item.user.username);
-        console.log(currentUser.username);
+        //console.log(item.user.username);
+        //console.log(currentUser.username);
         if(item.user.username === currentUser.username) {
            comment__you = `<span class="comment_header-owner">you</span>`;
            comment__editor = `<div class="comment_editor">

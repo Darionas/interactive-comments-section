@@ -355,7 +355,7 @@ body {
     color: var(--clr-white);
     background-color: var(--clr-moderate-blue);
     justify-self: end;
-    /*display: none;*/
+    display: none;
 }
 
 .reply_vote {
@@ -425,7 +425,7 @@ body {
     font-weight: var(--fw-500);
     color: var(--clr-moderate-blue);
     gap: .3rem;
-    display: none;
+    /*display: none;*/
 }
 
 .reply_container {
