@@ -8,13 +8,14 @@ members();
 
 
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container,
-comment_reply_owner, comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
+comment_reply_owner, comment__you, comment__editor, reply__you, reply__editor, currentUser_update, vote, plus, minus;
 let x = 0;
+
 
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
 //fetch data fron json and set it to localStorage and get it from localStorage
-function got() {
+
 fetch('data.json')
     .then((response) => response.json())
     .then((data) => {
@@ -26,95 +27,6 @@ fetch('data.json')
             alert('Sorry! No Web Storage support.')
         }
     })
-}
-got();
-
-
-
-function init() {
-    getOld = JSON.parse(localStorage.getItem('data'));
-    if(localStorage.getItem('data')) {
-        if(getNew) {
-            while(comm.firstChild) {
-                comm.removeChild(comm.firstChild);
-            }
-            get = Object.assign(getNew, getOld);
-        } else if (!getNew) {
-            get = getOld;
-        } else {
-            return;
-        }
-
-        //console.log(get);
-        comments = get.comments;
-        currentUser = get.currentUser;       
-        exec();
-        go();
-    }
-}
-
-//init();
-
-//--------------------------------------------------------------
-
-//https://stackoverflow.com/questions/50338791/javascript-loop-through-object-array-and-pushing-elements-into-one-array
-/*
-let memb = [];
-for(let i=0; i < users.length; i++) {
-   name = users[i].username;
-    //console.log(name);
-    memb = memb.concat(name.split(','));
-    
-}
-*/
-
-
-//----------------------------------------------------------
-
-    //Main reply construct with optional owner
-    const owner = document.querySelectorAll('.owner');
-    owner[0].classList.add('userstyle');  
-    //window.onload = function() {return comments.} 
-        //click one of iterated value, and on the same event remove class from anothers iterated values
-        //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
-        owner.forEach(function(i) {
-            i.addEventListener('click', function() {
-                for(let i of owner) {
-                    i.classList.remove('userstyle')
-                }
-                x = i.id
-                this.classList.add('userstyle');
-                currentUser.id = users[x].id;              
-                currentUser.username = users[x].username;
-                currentUser.image.png = users[x].image.png;
-                currentUser.image.webp = users[x].image.webp;
-                comments = get.comments;
-                localStorage.setItem('data', JSON.stringify(get));
-                getNew = JSON.parse(localStorage.getItem('data'));
-                //console.log(JSON.parse(localStorage.getItem('data')));                  
-                init();       
-            });  
-        });
-        
-
-    
-    function go() {
-        get_update = JSON.parse(localStorage.getItem('data'));
-        currentUser_update = get_update.currentUser;
-        
-        ownerImage = 
-        `<picture id="${currentUser_update.id}" class="main_respond-picture">
-            <source srcset="${currentUser_update.image.webp}" type="image/webp">
-            <source srcset="${currentUser_update.image.png}" type="image/jpeg"> 
-            <!--stop animation in inline style-->
-            <img class="${currentUser_update.username}" src="${currentUser_update.image.png}" alt="${currentUser_update.username}" style="visibility: visible; animation-duration: 0s; !important;">
-        </picture>
-        <textarea class="main_respond-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
-        <button class="send">send</button>`.trim();
-    
-        document.querySelector('.main_respond').innerHTML = ownerImage;
-    }
-    
 
 //dynamically populate data to html  
 function exec() {
@@ -244,6 +156,7 @@ function exec() {
                 document.querySelector('.main_comment-reply-container').innerHTML += reply_container;
             })
         }
+      
     });
 
 
@@ -280,6 +193,110 @@ function exec() {
     }
     
 }
+
+function init() {
+    getOld = JSON.parse(localStorage.getItem('data'));
+    if(localStorage.getItem('data')) {
+        if(getNew) {
+            while(comm.firstChild) {
+                comm.removeChild(comm.firstChild);
+            }
+            get = Object.assign(getNew, getOld);
+        } else {
+            get = getOld;
+        }
+
+        //console.log(get);
+        comments = get.comments;
+        currentUser = get.currentUser;       
+        exec();
+        go();
+    }
+}
+
+//init();
+
+//--------------------------------------------------------------
+
+//https://stackoverflow.com/questions/50338791/javascript-loop-through-object-array-and-pushing-elements-into-one-array
+/*
+let memb = [];
+for(let i=0; i < users.length; i++) {
+   name = users[i].username;
+    //console.log(name);
+    memb = memb.concat(name.split(','));
+    
+}
+*/
+
+
+//----------------------------------------------------------
+
+    //Main reply construct with optional owner
+    const owner = document.querySelectorAll('.owner');
+    owner[0].classList.add('userstyle');  
+    //window.onload = function() {return comments.} 
+        //click one of iterated value, and on the same event remove class from anothers iterated values
+        //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
+        owner.forEach(function(i) {
+            i.addEventListener('click', function() {
+                for(let i of owner) {
+                    i.classList.remove('userstyle')
+                }
+                x = i.id
+                this.classList.add('userstyle');
+                currentUser.id = users[x].id;              
+                currentUser.username = users[x].username;
+                currentUser.image.png = users[x].image.png;
+                currentUser.image.webp = users[x].image.webp;
+                comments = get.comments;
+                localStorage.setItem('data', JSON.stringify(get));
+                getNew = JSON.parse(localStorage.getItem('data'));
+                //console.log(JSON.parse(localStorage.getItem('data')));                  
+                init();       
+            });  
+        });
+        
+
+    
+    function go() {
+        get_update = JSON.parse(localStorage.getItem('data'));
+        currentUser_update = get_update.currentUser;
+        
+        ownerImage = 
+        `<picture id="${currentUser_update.id}" class="main_respond-picture">
+            <source srcset="${currentUser_update.image.webp}" type="image/webp">
+            <source srcset="${currentUser_update.image.png}" type="image/jpeg"> 
+            <!--stop animation in inline style-->
+            <img class="${currentUser_update.username}" src="${currentUser_update.image.png}" alt="${currentUser_update.username}" style="visibility: visible; animation-duration: 0s; !important;">
+        </picture>
+        <textarea class="main_respond-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+        <button class="send">send</button>`.trim();
+    
+        document.querySelector('.main_respond').innerHTML = ownerImage;
+    }
+    
+
+    //Voting
+setTimeout(vot, 100);
+function vot() {
+    vote = document.querySelectorAll('.comment_vote-content');
+    plus = document.querySelectorAll('.comment_vote-plus');
+    minus = document.getElementsByClassName('.comment_vote-minus');
+ 
+
+    plus.forEach((item, key) => {
+        let counter = Number(vote[key].innerHTML);
+        item.addEventListener('click', function() {
+            counter++;
+            console.log(counter);           
+        })
+    
+    })
+}
+
+    
+    
 
 
 
