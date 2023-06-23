@@ -277,22 +277,29 @@ for(let i=0; i < users.length; i++) {
     }
     
 
-    //Voting
+//Voting
 setTimeout(vot, 100);
 function vot() {
     vote = document.querySelectorAll('.comment_vote-content');
     plus = document.querySelectorAll('.comment_vote-plus');
-    minus = document.getElementsByClassName('.comment_vote-minus');
- 
-
+    minus = document.querySelectorAll('.comment_vote-minus');
+    let counter;
     plus.forEach((item, key) => {
-        let counter = Number(vote[key].innerHTML);
+        counter = Number(vote[key].innerHTML);
         item.addEventListener('click', function() {
             counter++;
             console.log(counter);           
         })
-    
     })
+    minus.forEach((item, key) => {
+        counter = Number(vote[key].innerHTML);
+        item.addEventListener('click', function() {
+            counter--;
+            console.log(counter);           
+        })
+   })
+
+    
 }
 
     
