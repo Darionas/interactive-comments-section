@@ -8,7 +8,7 @@ members();
 
 
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container,
-comment_reply_owner, comment__you, comment__editor, reply__you, reply__editor, currentUser_update, vote, plus, minus;
+comment_reply_owner, comment__you, comment__editor, reply__you, reply__editor, currentUser_update, vote, plus, minus, vote_container;
 let x = 0;
 
 
@@ -277,29 +277,76 @@ for(let i=0; i < users.length; i++) {
     }
     
 
-//Voting
-setTimeout(vot, 100);
-function vot() {
+//Voting in comments
+setTimeout(commentVote, 50);
+function commentVote() {
+    vote_container = document.querySelectorAll('.comment_vote');
     vote = document.querySelectorAll('.comment_vote-content');
     plus = document.querySelectorAll('.comment_vote-plus');
     minus = document.querySelectorAll('.comment_vote-minus');
+   
     let counter;
-    plus.forEach((item, key) => {
-        counter = Number(vote[key].innerHTML);
-        item.addEventListener('click', function() {
-            counter++;
-            console.log(counter);           
+    vote_container.forEach((cont, key) => {
+        cont.addEventListener('mouseover', function() {
+            counter = Number(vote[key].innerHTML);
         })
     })
-    minus.forEach((item, key) => {
-        counter = Number(vote[key].innerHTML);
-        item.addEventListener('click', function() {
-            counter--;
-            console.log(counter);           
-        })
-   })
 
-    
+    plus.forEach((item, key) => {
+        item.addEventListener('click', function() {
+            counter++;
+            //console.log(counter);
+            vote[key].innerHTML = counter;            
+        }) 
+    })
+
+    minus.forEach((item, key) => {
+        item.addEventListener('click', function() {
+            if(counter < 1) {
+                return 0;
+            } else {
+                counter--;
+                //console.log(counter); 
+                vote[key].innerHTML = counter;
+            }          
+        })
+    })
+}
+
+//Voting in reply
+setTimeout(replyVote, 50);
+function replyVote() {
+    vote_container = document.querySelectorAll('.reply_vote');
+    vote = document.querySelectorAll('.reply_vote-content');
+    plus = document.querySelectorAll('.reply_vote-plus');
+    minus = document.querySelectorAll('.reply_vote-minus');
+   
+    let counter;
+    vote_container.forEach((cont, key) => {
+        cont.addEventListener('mouseover', function() {
+            counter = Number(vote[key].innerHTML);
+        })
+    })
+
+    plus.forEach((item, key) => {
+        item.addEventListener('click', function() {
+            counter++;
+            //console.log(counter);
+            vote[key].innerHTML = counter;            
+        }) 
+    })
+
+    minus.forEach((item, key) => {
+        item.addEventListener('click', function() {
+            if(counter < 1) {
+                return 0;
+            } else {
+                counter--;
+                //console.log(counter); 
+                vote[key].innerHTML = counter;
+            }          
+        })
+    })
 }
 
     
