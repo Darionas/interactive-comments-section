@@ -8,7 +8,7 @@ members();
 
 
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container,
-comment_reply_owner, comment__you, comment__editor, reply__you, reply__editor, currentUser_update, vote, plus, minus, vote_container;
+comment_reply_owner, comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
 
 
@@ -280,10 +280,10 @@ for(let i=0; i < users.length; i++) {
 //Voting in comments
 setTimeout(commentVote, 50);
 function commentVote() {
-    vote_container = document.querySelectorAll('.comment_vote');
-    vote = document.querySelectorAll('.comment_vote-content');
-    plus = document.querySelectorAll('.comment_vote-plus');
-    minus = document.querySelectorAll('.comment_vote-minus');
+    let vote_container = document.querySelectorAll('.comment_vote');
+    let vote = document.querySelectorAll('.comment_vote-content');
+    let plus = document.querySelectorAll('.comment_vote-plus');
+    let minus = document.querySelectorAll('.comment_vote-minus');
    
     let counter;
     vote_container.forEach((cont, key) => {
@@ -316,10 +316,10 @@ function commentVote() {
 //Voting in reply
 setTimeout(replyVote, 50);
 function replyVote() {
-    vote_container = document.querySelectorAll('.reply_vote');
-    vote = document.querySelectorAll('.reply_vote-content');
-    plus = document.querySelectorAll('.reply_vote-plus');
-    minus = document.querySelectorAll('.reply_vote-minus');
+    let vote_container = document.querySelectorAll('.reply_vote');
+    let vote = document.querySelectorAll('.reply_vote-content');
+    let plus = document.querySelectorAll('.reply_vote-plus');
+    let minus = document.querySelectorAll('.reply_vote-minus');
    
     let counter;
     vote_container.forEach((cont, key) => {
