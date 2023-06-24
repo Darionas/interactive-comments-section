@@ -211,6 +211,8 @@ function init() {
         currentUser = get.currentUser;       
         exec();
         go();
+        setTimeout(commentVote, 50);
+        setTimeout(replyVote, 50);
     }
 }
 
@@ -278,7 +280,6 @@ for(let i=0; i < users.length; i++) {
     
 
 //Voting in comments
-setTimeout(commentVote, 50);
 function commentVote() {
     let vote_container = document.querySelectorAll('.comment_vote');
     let vote = document.querySelectorAll('.comment_vote-content');
@@ -314,7 +315,6 @@ function commentVote() {
 }
 
 //Voting in reply
-setTimeout(replyVote, 50);
 function replyVote() {
     let vote_container = document.querySelectorAll('.reply_vote');
     let vote = document.querySelectorAll('.reply_vote-content');
