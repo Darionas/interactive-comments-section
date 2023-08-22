@@ -10,6 +10,7 @@ members();
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container,
 comment_reply_owner, comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
+let flag = false;
 
 
 
@@ -42,7 +43,7 @@ function exec() {
        </div>`
         } else {
             comment__you = ``;
-            comment__editor = `<div class="comment_editor">
+            comment__editor = `<div class="comment_editor" id='${item.id}'>
             <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
         </div>`;
         }
@@ -161,18 +162,28 @@ function exec() {
 
 
     //Reply construct
-    comment_reply_owner = document.getElementsByClassName('comment');
+    comment_reply_owner = document.querySelectorAll('.comment');
     let wow = document.getElementsByClassName('comment_reply');
     for(let i=0; i < wow.length; i++) {
         wow[i].addEventListener('click', function() {
-            if(comment_reply_owner[i]) {
-                const newreply = document.createElement('div');
-                newreply.classList.add('reply_container');
-                for(let e=0; e < users.length; e++) {
-                    users[e];
-                }
+            /*if(comment_reply_owner[i]) {
+                console.log(comment_reply_owner[i]);
+            }*/
+                let parentId = this.parentNode.id - 1;
+                console.log(parentId); 
+                let parent = this.parentNode;
+                 let populNr = document.querySelectorAll('.reply_container').length;
+                console.log(populNr);
+                if (parent) {
+                    const newreply = document.createElement('div');
+                    //console.log(newreply);
+                    newreply.classList.add('reply_container');
+                
+                    for(let e=0; e < users.length; e++) {
+                        users[e];
+                    }
 
-                newreply.innerHTML = 
+                    newreply.innerHTML = 
                     `<div class="reply_owner">
                         <picture class="picture_owner">
                             <source srcset="${users[x].image.webp}" type="image/webp">
@@ -187,10 +198,57 @@ function exec() {
                         element.parentNode.insertBefore(this, element.nextSibling);
                     }, false;
                     
-                    newreply.appendAfter(comment_reply_owner[i]); 
-            }
+                    //console.log(comment_reply_owner[parentId]);
+                    newreply.appendAfter(comment_reply_owner[parentId]);
+                    
+                
+
+                    //let popul = document.querySelector('.replay_container');
+                    //popul.classList.remove('hide');
+                   /* let nextSibling = commento.nextElementSibling;
+                    console.log(nextSibling);
+
+                } else if (nextSibling) {
+                    let popul = document.querySelectorAll('.replay_container');
+                    popul.classList.remove('hide');
+                
+                } else {
+                    return;*/
+
+                    /*
+                    function lo() {
+                    if(document.getElementsByClassName('reply_container')[0]) {
+                        document.getElementsByClassName('reply_container')[2].remove();
+                    }
+                    }
+                    lo();
+                    */
+                      
+                    let next = document.getElementsByClassName('reply_container')[parentId].nextElementSibling;
+                    console.log(next);
+                    let check = next.classList.contains('reply_container');
+                    //let lo =  next.classList.contains('replies');
+                    if (check) {
+                        alert('hey');
+                        let popul = document.getElementsByClassName('reply_container')[0];
+                        popul.classList.add('hide');
+                    
+                    }
+
+                }
         })
+
+        
     }
+    
+/*
+    let wew = document.querySelector('.comment_reply');
+    console.log(wew);
+    wew.forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            el.nextElementSibling.classList.toggle('hide');
+        })
+    })*/
     
 }
 
@@ -321,7 +379,7 @@ function replyVote() {
     let plus = document.querySelectorAll('.reply_vote-plus');
     let minus = document.querySelectorAll('.reply_vote-minus');
    
-    let counter;
+    let counter = 0;
     vote_container.forEach((cont, key) => {
         cont.addEventListener('mouseover', function() {
             counter = Number(vote[key].innerHTML);
@@ -349,8 +407,28 @@ function replyVote() {
     })
 }
 
+//Comment created at time
+/*
+setTimeout(createdAt, 50);
+function createdAt() {
+  let created = document.querySelectorAll('.comment_header-time');
+    for(let i=0; i < created.length; i++) {
+        //console.log(created[i].innerHTML.length);
+        if(created[i].innerHTML.length > 0) {
+            created[i].innerHTML = created[i].innerHTML;
+        } else {
+              created[i].innerHTML = timeCounter();
+        }
+    }
+}
+
+console.log(Date.now());
     
-    
+function timeCounter() {
+    commentCreated = Date.now();
+
+}
+*/
 
 
 

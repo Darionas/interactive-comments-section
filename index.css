@@ -267,6 +267,7 @@ body {
     gap: .3rem;
 }
 
+
 /*--reply--*/
 .replies {
     justify-items: end;
@@ -437,6 +438,10 @@ body {
     border-width: 2px;
     border-color: hsl(223, 19%, 93%);
     border-style: none none none solid;
+}
+
+.hide {
+    display: none;
 }
 
 .reply_owner {
