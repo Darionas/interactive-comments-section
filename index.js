@@ -7,11 +7,10 @@ members();
 
 
 
-let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_reply, reply, currentUser, comment_container, comment_container_reply, reply_container,
-comment_reply_owner, comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
+let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply, reply_container,
+comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
-let flag = false;
-
+let genId, genIds;
 
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
@@ -31,6 +30,7 @@ fetch('data.json')
 
 //dynamically populate data to html  
 function exec() {
+    
     let n = 0;
     comments.forEach((item) => {
         //console.log(item.user.username);
@@ -43,17 +43,19 @@ function exec() {
        </div>`
         } else {
             comment__you = ``;
-            comment__editor = `<div class="comment_editor" id='${item.id}'>
-            <div class="comment_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
+            comment__editor = `<div class="comment_editor">
+            <div class="comment_reply c_reply-single"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
         </div>`;
         }
-
+              
         
         //Comment without reply construct
         if(item.replies.length === 0) {
+            genId = Math.floor(Math.random() * 1001);
             //console.log(name);
             comment_container =
-                `<div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
+                `<div class='wrapper__comment' id='${item.id}${genId}'>
+                <div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
                     <div class="comment_header">
                         <picture class="comment_header-picture">
                             <source srcset="${item.user.image.webp}" type="image/webp">
@@ -74,17 +76,19 @@ function exec() {
                         <span class="comment_vote-minus"><svg width="11" height="7" xmlns="http://www.w3.org/2000/svg"><path class="minus" d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/></svg></span>
                     </div>
                     ${comment__editor}
+                    <div>
                 </div>`.trim();
               
             document.querySelector('.main_comments-replies-section').innerHTML += comment_container;
-       
+            
         }
 
         //Comment with at least one reply construct
         if(item.replies.length > 0) {
             //console.log(item.replies);  
             comment_container_reply = 
-                `<div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
+                `<div class='wrapper__comment' id='${item.id}${genId}'>
+                <div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
                     <div class="comment_header">
                         <picture class="comment_header-picture">
                             <source srcset="${item.user.image.webp}" type="image/webp">
@@ -105,17 +109,20 @@ function exec() {
                         <span class="comment_vote-minus"><svg width="11" height="7" xmlns="http://www.w3.org/2000/svg"><path class="minus" d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/></svg></span>
                     </div>
                     ${comment__editor}
+                </div>
                 </div>`.trim();    
             comm = document.querySelector('.main_comments-replies-section');       
-            comment_reply = document.createElement('div');
-            comment_reply.classList.add('main_comment-reply-container');
-            comm.appendChild(comment_reply);
-            document.querySelector('.main_comment-reply-container').innerHTML += comment_container_reply; 
+            comment_repl = document.createElement('div');
+            comment_repl.classList.add('main_comment-reply-group');
+            comm.appendChild(comment_repl);
+            document.querySelector('.main_comment-reply-group').innerHTML += comment_container_reply; 
 
             n++;
             reply = comments[n].replies;
             //console.log(reply);
             reply.forEach((item) => {
+                genIds = Math.floor(Math.random() * 1001);
+                //console.log(genIds);
                 if(item.user.username === currentUser.username) {
                     reply__you = `<span class="reply_header-owner">you</span>`;
                     reply__editor = `<div class="reply_editor">
@@ -129,8 +136,8 @@ function exec() {
                  </div>`;
                  }
                 reply_container =
-                    `<div class='replies'>
-                        <div class="reply" id="${item.id}" style='margin: 0 0 1rem 0;'>
+                    `<div class='wrapper__reply' id='${item.id}${genIds}'>
+                        <div class="reply" id='${item.id}' style='margin: 0 0 1rem 0;'>
                             <div class="reply_header">
                                 <picture class="reply_header-picture">
                                     <source srcset="${item.user.image.webp}" type="image/webp">
@@ -154,103 +161,143 @@ function exec() {
                         </div>
                     </div>`.trim();
 
-                document.querySelector('.main_comment-reply-container').innerHTML += reply_container;
+                document.querySelector('.main_comment-reply-group').innerHTML += reply_container;
             })
         }
+        
       
     });
 
+           
+//Insert empty owner reply construct after single comment
+let wow = document.getElementsByClassName('comment_editor');
 
-    //Reply construct
-    comment_reply_owner = document.querySelectorAll('.comment');
-    let wow = document.getElementsByClassName('comment_reply');
-    for(let i=0; i < wow.length; i++) {
-        wow[i].addEventListener('click', function() {
-            /*if(comment_reply_owner[i]) {
-                console.log(comment_reply_owner[i]);
-            }*/
-                let parentId = this.parentNode.id - 1;
-                console.log(parentId); 
-                let parent = this.parentNode;
-                 let populNr = document.querySelectorAll('.reply_container').length;
-                console.log(populNr);
-                if (parent) {
-                    const newreply = document.createElement('div');
-                    //console.log(newreply);
-                    newreply.classList.add('reply_container');
-                
-                    for(let e=0; e < users.length; e++) {
-                        users[e];
-                    }
 
-                    newreply.innerHTML = 
-                    `<div class="reply_owner">
-                        <picture class="picture_owner">
-                            <source srcset="${users[x].image.webp}" type="image/webp">
-                            <source srcset="${users[x].image.png}" type="image/jpeg"> 
-                            <img class="owner-img" src="${users[x].image.png}" alt="${users[x].username}">
-                        </picture>
-                        <textarea class="reply_owner-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
-                        <button class="reply_btn">reply</button>
-                    </div>`;
-                    
-                    Element.prototype.appendAfter = function(element) {
-                        element.parentNode.insertBefore(this, element.nextSibling);
-                    }, false;
-                    
-                    //console.log(comment_reply_owner[parentId]);
-                    newreply.appendAfter(comment_reply_owner[parentId]);
-                    
-                
-
-                    //let popul = document.querySelector('.replay_container');
-                    //popul.classList.remove('hide');
-                   /* let nextSibling = commento.nextElementSibling;
-                    console.log(nextSibling);
-
-                } else if (nextSibling) {
-                    let popul = document.querySelectorAll('.replay_container');
-                    popul.classList.remove('hide');
-                
-                } else {
-                    return;*/
-
-                    /*
-                    function lo() {
-                    if(document.getElementsByClassName('reply_container')[0]) {
-                        document.getElementsByClassName('reply_container')[2].remove();
-                    }
-                    }
-                    lo();
-                    */
-                      
-                    let next = document.getElementsByClassName('reply_container')[parentId].nextElementSibling;
-                    console.log(next);
-                    let check = next.classList.contains('reply_container');
-                    //let lo =  next.classList.contains('replies');
-                    if (check) {
-                        alert('hey');
-                        let popul = document.getElementsByClassName('reply_container')[0];
-                        popul.classList.add('hide');
-                    
-                    }
-
-                }
-        })
-
+for(let i=0; i < wow.length; i++) {
+    wow[i].addEventListener('click', bun);
+    function bun() {
+        //console.log(genId);
+        const cId = this.parentNode.id;
+        //console.log(cId);
+        let rep = cId + genId;
+        //console.log(rep);
+        const cIdn = cId - 1;  
+        const res = document.getElementById(cId);
+        //console.log(res);
+        const newreply = document.createElement('div');
+        newreply.classList.add('new');
         
+     
+            newreply.innerHTML = 
+                `<div class="reply_owner">
+                    <picture class="picture_owner">
+                        <source srcset="${currentUser.image.webp}" type="image/webp">
+                        <source srcset="${currentUser.image.png}" type="image/jpeg"> 
+                        <img class="owner-img" src="${currentUser.image.png}" alt="${currentUser.username}">
+                    </picture>
+                    <textarea class="reply_owner-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+                    <button class="reply_btn">reply</button>
+                </div>`;
+               
+                res.after(newreply);
+                const news = document.getElementsByClassName('new');
+                //console.log(news.length);
+                
+                //https://stackoverflow.com/questions/5465953/how-can-i-delete-the-n-th-element-in-a-list-with-javascsript
+                
+               const num = document.getElementById(rep).childElementCount;
+               //console.log(num);
+               const nums = document.getElementsByClassName('wrapper__comment')[cIdn];
+               let getId = nums.getAttributeNode('id').value;
+                
+                if(num > 2) {
+                    let rip = document.getElementById(rep);
+                    //console.log(rip);
+                    let rof_1 = rip.childNodes[2];
+                    let rof_2 = rip.childNodes[3];
+
+                    rof_1.parentNode.removeChild( rof_1 );
+                    rof_2.parentNode.removeChild( rof_2 );
+                            
+                }
+                                 
+                       
     }
-    
-/*
-    let wew = document.querySelector('.comment_reply');
-    console.log(wew);
-    wew.forEach(function(el) {
-        el.addEventListener('click', function(e) {
-            el.nextElementSibling.classList.toggle('hide');
-        })
-    })*/
+
     
 }
+
+//Insert empty owner reply construct after subcomment
+let wows = document.getElementsByClassName('reply_editor');
+//https://stackoverflow.com/questions/65653227/how-to-get-the-index-of-an-element-in-a-html-collection-when-that-element-is-cli#answer-65653407
+execute();
+function execute() {
+    let repl = document.querySelectorAll('.reply_editor');
+    repl.forEach((item, index) => {
+        item.addEventListener('click', ()=>{
+            //console.log(index);
+                const numsa = document.getElementsByClassName('wrapper__reply')[index];
+                //console.log(numsa);
+                let getIds = numsa.getAttributeNode('id').value;
+                //console.log(getIds);
+                const newreplys = document.createElement('div');
+                newreplys.classList.add('newa');
+                
+             
+                    newreplys.innerHTML = 
+                        `<div class="reply_owner">
+                            <picture class="picture_owner">
+                                <source srcset="${currentUser.image.webp}" type="image/webp">
+                                <source srcset="${currentUser.image.png}" type="image/jpeg"> 
+                                <img class="owner-img" src="${currentUser.image.png}" alt="${currentUser.username}">
+                            </picture>
+                            <textarea class="reply_owner-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+                            <button class="reply_btn">reply</button>
+                        </div>`;
+                       
+                        const ress = document.getElementsByClassName('reply')[index];
+                        //console.log(ress);
+                        
+                        ress.after(newreplys);
+                        
+                        
+                      
+                       
+                       const numa = document.getElementById(getIds).childElementCount;
+                       //console.log(numa);
+                      
+                       
+                        if(numa > 2) {
+                            let rips = document.getElementById(getIds);
+                            //console.log(rips);
+                            let rof_1s = rips.childNodes[2];
+                            let rof_2s = rips.childNodes[3];
+        
+                            rof_1s.parentNode.removeChild( rof_1s );
+                            rof_2s.parentNode.removeChild( rof_2s );
+                                    
+                        }
+                    
+           
+    })
+});
+
+}
+        
+    
+}
+        
+
+
+
+
+
+
+
+    
+
+
+  
 
 function init() {
     getOld = JSON.parse(localStorage.getItem('data'));
@@ -294,7 +341,7 @@ for(let i=0; i < users.length; i++) {
 
     //Main reply construct with optional owner
     const owner = document.querySelectorAll('.owner');
-    owner[0].classList.add('userstyle');  
+    owner[0].classList.add('userstyle');
     //window.onload = function() {return comments.} 
         //click one of iterated value, and on the same event remove class from anothers iterated values
         //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
@@ -303,7 +350,10 @@ for(let i=0; i < users.length; i++) {
                 for(let i of owner) {
                     i.classList.remove('userstyle')
                 }
-                x = i.id
+               
+                const getIdx = this.parentNode.getAttribute("data-Id");
+                //console.log(getIdx);
+                x = getIdx;
                 this.classList.add('userstyle');
                 currentUser.id = users[x].id;              
                 currentUser.username = users[x].username;

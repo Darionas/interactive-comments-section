@@ -2,16 +2,17 @@ import {users} from './users.js';
 const header = document.querySelector('.header');
 
 export function members() {
-    users.forEach((item) => {
-        const image = document.createElement('picture');
+    users.forEach((items) => {
+        const image = document.createElement('div');
         image.classList.add('header__image');
         header.appendChild(image);
   
         image.innerHTML =
-        `<source srcset="${item.image.webp}" type="image/webp">
-        <source srcset="${item.image.png}" type="image/jpeg"> 
-        <img id="${item.id}" class="${item.username} owner" src="${item.image.png}" alt="${item.username}">
-        `.trim();
+        `<picture data-Id="${items.id}">
+        <source srcset="${items.image.webp}" type="image/webp">
+        <source srcset="${items.image.png}" type="image/jpeg"> 
+        <img class="${items.username} owner" src="${items.image.png}" alt="${items.username}">
+        </picture>`.trim();
        
     })
 

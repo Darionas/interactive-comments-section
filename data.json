@@ -83,7 +83,7 @@
           "content": "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
           "createdAt": "1 week ago",
           "score": 3,
-          "replyingTo": "maxblagun",
+          "replyingTo": "juliusomo",
           "user": {
             "image": { 
               "png": "./images/avatars/image-ramsesmiron.png",
@@ -100,10 +100,10 @@
           "replyingTo": "ramsesmiron",
           "user": {
             "image": { 
-              "png": "./images/avatars/image-juliusomo.png",
-              "webp": "./images/avatars/image-juliusomo.webp"
+              "png": "./images/avatars/image-amyrobson.png",
+              "webp": "./images/avatars/image-amyrobson.webp"
             },
-            "username": "juliusomo"
+            "username": "amyrobson"
           }
         }
       ]
