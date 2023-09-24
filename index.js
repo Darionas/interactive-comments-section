@@ -228,7 +228,6 @@ let wow = document.querySelectorAll('.comment_editor');
 }
 
 //Insert empty owner reply construct after subcomment
-//let wows = document.getElementsByClassName('reply_editor');
 //https://stackoverflow.com/questions/65653227/how-to-get-the-index-of-an-element-in-a-html-collection-when-that-element-is-cli#answer-65653407
 execute();
 function execute() {
@@ -284,6 +283,21 @@ function execute() {
     })
 });
 
+}
+
+//Edit owner comment
+
+han();
+function han() {
+    const editAble = document.querySelectorAll('.comment_edit');
+    editAble.forEach((item, index) => { 
+        item.addEventListener('click', () =>{
+            console.log(index);
+            console.log(item);
+            console.log(item.parentNode.id);
+            
+        })
+    })
 }
         
     
