@@ -170,20 +170,20 @@ function exec() {
 
            
 //Insert empty owner reply construct after single comment
-let wow = document.getElementsByClassName('comment_editor');
+hun();
+function hun() {
+let wow = document.querySelectorAll('.comment_editor');
+    wow.forEach((item, index) => {
+    
+    item.addEventListener('click', () => {
+        if(item.childElementCount == 1){
+        
+        const numr = document.getElementsByClassName('wrapper__comment')[index];
+        //console.log(numr);
 
+        let getId = numr.getAttributeNode('id').value;
+        //console.log(getId);
 
-for(let i=0; i < wow.length; i++) {
-    wow[i].addEventListener('click', bun);
-    function bun() {
-        //console.log(genId);
-        const cId = this.parentNode.id;
-        //console.log(cId);
-        let rep = cId + genId;
-        //console.log(rep);
-        const cIdn = cId - 1;  
-        const res = document.getElementById(cId);
-        //console.log(res);
         const newreply = document.createElement('div');
         newreply.classList.add('new');
         
@@ -199,19 +199,18 @@ for(let i=0; i < wow.length; i++) {
                     <button class="reply_btn">reply</button>
                 </div>`;
                
+                const res = document.getElementsByClassName('comment')[index];
+                //console.log(res);
+
                 res.after(newreply);
-                const news = document.getElementsByClassName('new');
-                //console.log(news.length);
+            
                 
                 //https://stackoverflow.com/questions/5465953/how-can-i-delete-the-n-th-element-in-a-list-with-javascsript
-                
-               const num = document.getElementById(rep).childElementCount;
+               const num = document.getElementById(getId).childElementCount;
                //console.log(num);
-               const nums = document.getElementsByClassName('wrapper__comment')[cIdn];
-               let getId = nums.getAttributeNode('id').value;
-                
+
                 if(num > 2) {
-                    let rip = document.getElementById(rep);
+                    let rip = document.getElementById(getId);
                     //console.log(rip);
                     let rof_1 = rip.childNodes[2];
                     let rof_2 = rip.childNodes[3];
@@ -224,17 +223,20 @@ for(let i=0; i < wow.length; i++) {
                        
     }
 
-    
+})
+})
 }
 
 //Insert empty owner reply construct after subcomment
-let wows = document.getElementsByClassName('reply_editor');
+//let wows = document.getElementsByClassName('reply_editor');
 //https://stackoverflow.com/questions/65653227/how-to-get-the-index-of-an-element-in-a-html-collection-when-that-element-is-cli#answer-65653407
 execute();
 function execute() {
     let repl = document.querySelectorAll('.reply_editor');
     repl.forEach((item, index) => {
+        
         item.addEventListener('click', ()=>{
+          if(item.childElementCount == 1) { 
             //console.log(index);
                 const numsa = document.getElementsByClassName('wrapper__reply')[index];
                 //console.log(numsa);
@@ -278,7 +280,7 @@ function execute() {
                                     
                         }
                     
-           
+                    }   
     })
 });
 
