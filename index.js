@@ -68,7 +68,7 @@ function exec() {
                             <span class="comment_header-time">${item.createdAt}</span>
                         </div>
                     </div>
-                    <div class="comment_content" contenteditable="false">${item.content}</div>
+                    <div class="comment_content" contenteditable='true'>${item.content}</div>
                     <button class="comment_update">update</button>
                     <div class="comment_vote">
                         <span class="comment_vote-plus"><svg width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path class='plus' d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/></svg></span>
@@ -101,7 +101,7 @@ function exec() {
                             <span class="comment_header-time">${item.createdAt}</span>
                         </div>
                     </div>
-                    <div class="comment_content" contenteditable="false">${item.content}</div>
+                    <div class="comment_content" contenteditable='true'>${item.content}</div>
                     <button class="comment_update">update</button>
                     <div class="comment_vote">
                         <span class="comment_vote-plus"><svg width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path class='plus' d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/></svg></span>
@@ -150,7 +150,7 @@ function exec() {
                                     <span class="reply_header-time">${item.createdAt}</span>
                                 </div>
                             </div>
-                            <div class="reply_content" contenteditable="false"><span class="replayinTo">${'@'+item.replyingTo}</span> ${item.content}</div>
+                            <div class="reply_content" contenteditable="true"><span class="replayinTo">${'@'+item.replyingTo}</span> ${item.content}</div>
                             <button class="reply_update">update</button>
                             <div class="reply_vote">
                                 <span class="reply_vote-plus"><svg width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path class='plus' d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/></svg></span>
@@ -171,6 +171,7 @@ function exec() {
            
 //Insert empty owner reply construct after single comment
 hun();
+
 function hun() {
 let wow = document.querySelectorAll('.comment_editor');
     wow.forEach((item, index) => {
@@ -221,10 +222,11 @@ let wow = document.querySelectorAll('.comment_editor');
                 }
                                  
                        
-    }
+    } 
 
 })
 })
+
 }
 
 //Insert empty owner reply construct after subcomment
@@ -289,17 +291,79 @@ function execute() {
 
 han();
 function han() {
-    const editAble = document.querySelectorAll('.comment_edit');
-    editAble.forEach((item, index) => { 
-        item.addEventListener('click', () =>{
-            console.log(index);
-            console.log(item);
-            console.log(item.parentNode.id);
+       const edit = document.querySelectorAll('.comment_edit')
+       edit.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            //https://stackoverflow.com/questions/16302045/finding-child-element-of-parent-with-javascript
+            //console.log(item);
+            //console.log(item.parentNode);
+            const gel = item.parentNode;
+            const gew = gel.parentNode.id;
+            //console.log(gew);
+            const editAble = document.getElementById(gew);
+            const children = editAble.querySelector('.comment_content');
+            //console.log(children);
+            //https://stackoverflow.com/questions/6754275/set-keyboard-focus-to-a-div
+            //Set cursor at end of text for content editable div , text area and input field
+            //https://codepen.io/sinfullycoded/details/oNLBJpm
             
-        })
+            //Place cursor at the end of a content editable div
+            if(children.type !== 'textarea' && children.getAttribute('contenteditable') === 'true') {
+                children.focus()
+                window.getSelection().selectAllChildren(children)
+                window.getSelection().collapseToEnd()
+            } else {
+                // Place cursor at the end of text areas and input elements
+                children.focus()
+                children.select()
+                window.getSelection().collapseToEnd()
+            }
+            //*********************************************************
+            children.style.width = '100%';
+            
     })
+    })
+
 }
-        
+
+
+hen();
+function hen() {
+       const editi = document.querySelectorAll('.reply_edit')
+       editi.forEach((item) => {
+        item.addEventListener('click', () => {
+            //https://stackoverflow.com/questions/16302045/finding-child-element-of-parent-with-javascript
+            //console.log(item);
+            //console.log(item.parentNode);
+            const geli = item.parentNode;
+            const gewi = geli.parentNode.id;
+            //console.log(gew);
+            const editAblei = document.getElementById(gewi);
+            const childreni = editAblei.querySelector('.reply_content');
+            //console.log(childreni);
+            //https://stackoverflow.com/questions/6754275/set-keyboard-focus-to-a-div
+            //Set cursor at end of text for content editable div , text area and input field
+            //https://codepen.io/sinfullycoded/details/oNLBJpm
+            
+            //Place cursor at the end of a content editable div
+            if(childreni.type !== 'textarea' && childreni.getAttribute('contenteditable') === 'true') {
+                childreni.focus()
+                window.getSelection().selectAllChildren(childreni)
+                window.getSelection().collapseToEnd()
+            } else {
+                // Place cursor at the end of text areas and input elements
+                childreni.focus()
+                childreni.select()
+                window.getSelection().collapseToEnd()
+            }
+            //*********************************************************
+            childreni.style.width = '100%';
+            
+    })
+    })
+
+}
+  
     
 }
         
