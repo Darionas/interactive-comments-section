@@ -7,7 +7,7 @@ members();
 
 
 
-let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply, reply_container,
+let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply,
 comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
 let genId, genIds;
@@ -87,7 +87,8 @@ function exec() {
         if(item.replies.length > 0) {
             //console.log(item.replies);  
             comment_container_reply = 
-                `<div class='wrapper__comment' id='${item.id}${genId}'>
+                `<div class='group'>
+                <div class='wrapper__comment' id='${item.id}${genId}'>
                 <div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
                     <div class="comment_header">
                         <picture class="comment_header-picture">
@@ -110,13 +111,20 @@ function exec() {
                     </div>
                     ${comment__editor}
                 </div>
-                </div>`.trim();    
+                </div>
+                </div>`.trim();   
+           
             comm = document.querySelector('.main_comments-replies-section');       
             comment_repl = document.createElement('div');
             comment_repl.classList.add('main_comment-reply-group');
             comm.appendChild(comment_repl);
             document.querySelector('.main_comment-reply-group').innerHTML += comment_container_reply; 
-
+            
+            const lol = item.id + `${genId}`;
+            //console.log(lol);
+            const lor = document.getElementById(lol);
+            //console.log(lor.parentNode);
+            
             n++;
             reply = comments[n].replies;
             //console.log(reply);
@@ -135,7 +143,9 @@ function exec() {
                      <div class="reply_reply"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
                  </div>`;
                  }
-                reply_container =
+
+                const reply_container = document.createElement('div');
+                reply_container.innerHTML =
                     `<div class='wrapper__reply' id='${item.id}${genIds}'>
                         <div class="reply" id='${item.id}' style='margin: 0 0 1rem 0;'>
                             <div class="reply_header">
@@ -160,8 +170,9 @@ function exec() {
                             ${reply__editor}
                         </div>
                     </div>`.trim();
-
-                document.querySelector('.main_comment-reply-group').innerHTML += reply_container;
+               
+                lor.after(reply_container);
+                
             })
         }
         
@@ -291,8 +302,8 @@ function execute() {
 
 han();
 function han() {
-       const edit = document.querySelectorAll('.comment_edit')
-       edit.forEach((item, index) => {
+       const edit = document.querySelectorAll('.comment_edit');
+       edit.forEach((item) => {
         item.addEventListener('click', () => {
             //https://stackoverflow.com/questions/16302045/finding-child-element-of-parent-with-javascript
             //console.log(item);
@@ -362,6 +373,45 @@ function hen() {
     })
     })
 
+}
+
+//delete owner comment
+delo();
+function delo() {
+    const del = document.querySelectorAll('.comment_delete');
+    del.forEach((item) => {
+        item.addEventListener('click', () => {
+            //console.log(item);
+            const delCont = item.parentNode;
+            //console.log(delCont);
+            const delComm = delCont.parentNode;
+            //console.log(delComm);
+            const delWrap = delComm.parentNode;
+            //console.log(delWrap);
+            //delWrap.remove();
+            const delGroup = delWrap.parentNode;
+            //console.log(delGroup);
+            //delGroup.remove();
+            const attr = delGroup.getAttributeNode('class');
+            //console.log(attr.value);
+            if(attr.value == 'group') {
+                delGroup.remove();
+            } else {
+                delWrap.remove();
+            }
+        })
+    })
+
+    const delr = document.querySelectorAll('.reply_delete');
+    delr.forEach((item) => {
+        item.addEventListener('click', () => {
+        //console.log(item);
+        const repBtn = item.parentNode
+        //console.log(repBtn);
+        const repEdit = repBtn.parentNode;
+        repEdit.remove();
+    })
+})
 }
   
     
