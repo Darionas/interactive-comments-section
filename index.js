@@ -115,10 +115,10 @@ function exec() {
                 </div>`.trim();   
            
             comm = document.querySelector('.main_comments-replies-section');       
-            comment_repl = document.createElement('div');
-            comment_repl.classList.add('main_comment-reply-group');
-            comm.appendChild(comment_repl);
-            document.querySelector('.main_comment-reply-group').innerHTML += comment_container_reply; 
+            //comment_repl = document.createElement('div');
+            //comment_repl.classList.add('main_comment-reply-group');
+            //comm.appendChild(comment_repl);
+            document.querySelector('.main_comments-replies-section').innerHTML += comment_container_reply; 
             
             const lol = item.id + `${genId}`;
             //console.log(lol);
@@ -185,16 +185,12 @@ hun();
 
 function hun() {
 let wow = document.querySelectorAll('.comment_editor');
-    wow.forEach((item, index) => {
+    wow.forEach((item) => {
     
     item.addEventListener('click', () => {
         if(item.childElementCount == 1){
         
-        const numr = document.getElementsByClassName('wrapper__comment')[index];
-        //console.log(numr);
-
-        let getId = numr.getAttributeNode('id').value;
-        //console.log(getId);
+        const getId = item.parentNode.id;
 
         const newreply = document.createElement('div');
         newreply.classList.add('new');
@@ -211,18 +207,18 @@ let wow = document.querySelectorAll('.comment_editor');
                     <button class="reply_btn">reply</button>
                 </div>`;
                
-                const res = document.getElementsByClassName('comment')[index];
+                const res = document.getElementById(getId);
                 //console.log(res);
 
                 res.after(newreply);
             
                 
                 //https://stackoverflow.com/questions/5465953/how-can-i-delete-the-n-th-element-in-a-list-with-javascsript
-               const num = document.getElementById(getId).childElementCount;
+               const num = document.getElementById(getId).parentNode.childElementCount;
                //console.log(num);
 
                 if(num > 2) {
-                    let rip = document.getElementById(getId);
+                    let rip = document.getElementById(getId).parentNode;
                     //console.log(rip);
                     let rof_1 = rip.childNodes[2];
                     let rof_2 = rip.childNodes[3];
@@ -245,15 +241,14 @@ let wow = document.querySelectorAll('.comment_editor');
 execute();
 function execute() {
     let repl = document.querySelectorAll('.reply_editor');
-    repl.forEach((item, index) => {
+    repl.forEach((item) => {
         
         item.addEventListener('click', ()=>{
           if(item.childElementCount == 1) { 
-            //console.log(index);
-                const numsa = document.getElementsByClassName('wrapper__reply')[index];
-                //console.log(numsa);
-                let getIds = numsa.getAttributeNode('id').value;
-                //console.log(getIds);
+           
+            
+            const getIds = item.parentNode.id;
+                
                 const newreplys = document.createElement('div');
                 newreplys.classList.add('newa');
                 
@@ -269,7 +264,7 @@ function execute() {
                             <button class="reply_btn">reply</button>
                         </div>`;
                        
-                        const ress = document.getElementsByClassName('reply')[index];
+                        const ress = document.getElementById(getIds);
                         //console.log(ress);
                         
                         ress.after(newreplys);
@@ -277,12 +272,12 @@ function execute() {
                         
                       
                        
-                       const numa = document.getElementById(getIds).childElementCount;
+                       const numa = document.getElementById(getIds).parentNode.childElementCount;
                        //console.log(numa);
                       
                        
                         if(numa > 2) {
-                            let rips = document.getElementById(getIds);
+                            let rips = document.getElementById(getIds).parentNode;
                             //console.log(rips);
                             let rof_1s = rips.childNodes[2];
                             let rof_2s = rips.childNodes[3];
