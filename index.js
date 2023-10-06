@@ -326,6 +326,9 @@ function han() {
             }
             //*********************************************************
             children.style.width = '100%';
+            const update = document.getElementById(gew).querySelector('.comment_update');
+            update.classList.toggle('show');
+           
             
     })
     })
@@ -364,6 +367,8 @@ function hen() {
             }
             //*********************************************************
             childreni.style.width = '100%';
+            const updates = document.getElementById(gewi).querySelector('.reply_update');
+            updates.classList.toggle('show');
             
     })
     })
@@ -506,9 +511,15 @@ for(let i=0; i < users.length; i++) {
             <img class="${currentUser_update.username}" src="${currentUser_update.image.png}" alt="${currentUser_update.username}" style="visibility: visible; animation-duration: 0s; !important;">
         </picture>
         <textarea class="main_respond-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
-        <button class="send">send</button>`.trim();
+        <button id="send">send</button>`.trim();
     
         document.querySelector('.main_respond').innerHTML = ownerImage;
+    
+       const send = document.getElementById('send');
+       send.addEventListener('click', () => {
+          alert('hey');
+       })
+
     }
     
 

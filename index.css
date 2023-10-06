@@ -548,7 +548,7 @@ body {
     width: 3.2rem;
 }
 
-.send {
+#send {
     cursor: pointer;
     width: 5rem;
     height: 2.6rem;
