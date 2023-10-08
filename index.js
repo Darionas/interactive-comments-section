@@ -376,29 +376,70 @@ function hen() {
 }
 
 //delete owner comment
-delo();
-function delo() {
+let delCont, delComm, delWrap, delGroup;
     const del = document.querySelectorAll('.comment_delete');
     del.forEach((item) => {
         item.addEventListener('click', () => {
+            const modale = `<!--The modal-->
+            <div id='myModal' class='modal'>
+                <!--Modal content-->
+                <div class='modal__content'>
+                    <h2 class='deletion__title'>Delete comment</h2>
+                    <p class='deletion__content'>Are you sure you want to delete this comment?
+                    This will remove the comment and can't be undone.</p>
+                    <button id='cancel'>No, cancel</button>
+                    <button id='deletion'>Yes, delete</button>
+                </div>
+            </div>`
             //console.log(item);
-            const delCont = item.parentNode;
+            delCont = item.parentNode;
             //console.log(delCont);
-            const delComm = delCont.parentNode;
+            delComm = delCont.parentNode;
             //console.log(delComm);
-            const delWrap = delComm.parentNode;
+            delWrap = delComm.parentNode;
             //console.log(delWrap);
             //delWrap.remove();
-            const delGroup = delWrap.parentNode;
+            delGroup = delWrap.parentNode;
             //console.log(delGroup);
             //delGroup.remove();
             const attr = delGroup.getAttributeNode('class');
             //console.log(attr.value);
             if(attr.value == 'group') {
-                delGroup.remove();
+                //delGroup.remove();
+                const body = document.getElementsByTagName('body')[0].innerHTML += modale;
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// When the user clicks the button, open the modal 
+  modal.style.display = "block";
+
+
+// When the user clicks anywhere outside of the modal, close it
+/*window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}*/
+const cancel = document.getElementById('cancel');
+cancel.addEventListener('click', () => {
+    //modal.style.display = "none";
+    modal.style.display = "none"    
+    return exec();
+})
+
+const delet = document.getElementById('deletion');
+delet.addEventListener('click', () => {
+    modal.style.display = "none";
+    document.getElementById(delWrap.id).parentNode.remove();
+
+})
+
             } else {
-                delWrap.remove();
+                //delWrap.remove();
+                //delodel();
             }
+            
         })
     })
 
@@ -406,28 +447,19 @@ function delo() {
     delr.forEach((item) => {
         item.addEventListener('click', () => {
         //console.log(item);
-        const repBtn = item.parentNode
+        /*const repBtn = item.parentNode
         //console.log(repBtn);
         const repEdit = repBtn.parentNode;
-        repEdit.remove();
+        repEdit.remove();*/
+        //delodel();
     })
 })
-}
+
   
     
 }
         
-
-
-
-
-
-
-
-    
-
-
-  
+ 
 
 function init() {
     getOld = JSON.parse(localStorage.getItem('data'));
@@ -470,6 +502,7 @@ for(let i=0; i < users.length; i++) {
 //----------------------------------------------------------
 
     //Main reply construct with optional owner
+    function re() {
     const owner = document.querySelectorAll('.owner');
     owner[0].classList.add('userstyle');
     //window.onload = function() {return comments.} 
@@ -479,6 +512,7 @@ for(let i=0; i < users.length; i++) {
             i.addEventListener('click', function() {
                 for(let i of owner) {
                     i.classList.remove('userstyle')
+                    
                 }
                
                 const getIdx = this.parentNode.getAttribute("data-Id");
@@ -493,10 +527,11 @@ for(let i=0; i < users.length; i++) {
                 localStorage.setItem('data', JSON.stringify(get));
                 getNew = JSON.parse(localStorage.getItem('data'));
                 //console.log(JSON.parse(localStorage.getItem('data')));                  
-                init();       
+                init();      
             });  
         });
-        
+    }
+    re();
 
     
     function go() {
