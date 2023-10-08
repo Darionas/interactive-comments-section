@@ -425,7 +425,7 @@ const cancel = document.getElementById('cancel');
 cancel.addEventListener('click', () => {
     //modal.style.display = "none";
     modal.style.display = "none"    
-    return exec();
+    
 })
 
 const delet = document.getElementById('deletion');
