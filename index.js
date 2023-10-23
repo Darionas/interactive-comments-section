@@ -11,8 +11,8 @@ let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, r
 comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
 let genId, genIds;
-let currentUserId, reloading;
-
+let currentUserId, getIdx;
+const owner = document.querySelectorAll('.owner');
 
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
@@ -413,7 +413,6 @@ let delCont, delComm, delWrap, delGroup;
 var modal = document.getElementById("myModal");
 
 // When the user clicks the button, open the modal 
-  //modal.style.display = "block";
   modal.classList.add('show');
 
 
@@ -427,17 +426,9 @@ var modal = document.getElementById("myModal");
 //https://stackoverflow.com/questions/41904975/refresh-page-and-run-function-after-javascript
 const cancel = document.getElementById('cancel');
 cancel.addEventListener('click', () => {
-        //modal.style.display = "none";
-        //let a = currentUser.id
         modal.classList.remove('show');
-        //alert('hey');
-       //console.log(currentUser.id);
-        //sessionStorage.setItem('currentUser', currentUser.id);
-        //let loc = localStorage.getItem('data');
-        sessionStorage.setItem('data', localStorage.getItem('data'));
+        sessionStorage.setItem('userId', currentUser.id);
         document.location.reload();
-       
-        
 })
 
 
@@ -456,32 +447,33 @@ delet.addEventListener('click', () => {
         })
     })
     
+    
    window.onload = function() {
-        reloading = sessionStorage.getItem('data');
-        //console.log(reloading);
-        if(reloading) {
-           sessionStorage.removeItem('data');
+        currentUserId = sessionStorage.getItem('userId');
+        if(currentUserId) {
+            myFunction(currentUserId);
+           sessionStorage.removeItem('userId');
         }
-        console.log(reloading);
-        
-        
-        
     }
     
-        /*
-       function myFunction() {
-            //currentUserId = localStorage.getItem('data');
-            console.log(reloading);
-            //console.log(got);
-            //re(got);
-            
-        }*/
         
-  
-
-      
-      
-     
+       function myFunction(currentUserId) {
+            getIdx = currentUserId;
+            x = getIdx;
+            owner[x].classList.add('userstyle');
+            if(x != 0) {
+                owner[0].classList.remove('userstyle');
+            }
+            currentUser.id = users[x].id; 
+            currentUser.username = users[x].username;
+            currentUser.image.png = users[x].image.png;
+            currentUser.image.webp = users[x].image.webp;
+            comments = get.comments;
+            localStorage.setItem('data', JSON.stringify(get));
+            getNew = JSON.parse(localStorage.getItem('data'));                 
+            init();      
+        }
+        
     const delr = document.querySelectorAll('.reply_delete');
     delr.forEach((item) => {
         item.addEventListener('click', () => {
@@ -494,12 +486,9 @@ delet.addEventListener('click', () => {
     })
 })
 
-  
-    
 }
         
  
-
 function init() {
     getOld = JSON.parse(localStorage.getItem('data'));
     if(localStorage.getItem('data')) {
@@ -541,22 +530,20 @@ for(let i=0; i < users.length; i++) {
 //----------------------------------------------------------
 
     //Main reply construct with optional owner
-    function re() {
-        const owner = document.querySelectorAll('.owner');
+    //function re() {
+        
         owner[0].classList.add('userstyle'); 
         
         //click one of iterated value, and on the same event remove class from anothers iterated values
         //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
+        if(owner) {
         owner.forEach(function(i) {
             i.addEventListener('click', function() {
                 for(let i of owner) {
-                    i.classList.remove('userstyle')
-                    
-                }   
-                
-                console.log(sessionStorage.getItem('currentUser'));
-                
-                const getIdx = this.parentNode.getAttribute("data-Id");
+                    i.classList.remove('userstyle');                    
+                }              
+                              
+                getIdx = this.parentNode.getAttribute("data-Id");
                 //console.log(getIdx);
                 x = getIdx;
                 this.classList.add('userstyle');
@@ -572,8 +559,10 @@ for(let i=0; i < users.length; i++) {
                 
             });  
         });
-    }
-    re();
+        }
+    
+    //}
+    //re();
 
     
     function go() {
