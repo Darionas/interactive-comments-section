@@ -10,9 +10,11 @@ members();
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply,
 comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
-let genId, genIds;
-let currentUserId, getIdx;
+let genId, genIds, delet;
+let commId, getIdx;
 const owner = document.querySelectorAll('.owner');
+let flag = false;
+let delCont, delComm, delWrap, delGroup;
 
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
@@ -377,7 +379,6 @@ function hen() {
 }
 
 //delete owner comment
-let delCont, delComm, delWrap, delGroup;
     const del = document.querySelectorAll('.comment_delete');
     del.forEach((item) => {
         item.addEventListener('click', () => {
@@ -427,16 +428,20 @@ var modal = document.getElementById("myModal");
 const cancel = document.getElementById('cancel');
 cancel.addEventListener('click', () => {
         modal.classList.remove('show');
-        sessionStorage.setItem('userId', currentUser.id);
+        //sessionStorage.setItem('userId', currentUser.id);
+        sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
+        sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         document.location.reload();
 })
 
 
-const delet = document.getElementById('deletion');
+delet = document.getElementById('deletion');
 delet.addEventListener('click', () => {
-    modal.style.display = "none";
-    document.getElementById(delWrap.id).parentNode.remove();
-
+    modal.classList.remove('show');
+    sessionStorage.setItem('flag', true);
+    sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
+    sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
+    document.location.reload();
 })
 
             } else {
@@ -449,29 +454,31 @@ delet.addEventListener('click', () => {
     
     
    window.onload = function() {
-        currentUserId = sessionStorage.getItem('userId');
-        if(currentUserId) {
-            myFunction(currentUserId);
-           sessionStorage.removeItem('userId');
+        commId = sessionStorage.getItem('commentId');
+        flag = sessionStorage.getItem('flag');
+        if(commId) {
+            myFunction(commId);
+            sessionStorage.removeItem('commentId');
+            sessionStorage.removeItem('flag');
         }
+        alert(commId);
     }
     
         
-       function myFunction(currentUserId) {
-            getIdx = currentUserId;
-            x = getIdx;
-            owner[x].classList.add('userstyle');
-            if(x != 0) {
+       function myFunction(commId) {
+            
+
+           
                 owner[0].classList.remove('userstyle');
+                owner[commId].classList.add('userstyle');
+            
+            
+            setNewData();                 
+            init(); 
+            
+            if(flag = true) {
+                document.getElementById(commId).parentNode.parentNode.classList.add('hide');
             }
-            currentUser.id = users[x].id; 
-            currentUser.username = users[x].username;
-            currentUser.image.png = users[x].image.png;
-            currentUser.image.webp = users[x].image.webp;
-            comments = get.comments;
-            localStorage.setItem('data', JSON.stringify(get));
-            getNew = JSON.parse(localStorage.getItem('data'));                 
-            init();      
         }
         
     const delr = document.querySelectorAll('.reply_delete');
@@ -528,7 +535,6 @@ for(let i=0; i < users.length; i++) {
 
 
 //----------------------------------------------------------
-
     //Main reply construct with optional owner
     //function re() {
         
@@ -536,7 +542,6 @@ for(let i=0; i < users.length; i++) {
         
         //click one of iterated value, and on the same event remove class from anothers iterated values
         //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
-        if(owner) {
         owner.forEach(function(i) {
             i.addEventListener('click', function() {
                 for(let i of owner) {
@@ -547,18 +552,20 @@ for(let i=0; i < users.length; i++) {
                 //console.log(getIdx);
                 x = getIdx;
                 this.classList.add('userstyle');
-                currentUser.id = users[x].id; 
-                currentUser.username = users[x].username;
-                currentUser.image.png = users[x].image.png;
-                currentUser.image.webp = users[x].image.webp;
-                comments = get.comments;
-                localStorage.setItem('data', JSON.stringify(get));
-                getNew = JSON.parse(localStorage.getItem('data'));
-                //console.log(JSON.parse(localStorage.getItem('data')));                  
+                setNewData();                 
                 init();      
                 
             });  
         });
+        
+        function setNewData() {
+            currentUser.id = users[x].id; 
+            currentUser.username = users[x].username;
+            currentUser.image.png = users[x].image.png;
+            currentUser.image.webp = users[x].image.webp;
+            comments = get.comments;
+            localStorage.setItem('data', JSON.stringify(get));
+            getNew = JSON.parse(localStorage.getItem('data'));
         }
     
     //}
