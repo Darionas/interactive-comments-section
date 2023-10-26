@@ -91,6 +91,12 @@ body {
     opacity: 1;
 }
 
+.newuserstyle {
+    border-radius: 50%;
+    border: 3.5px solid var(--clr-moderate-blue);
+    opacity: 1;
+}
+
 /* style 2nd component - mobile */
 .main {
     display: grid;

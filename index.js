@@ -456,9 +456,9 @@ delet.addEventListener('click', () => {
     //sessionStorage.clear();
     
    window.onload = function() {
-        commId = sessionStorage.getItem('commentId');
-        flag = sessionStorage.getItem('flag');
-        wrapId = sessionStorage.getItem('wrapId');
+        commId = JSON.parse(sessionStorage.getItem('commentId'));
+        flag = JSON.parse(sessionStorage.getItem('flag'));
+        wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
         if(commId) {
             myCancelation(commId, wrapId);
             sessionStorage.removeItem('commentId');
@@ -474,15 +474,17 @@ delet.addEventListener('click', () => {
     
         
        function myCancelation(commId, wrapId) {
-            alert(commId);
-            if(commId > 0) {
-                x = commId;
-            } else {
-                x = 0;
-            }           
-                //owner[0].classList.remove('userstyle');
-                
-                owner[x].classList.add('userstyle');
+            //alert(commId);
+            getIdx = commId;
+            x = getIdx;
+            //alert(x);
+            owner[0].classList.remove('userstyle');
+            if(x > 0) {
+                //alert(x);
+                owner[x].classList.add('newuserstyle');
+                //owner[x].classList.add('userstyle');
+            }
+           
             
             
             setNewData();                 
@@ -577,7 +579,7 @@ for(let i=0; i < users.length; i++) {
             });  
         });
         
-        function setNewData(x) {
+        function setNewData() {
             currentUser.id = users[x].id; 
             currentUser.username = users[x].username;
             currentUser.image.png = users[x].image.png;
