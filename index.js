@@ -10,9 +10,9 @@ members();
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply,
 comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
-let genId, genIds, delet;
+let genId, genIds, delet, wrapId;
 let commId, getIdx;
-const owner = document.querySelectorAll('.owner');
+let owner = document.querySelectorAll('.owner');
 let flag = false;
 let delCont, delComm, delWrap, delGroup;
 
@@ -424,6 +424,8 @@ var modal = document.getElementById("myModal");
   }
 }*/
 
+
+
 //https://stackoverflow.com/questions/41904975/refresh-page-and-run-function-after-javascript
 const cancel = document.getElementById('cancel');
 cancel.addEventListener('click', () => {
@@ -439,47 +441,64 @@ delet = document.getElementById('deletion');
 delet.addEventListener('click', () => {
     modal.classList.remove('show');
     sessionStorage.setItem('flag', true);
-    sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
-    sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
     document.location.reload();
 })
 
-            } else {
+           /* } else {
                 //delWrap.remove();
                 //delodel();
-            }
+            }*/
+        }
             
         })
     })
     
+    //sessionStorage.clear();
     
    window.onload = function() {
         commId = sessionStorage.getItem('commentId');
         flag = sessionStorage.getItem('flag');
+        wrapId = sessionStorage.getItem('wrapId');
         if(commId) {
-            myFunction(commId);
+            myCancelation(commId, wrapId);
             sessionStorage.removeItem('commentId');
-            sessionStorage.removeItem('flag');
+            sessionStorage.removeItem('wrapId');
         }
-        alert(commId);
+        /*if(flag) {
+            myDeletion(flag);
+            sessionStorage.removeItem('flag');
+        }*/
+        //alert(commId);
+        //alert(flag);
     }
     
         
-       function myFunction(commId) {
-            
-
-           
-                owner[0].classList.remove('userstyle');
-                owner[commId].classList.add('userstyle');
+       function myCancelation(commId, wrapId) {
+            alert(commId);
+            if(commId > 0) {
+                x = commId;
+            } else {
+                x = 0;
+            }           
+                //owner[0].classList.remove('userstyle');
+                
+                owner[x].classList.add('userstyle');
             
             
             setNewData();                 
             init(); 
-            
-            if(flag = true) {
-                document.getElementById(commId).parentNode.parentNode.classList.add('hide');
-            }
         }
+        
+        /*
+        function myDeletion(flag) {
+            setNewData();                 
+            init();
+            if(flag) {
+                //document.getElementById(commId).parentNode.parentNode.classList.add('hide');
+                //alert('honey');
+            }
+            
+        }*/
         
     const delr = document.querySelectorAll('.reply_delete');
     delr.forEach((item) => {
@@ -558,7 +577,7 @@ for(let i=0; i < users.length; i++) {
             });  
         });
         
-        function setNewData() {
+        function setNewData(x) {
             currentUser.id = users[x].id; 
             currentUser.username = users[x].username;
             currentUser.image.png = users[x].image.png;
