@@ -10,11 +10,11 @@ members();
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply,
 comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
-let genId, genIds, delet, wrapId;
+let genId, genIds, delet, wrapId, getOwnerName;
 let commId, getIdx;
 let owner = document.querySelectorAll('.owner');
 let flag = false;
-let delCont, delComm, delWrap, delGroup;
+let delCont, delComm, delWrap, delGroup, tor;
 
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
@@ -381,7 +381,7 @@ function hen() {
 //delete owner comment
     const del = document.querySelectorAll('.comment_delete');
     del.forEach((item) => {
-        item.addEventListener('click', () => {
+        item.addEventListener('click', (e) => {
             const modale = `<!--The modal-->
             <div id='myModal' class='modal'>
                 <!--Modal content-->
@@ -398,6 +398,7 @@ function hen() {
             //console.log(delCont);
             delComm = delCont.parentNode;
             //console.log(delComm);
+            let rost = delComm.children[0].children[1].children[0].textContent;
             delWrap = delComm.parentNode;
             //console.log(delWrap);
             //delWrap.remove();
@@ -415,8 +416,15 @@ var modal = document.getElementById("myModal");
 
 // When the user clicks the button, open the modal 
   modal.classList.add('show');
-
-
+  
+  users.forEach((item) => {
+    //console.log(item.username);
+    if(item.username == rost) {
+        tor = item.id;
+    }
+  })
+console.log(tor);
+  
 // When the user clicks anywhere outside of the modal, close it
 /*window.onclick = function(event) {
   if (event.target == modal) {
@@ -459,10 +467,13 @@ delet.addEventListener('click', () => {
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
         wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
+        getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
+
         if(commId) {
-            myCancelation(commId, wrapId);
+            myCancelation(commId, wrapId, getOwnerName);
             sessionStorage.removeItem('commentId');
             sessionStorage.removeItem('wrapId');
+            sessionStorage.removeItem('getOwnerName');
         }
         /*if(flag) {
             myDeletion(flag);
@@ -473,22 +484,41 @@ delet.addEventListener('click', () => {
     }
     
         
-       function myCancelation(commId, wrapId) {
-            //alert(commId);
+       function myCancelation(commId, wrapId, getOwnerName) {
+                     
+            //getIdx = commId;
+            //x = getIdx;
+            //console.log(x);
+            x = commId;
             getIdx = commId;
-            x = getIdx;
-            //alert(x);
+            
+           /*
             owner[0].classList.remove('userstyle');
+            owner[x].classList.remove('newuserstyle');
             if(x > 0) {
                 //alert(x);
                 owner[x].classList.add('newuserstyle');
                 //owner[x].classList.add('userstyle');
+            }*/
+            //let childr = document.getElementById(commId);
+            let parent = document. getElementById(commId);
+            let childrens = parent.children[0].children[1].children[0].textContent;
+            //console.log(childrens);
+            //console.log(getOwnerName);
+            //console.log(document.querySelector('#'+commId+' > .comment_header'));
+            if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
+                owner[x].classList.add('userstyle');
+                owner[0].classList.remove('userstyle');
+            } else if(childrens == 'juliusomo' && getOwnerName == 'juliusomo') {
+                owner[0].classList.add('userstyle');
+            } else {
+                owner[0].classList.remove('userstyle');
             }
-           
             
+            setNewData();
+            init();
+              
             
-            setNewData();                 
-            init(); 
         }
         
         /*
@@ -566,13 +596,19 @@ for(let i=0; i < users.length; i++) {
         owner.forEach(function(i) {
             i.addEventListener('click', function() {
                 for(let i of owner) {
-                    i.classList.remove('userstyle');                    
-                }              
-                              
+                    i.classList.remove('userstyle');  
+                }
+                
+                //console.log(this[data-Id]);         
                 getIdx = this.parentNode.getAttribute("data-Id");
                 //console.log(getIdx);
                 x = getIdx;
+                //console.log(x);
                 this.classList.add('userstyle');
+                let ownerName = owner[getIdx].getAttribute('alt');
+                //console.log(ownerName);
+                sessionStorage.setItem('ownerName', JSON.stringify(ownerName));
+                //sessionStorage.clear();
                 setNewData();                 
                 init();      
                 
@@ -580,6 +616,7 @@ for(let i=0; i < users.length; i++) {
         });
         
         function setNewData() {
+        //console.log(getIdx);
             currentUser.id = users[x].id; 
             currentUser.username = users[x].username;
             currentUser.image.png = users[x].image.png;

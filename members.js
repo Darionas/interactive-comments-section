@@ -6,7 +6,8 @@ export function members() {
         const image = document.createElement('div');
         image.classList.add('header__image');
         header.appendChild(image);
-  
+        
+        
         image.innerHTML =
         `<picture data-Id="${items.id}">
         <source srcset="${items.image.webp}" type="image/webp">
