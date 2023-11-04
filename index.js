@@ -441,7 +441,9 @@ cancel.addEventListener('click', () => {
         sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
         //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         sessionStorage.setItem('userId', JSON.stringify(tor));
-        document.location.reload(true);
+        setTimeout(function() {
+            document.location.reload();
+        })
 })
 
 
@@ -449,7 +451,7 @@ delet = document.getElementById('deletion');
 delet.addEventListener('click', () => {
     modal.classList.remove('show');
     sessionStorage.setItem('flag', JSON.stringify(true));
-    document.location.reload(true);
+    document.location.reload();
 })
 
            /* } else {
@@ -462,7 +464,7 @@ delet.addEventListener('click', () => {
     })
     
     
-   onload = function(e) {
+   window.onload = function(e) {
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
         //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
