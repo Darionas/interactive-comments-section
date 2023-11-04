@@ -462,7 +462,7 @@ delet.addEventListener('click', () => {
     })
     
     
-   window.onload = function(e) {
+   onload = function(e) {
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
         //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
