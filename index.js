@@ -10,7 +10,7 @@ members();
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply,
 comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
-let genId, genIds, delet, wrapId, getOwnerName, getUserId;
+let genId, genIds, delet, getOwnerName, getUserId;
 let commId, getIdx;
 let owner = document.querySelectorAll('.owner');
 let flag = false;
@@ -412,7 +412,7 @@ function hen() {
                 const body = document.getElementsByTagName('body')[0].innerHTML += modale;
 
 // Get the modal
-var modal = document.getElementById("myModal");
+let modal = document.getElementById("myModal");
 
 // When the user clicks the button, open the modal 
   modal.classList.add('show');
@@ -439,17 +439,17 @@ const cancel = document.getElementById('cancel');
 cancel.addEventListener('click', () => {
         modal.classList.remove('show');
         sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
-        sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
+        //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         sessionStorage.setItem('userId', JSON.stringify(tor));
-        document.location.reload();
+        document.location.reload(true);
 })
 
 
 delet = document.getElementById('deletion');
 delet.addEventListener('click', () => {
     modal.classList.remove('show');
-    sessionStorage.setItem('flag', true);
-    document.location.reload();
+    sessionStorage.setItem('flag', JSON.stringify(true));
+    document.location.reload(true);
 })
 
            /* } else {
@@ -465,24 +465,26 @@ delet.addEventListener('click', () => {
    window.onload = function(e) {
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
-        wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
+        //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
         getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
         getUserId = JSON.parse(sessionStorage.getItem('userId'));
 
         if(e.target) {
-            myCancelation(commId, wrapId, getOwnerName, getUserId);
+            myCancelation(commId, getOwnerName, getUserId);
+            myDeletion(flag);
             setNewData(getUserId);
             sessionStorage.removeItem('commentId');
-            sessionStorage.removeItem('wrapId');
-            sessionStorage.removeItem('getOwnerName');
+            sessionStorage.removeItem('flag');
+            //sessionStorage.removeItem('wrapId');
+            sessionStorage.removeItem('ownerName');
             sessionStorage.removeItem('userId');
         }
     }
     
         
-       function myCancelation(commId, wrapId, getOwnerName, getUserId) {
+       function myCancelation(commId, getOwnerName, getUserId) {
             x = getUserId;
-            getIdx = commId;
+            //getIdx = commId;
             
             let parent = document.getElementById(commId);
             if(parent != null) {
@@ -507,6 +509,13 @@ delet.addEventListener('click', () => {
             init();
               
             
+        }
+        
+        function myDeletion(flag) {
+            //console.log(flag);
+            if(flag == true) {
+                alert('hey');
+            }
         }
         
      
