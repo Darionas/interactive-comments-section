@@ -602,10 +602,10 @@ for(let i=0; i < users.length; i++) {
         function setNewData(getUserId) {
             //console.log(getUserId);
           
-            currentUser.id = users[x].id || users[0].id; 
-            currentUser.username = users[x].username || users[0].username;
-            currentUser.image.png = users[x].image.png || users[0].image.png;
-            currentUser.image.webp = users[x].image.webp || users[0].image.webp;
+            currentUser.id = users[x].id;// || users[0].id; 
+            currentUser.username = users[x].username;// || users[0].username;
+            currentUser.image.png = users[x].image.png;// || users[0].image.png;
+            currentUser.image.webp = users[x].image.webp;// || users[0].image.webp;
             comments = get.comments;
             localStorage.setItem('data', JSON.stringify(get));
             getNew = JSON.parse(localStorage.getItem('data'));
