@@ -441,7 +441,7 @@ cancel.addEventListener('click', () => {
         sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
         //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         sessionStorage.setItem('userId', JSON.stringify(tor));
-        document.location.reload(true);
+        window.location.reload(true);
 })
 
 
@@ -449,7 +449,7 @@ delet = document.getElementById('deletion');
 delet.addEventListener('click', () => {
     modal.classList.remove('show');
     sessionStorage.setItem('flag', JSON.stringify(true));
-    document.location.reload(true);
+    window.location.reload(true);
 })
 
            /* } else {
@@ -491,8 +491,8 @@ delet.addEventListener('click', () => {
                 childrens = parent.children[0].children[1].children[0].textContent;
             }
             
-            owner[0].classList.add('userstyle');
-            if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
+            //owner[0].classList.add('userstyle');
+           //if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
                 //console.log(x);
                 if(x == null || x == 0) {
                     x = 0;
@@ -503,7 +503,7 @@ delet.addEventListener('click', () => {
                     owner[0].classList.remove('userstyle');
                 }
                
-            }
+            //}
             
             setNewData();
             init();
@@ -602,10 +602,10 @@ for(let i=0; i < users.length; i++) {
         function setNewData(getUserId) {
             //console.log(getUserId);
           
-            currentUser.id = users[x].id || users[0].id; 
-            currentUser.username = users[x].username || users[0].username;
-            currentUser.image.png = users[x].image.png || users[0].image.png;
-            currentUser.image.webp = users[x].image.webp || users[0].image.webp;
+            currentUser.id = users[x].id;// || users[0].id; 
+            currentUser.username = users[x].username;// || users[0].username;
+            currentUser.image.png = users[x].image.png;// || users[0].image.png;
+            currentUser.image.webp = users[x].image.webp;// || users[0].image.webp;
             comments = get.comments;
             localStorage.setItem('data', JSON.stringify(get));
             getNew = JSON.parse(localStorage.getItem('data'));
