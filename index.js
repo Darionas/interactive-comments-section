@@ -441,9 +441,7 @@ cancel.addEventListener('click', () => {
         sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
         //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         sessionStorage.setItem('userId', JSON.stringify(tor));
-        setTimeout(function() {
-            document.location.reload();
-        })
+        window.location.href = window.location.href;
 })
 
 
@@ -451,7 +449,7 @@ delet = document.getElementById('deletion');
 delet.addEventListener('click', () => {
     modal.classList.remove('show');
     sessionStorage.setItem('flag', JSON.stringify(true));
-    document.location.reload();
+    window.location.href = window.location.href;
 })
 
            /* } else {
