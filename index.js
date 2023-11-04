@@ -580,7 +580,7 @@ for(let i=0; i < users.length; i++) {
 //----------------------------------------------------------
     //Main reply construct with optional owner
            
-        owner[0].classList.add('userstyle'); 
+        //owner[0].classList.add('userstyle'); 
         
         //click one of iterated value, and on the same event remove class from anothers iterated values
         //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
