@@ -10,11 +10,11 @@ members();
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply,
 comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
-let genId, genIds, delet, wrapId, getOwnerName;
+let genId, genIds, delet, wrapId, getOwnerName, getUserId;
 let commId, getIdx;
 let owner = document.querySelectorAll('.owner');
 let flag = false;
-let delCont, delComm, delWrap, delGroup, tor;
+let delCont, delComm, delWrap, delGroup, tor, childrens;
 
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
@@ -418,12 +418,12 @@ var modal = document.getElementById("myModal");
   modal.classList.add('show');
   
   users.forEach((item) => {
-    //console.log(item.username);
     if(item.username == rost) {
         tor = item.id;
     }
+    
   })
-console.log(tor);
+
   
 // When the user clicks anywhere outside of the modal, close it
 /*window.onclick = function(event) {
@@ -438,9 +438,9 @@ console.log(tor);
 const cancel = document.getElementById('cancel');
 cancel.addEventListener('click', () => {
         modal.classList.remove('show');
-        //sessionStorage.setItem('userId', currentUser.id);
         sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
         sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
+        sessionStorage.setItem('userId', JSON.stringify(tor));
         document.location.reload();
 })
 
@@ -461,58 +461,46 @@ delet.addEventListener('click', () => {
         })
     })
     
-    //sessionStorage.clear();
     
-   window.onload = function() {
+   window.onload = function(e) {
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
         wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
         getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
+        getUserId = JSON.parse(sessionStorage.getItem('userId'));
 
-        if(commId) {
-            myCancelation(commId, wrapId, getOwnerName);
+        if(e.target) {
+            myCancelation(commId, wrapId, getOwnerName, getUserId);
+            setNewData(getUserId);
             sessionStorage.removeItem('commentId');
             sessionStorage.removeItem('wrapId');
             sessionStorage.removeItem('getOwnerName');
+            sessionStorage.removeItem('userId');
         }
-        /*if(flag) {
-            myDeletion(flag);
-            sessionStorage.removeItem('flag');
-        }*/
-        //alert(commId);
-        //alert(flag);
     }
     
         
-       function myCancelation(commId, wrapId, getOwnerName) {
-                     
-            //getIdx = commId;
-            //x = getIdx;
-            //console.log(x);
-            x = commId;
+       function myCancelation(commId, wrapId, getOwnerName, getUserId) {
+            x = getUserId;
             getIdx = commId;
             
-           /*
-            owner[0].classList.remove('userstyle');
-            owner[x].classList.remove('newuserstyle');
-            if(x > 0) {
-                //alert(x);
-                owner[x].classList.add('newuserstyle');
-                //owner[x].classList.add('userstyle');
-            }*/
-            //let childr = document.getElementById(commId);
-            let parent = document. getElementById(commId);
-            let childrens = parent.children[0].children[1].children[0].textContent;
-            //console.log(childrens);
-            //console.log(getOwnerName);
-            //console.log(document.querySelector('#'+commId+' > .comment_header'));
+            let parent = document.getElementById(commId);
+            if(parent != null) {
+                childrens = parent.children[0].children[1].children[0].textContent;
+            }
+            
+            owner[0].classList.add('userstyle');
             if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
-                owner[x].classList.add('userstyle');
-                owner[0].classList.remove('userstyle');
-            } else if(childrens == 'juliusomo' && getOwnerName == 'juliusomo') {
-                owner[0].classList.add('userstyle');
-            } else {
-                owner[0].classList.remove('userstyle');
+                //console.log(x);
+                if(x == null || x == 0) {
+                    x = 0;
+                    owner[x].classList.add('userstyle');
+                }
+                if(x > 0) {
+                    owner[x].classList.add('userstyle');
+                    owner[0].classList.remove('userstyle');
+                }
+               
             }
             
             setNewData();
@@ -521,16 +509,7 @@ delet.addEventListener('click', () => {
             
         }
         
-        /*
-        function myDeletion(flag) {
-            setNewData();                 
-            init();
-            if(flag) {
-                //document.getElementById(commId).parentNode.parentNode.classList.add('hide');
-                //alert('honey');
-            }
-            
-        }*/
+     
         
     const delr = document.querySelectorAll('.reply_delete');
     delr.forEach((item) => {
@@ -559,7 +538,7 @@ function init() {
             get = getOld;
         }
 
-        //console.log(get);
+
         comments = get.comments;
         currentUser = get.currentUser;       
         exec();
@@ -587,8 +566,7 @@ for(let i=0; i < users.length; i++) {
 
 //----------------------------------------------------------
     //Main reply construct with optional owner
-    //function re() {
-        
+           
         owner[0].classList.add('userstyle'); 
         
         //click one of iterated value, and on the same event remove class from anothers iterated values
@@ -598,36 +576,33 @@ for(let i=0; i < users.length; i++) {
                 for(let i of owner) {
                     i.classList.remove('userstyle');  
                 }
-                
-                //console.log(this[data-Id]);         
+                       
                 getIdx = this.parentNode.getAttribute("data-Id");
                 //console.log(getIdx);
                 x = getIdx;
                 //console.log(x);
                 this.classList.add('userstyle');
                 let ownerName = owner[getIdx].getAttribute('alt');
-                //console.log(ownerName);
                 sessionStorage.setItem('ownerName', JSON.stringify(ownerName));
-                //sessionStorage.clear();
                 setNewData();                 
                 init();      
                 
             });  
         });
         
-        function setNewData() {
-        //console.log(getIdx);
-            currentUser.id = users[x].id; 
-            currentUser.username = users[x].username;
-            currentUser.image.png = users[x].image.png;
-            currentUser.image.webp = users[x].image.webp;
+        function setNewData(getUserId) {
+            //console.log(getUserId);
+          
+            currentUser.id = users[x].id || users[0].id; 
+            currentUser.username = users[x].username || users[0].username;
+            currentUser.image.png = users[x].image.png || users[0].image.png;
+            currentUser.image.webp = users[x].image.webp || users[0].image.webp;
             comments = get.comments;
             localStorage.setItem('data', JSON.stringify(get));
             getNew = JSON.parse(localStorage.getItem('data'));
         }
     
-    //}
-    //re();
+   
 
     
     function go() {
