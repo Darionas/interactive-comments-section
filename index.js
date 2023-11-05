@@ -454,7 +454,7 @@ delet.addEventListener('click', () => {
     sessionStorage.setItem('flag', JSON.stringify(true));
     setTimeout(function() {
         location.reload(true);
-    }, 500);
+    }, 1000);
 })
 
            /* } else {
@@ -474,7 +474,7 @@ delet.addEventListener('click', () => {
         getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
         getUserId = JSON.parse(sessionStorage.getItem('userId'));
 
-        if(e.target) {
+        if(commId) {
             myCancelation(commId, getOwnerName, getUserId);
             myDeletion(flag);
             setNewData(getUserId);
