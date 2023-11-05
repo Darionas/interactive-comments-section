@@ -443,7 +443,8 @@ cancel.addEventListener('click', () => {
         //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         sessionStorage.setItem('userId', JSON.stringify(tor));
     
-            location.reload(false);
+            location.reload();
+            return false;
         alert('cancel');
 })
 
@@ -453,7 +454,8 @@ delet.addEventListener('click', () => {
     modal.classList.remove('show');
     sessionStorage.setItem('flag', JSON.stringify(true));
     
-        location.reload(false);
+        location.reload();
+        return false;
     
 })
 
