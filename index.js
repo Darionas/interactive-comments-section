@@ -443,9 +443,9 @@ cancel.addEventListener('click', () => {
         //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         sessionStorage.setItem('userId', JSON.stringify(tor));
     
-            location.reload();
-            return false;
-        alert('cancel');
+        location.reload(true);
+        
+        //alert('cancel');
 })
 
 
@@ -454,8 +454,8 @@ delet.addEventListener('click', () => {
     modal.classList.remove('show');
     sessionStorage.setItem('flag', JSON.stringify(true));
     
-        location.reload();
-        return false;
+        location.reload(true);
+        
     
 })
 
@@ -487,7 +487,7 @@ delet.addEventListener('click', () => {
             sessionStorage.removeItem('ownerName');
             sessionStorage.removeItem('userId');
         }
-        alert('reload');
+        //alert('reload');
     })
 
     
@@ -496,7 +496,7 @@ delet.addEventListener('click', () => {
             x = getUserId;
             
             //getIdx = commId;
-            alert('myCancelation');
+            //alert('myCancelation');
             /*let parent = document.getElementById(commId);
             if(parent != null) {
                 childrens = parent.children[0].children[1].children[0].textContent;
@@ -505,7 +505,7 @@ delet.addEventListener('click', () => {
             //owner[0].classList.add('userstyle');
            //if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
                 //console.log(x);
-                if(x == null || x == 0) {
+                if(x == null || x  == undefined || x == 0) {
                     x = 0;
                     owner[x].classList.add('userstyle');
                 }
@@ -599,6 +599,7 @@ for(let i=0; i < users.length; i++) {
                        
                 getIdx = this.parentNode.getAttribute("data-Id");
                 //console.log(getIdx);
+                //console.log(getUserId);
                 x = getIdx;
                 //console.log(x);
                 this.classList.add('userstyle');
@@ -612,7 +613,7 @@ for(let i=0; i < users.length; i++) {
         
         function setNewData() {
             //console.log(x);
-          
+         
             currentUser.id = users[x].id;// || users[0].id; 
             currentUser.username = users[x].username;// || users[0].username;
             currentUser.image.png = users[x].image.png;// || users[0].image.png;
