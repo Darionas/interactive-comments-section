@@ -377,6 +377,7 @@ function hen() {
     })
 
 }
+  
 
 //delete owner comment
     const del = document.querySelectorAll('.comment_delete');
@@ -442,7 +443,7 @@ cancel.addEventListener('click', () => {
         //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         sessionStorage.setItem('userId', JSON.stringify(tor));
     
-            location.reload(true);
+            location.reload(false);
         alert('cancel');
 })
 
@@ -452,7 +453,7 @@ delet.addEventListener('click', () => {
     modal.classList.remove('show');
     sessionStorage.setItem('flag', JSON.stringify(true));
     
-        location.reload(true);
+        location.reload(false);
     
 })
 
@@ -465,7 +466,7 @@ delet.addEventListener('click', () => {
         })
     })
     
-    
+
    window.addEventListener('load', (e) => {
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
@@ -486,6 +487,7 @@ delet.addEventListener('click', () => {
         }
         alert('reload');
     })
+
     
         
        function myCancelation(commId, getOwnerName, getUserId) {
@@ -500,7 +502,7 @@ delet.addEventListener('click', () => {
             
             //owner[0].classList.add('userstyle');
            //if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
-                console.log(x);
+                //console.log(x);
                 if(x == null || x == 0) {
                     x = 0;
                     owner[x].classList.add('userstyle');
@@ -607,7 +609,7 @@ for(let i=0; i < users.length; i++) {
         });
         
         function setNewData() {
-            console.log(x);
+            //console.log(x);
           
             currentUser.id = users[x].id;// || users[0].id; 
             currentUser.username = users[x].username;// || users[0].username;
