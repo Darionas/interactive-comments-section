@@ -443,7 +443,7 @@ cancel.addEventListener('click', () => {
         sessionStorage.setItem('userId', JSON.stringify(tor));
         setTimeout(function() {
             location.reload(true);
-        }, 500);
+        }, 1000);
         alert('cancel');
 })
 
@@ -467,7 +467,7 @@ delet.addEventListener('click', () => {
     })
     
     
-   window.addEventListener('load' , (e) => {
+   window.addEventListener('load', (e) => {
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
         //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
