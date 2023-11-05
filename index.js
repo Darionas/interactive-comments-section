@@ -444,6 +444,7 @@ cancel.addEventListener('click', () => {
         setTimeout(function() {
             location.reload(true);
         }, 500);
+        alert('cancel');
 })
 
 
@@ -466,7 +467,7 @@ delet.addEventListener('click', () => {
     })
     
     
-   window.onload = function(e) {
+   window.addEventListener('load' , (e) => {
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
         //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
@@ -483,13 +484,14 @@ delet.addEventListener('click', () => {
             sessionStorage.removeItem('ownerName');
             sessionStorage.removeItem('userId');
         }
-    }
+        alert('reload');
+    })
     
         
        function myCancelation(commId, getOwnerName, getUserId) {
             x = getUserId;
             //getIdx = commId;
-            
+            alert('myCancelation');
             let parent = document.getElementById(commId);
             if(parent != null) {
                 childrens = parent.children[0].children[1].children[0].textContent;
