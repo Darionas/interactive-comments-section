@@ -441,9 +441,8 @@ cancel.addEventListener('click', () => {
         sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
         //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         sessionStorage.setItem('userId', JSON.stringify(tor));
-        setTimeout(function() {
+    
             location.reload(true);
-        }, 1000);
         alert('cancel');
 })
 
@@ -452,9 +451,9 @@ delet = document.getElementById('deletion');
 delet.addEventListener('click', () => {
     modal.classList.remove('show');
     sessionStorage.setItem('flag', JSON.stringify(true));
-    setTimeout(function() {
+    
         location.reload(true);
-    }, 1000);
+    
 })
 
            /* } else {
@@ -474,7 +473,8 @@ delet.addEventListener('click', () => {
         getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
         getUserId = JSON.parse(sessionStorage.getItem('userId'));
 
-        if(commId) {
+        if(e.target) {
+            //console.log(e);
             myCancelation(commId, getOwnerName, getUserId);
             myDeletion(flag);
             setNewData(getUserId);
@@ -490,16 +490,17 @@ delet.addEventListener('click', () => {
         
        function myCancelation(commId, getOwnerName, getUserId) {
             x = getUserId;
+            
             //getIdx = commId;
             alert('myCancelation');
-            let parent = document.getElementById(commId);
+            /*let parent = document.getElementById(commId);
             if(parent != null) {
                 childrens = parent.children[0].children[1].children[0].textContent;
-            }
+            }*/
             
             //owner[0].classList.add('userstyle');
            //if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
-                //console.log(x);
+                console.log(x);
                 if(x == null || x == 0) {
                     x = 0;
                     owner[x].classList.add('userstyle');
@@ -605,8 +606,8 @@ for(let i=0; i < users.length; i++) {
             });  
         });
         
-        function setNewData(getUserId) {
-            //console.log(getUserId);
+        function setNewData() {
+            console.log(x);
           
             currentUser.id = users[x].id;// || users[0].id; 
             currentUser.username = users[x].username;// || users[0].username;
