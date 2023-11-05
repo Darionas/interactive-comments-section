@@ -442,7 +442,7 @@ cancel.addEventListener('click', () => {
         //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
         sessionStorage.setItem('userId', JSON.stringify(tor));
         setTimeout(function() {
-            location.replace(location.href);
+            location.reload(true);
         }, 500);
         alert('cancel');
 })
@@ -453,7 +453,7 @@ delet.addEventListener('click', () => {
     modal.classList.remove('show');
     sessionStorage.setItem('flag', JSON.stringify(true));
     setTimeout(function() {
-        location.replace(location.href);
+        location.reload(true);
     }, 500);
 })
 
