@@ -480,12 +480,13 @@ delet.addEventListener('click', () => {
             //console.log(e);
             myCancelation(commId, getOwnerName, getUserId);
             myDeletion(flag);
-            setNewData(getUserId);
+            setNewData();
             sessionStorage.removeItem('commentId');
             sessionStorage.removeItem('flag');
             //sessionStorage.removeItem('wrapId');
             sessionStorage.removeItem('ownerName');
             sessionStorage.removeItem('userId');
+            localStorage.clear();
         }
         //alert('reload');
     })
