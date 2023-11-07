@@ -14,7 +14,7 @@ let genId, genIds, delet, getOwnerName, getUserId;
 let commId, getIdx;
 let owner = document.querySelectorAll('.owner');
 let flag = false;
-let delCont, delComm, delWrap, delGroup, tor, childrens;
+let delCont, delComm, delWrap, delGroup, tor, childrens, answ;
 
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
@@ -382,7 +382,7 @@ function hen() {
 //delete owner comment
     const del = document.querySelectorAll('.comment_delete');
     del.forEach((item) => {
-        item.addEventListener('click', (e) => {
+        item.addEventListener('click', () => {
             const modale = `<!--The modal-->
             <div id='myModal' class='modal'>
                 <!--Modal content-->
@@ -418,13 +418,13 @@ let modal = document.getElementById("myModal");
 // When the user clicks the button, open the modal 
   modal.classList.add('show');
   
-  users.forEach((item) => {
+  users.forEach((item, i) => {
     if(item.username == rost) {
         tor = item.id;
     }
     
   })
-
+console.log(tor)
   
 // When the user clicks anywhere outside of the modal, close it
 /*window.onclick = function(event) {
@@ -473,29 +473,30 @@ delet.addEventListener('click', () => {
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
         //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
-        getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
+        //getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
         getUserId = JSON.parse(sessionStorage.getItem('userId'));
 
         if(e.target) {
             //console.log(e);
-            myCancelation(commId, getOwnerName, getUserId);
+            myCancelation(getUserId);
             myDeletion(flag);
             setNewData();
-            sessionStorage.removeItem('commentId');
+            //sessionStorage.removeItem('commentId');
             sessionStorage.removeItem('flag');
             //sessionStorage.removeItem('wrapId');
-            sessionStorage.removeItem('ownerName');
-            sessionStorage.removeItem('userId');
-            localStorage.clear();
+            //sessionStorage.removeItem('ownerName');
+            //sessionStorage.removeItem('userId');
+            //localStorage.clear();
         }
         //alert('reload');
+        //console.log(getUserId);
     })
 
     
         
-       function myCancelation(commId, getOwnerName, getUserId) {
+       function myCancelation(getUserId) {
+            //console.log(getUserId);
             x = getUserId;
-            
             //getIdx = commId;
             //alert('myCancelation');
             /*let parent = document.getElementById(commId);
@@ -602,19 +603,22 @@ for(let i=0; i < users.length; i++) {
                 //console.log(getIdx);
                 //console.log(getUserId);
                 x = getIdx;
-                //console.log(x);
+                console.log(x);
                 this.classList.add('userstyle');
-                let ownerName = owner[getIdx].getAttribute('alt');
-                sessionStorage.setItem('ownerName', JSON.stringify(ownerName));
+                //let ownerName = owner[getIdx].getAttribute('alt');
+                sessionStorage.setItem('userId', JSON.stringify(getIdx));
+                getUserId = JSON.parse(sessionStorage.getItem('userId'));
+                //sessionStorage.clear();
                 setNewData();                 
-                init();      
+                init();     
+                
                 
             });  
         });
         
         function setNewData() {
             //console.log(x);
-         
+            //console.log(commId);
             currentUser.id = users[x].id;// || users[0].id; 
             currentUser.username = users[x].username;// || users[0].username;
             currentUser.image.png = users[x].image.png;// || users[0].image.png;
