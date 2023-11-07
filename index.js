@@ -609,17 +609,17 @@ for(let i=0; i < users.length; i++) {
                 sessionStorage.setItem('userId', JSON.stringify(getIdx));
                 getUserId = JSON.parse(sessionStorage.getItem('userId'));
                 //sessionStorage.clear();
-                setNewData();                 
+                setNewData(getUserId);                 
                 init();     
                 
                 
             });  
         });
         
-        function setNewData() {
+        function setNewData(getUserId) {
             //console.log(x);
             //console.log(commId);
-            currentUser.id = users[x].id;// || users[0].id; 
+            currentUser.id = users[x].id || users[getUserId].id;// || users[0].id; 
             currentUser.username = users[x].username;// || users[0].username;
             currentUser.image.png = users[x].image.png;// || users[0].image.png;
             currentUser.image.webp = users[x].image.webp;// || users[0].image.webp;
