@@ -590,6 +590,7 @@ function init() {
         currentUser = get.currentUser;       
         exec();
         go();
+        setNewData();
         setTimeout(commentVote, 50);
         setTimeout(replyVote, 50);
     }
