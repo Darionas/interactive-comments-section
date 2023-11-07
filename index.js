@@ -439,9 +439,16 @@ console.log(tor)
 const cancel = document.getElementById('cancel');
 cancel.addEventListener('click', () => {
         modal.classList.remove('show');
-        sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
-        //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
-        sessionStorage.setItem('userId', JSON.stringify(tor));
+        if (typeof(Storage) !== "undefined") {
+            // Code for localStorage/sessionStorage.
+            alert('set commId and userId');
+            sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
+            //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
+            sessionStorage.setItem('userId', JSON.stringify(tor));
+          } else {
+             alert('Sorry! No Web Storage support..');
+          }
+        
     
         location.reload(true);
         
@@ -452,7 +459,13 @@ cancel.addEventListener('click', () => {
 delet = document.getElementById('deletion');
 delet.addEventListener('click', () => {
     modal.classList.remove('show');
-    sessionStorage.setItem('flag', JSON.stringify(true));
+    
+    if (typeof(Storage) !== "undefined") {
+        // Code for localStorage/sessionStorage.
+        sessionStorage.setItem('flag', JSON.stringify(true));
+      } else {
+         alert('Sorry! No Web Storage support..');
+      }
     
         location.reload(true);
         
@@ -470,12 +483,17 @@ delet.addEventListener('click', () => {
     
 
    window.addEventListener('load', (e) => {
+    if (typeof(Storage) !== "undefined") {
+        // Code for localStorage/sessionStorage.
+        alert('get commId and userId');
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
         //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
         //getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
         getUserId = JSON.parse(sessionStorage.getItem('userId'));
-
+    } else {
+         alert('Sorry! No Web Storage support..');
+    }
         if(e.target) {
             //console.log(e);
             myCancelation(getUserId);
@@ -549,8 +567,15 @@ delet.addEventListener('click', () => {
         
  
 function init() {
-    getOld = JSON.parse(localStorage.getItem('data'));
-    if(localStorage.getItem('data')) {
+    if (typeof(Storage) !== "undefined") {
+        // Code for localStorage/sessionStorage.
+        alert('get old data');
+        getOld = JSON.parse(localStorage.getItem('data'));
+      } else {
+         alert('Sorry! No Web Storage support..');
+      }
+    if(localStorage.getItem('data') || sessionStorage.getItem('userId')) {
+        alert('flag');
         if(getNew) {
             while(comm.firstChild) {
                 comm.removeChild(comm.firstChild);
@@ -608,13 +633,13 @@ for(let i=0; i < users.length; i++) {
                 //let ownerName = owner[getIdx].getAttribute('alt');
                 if (typeof(Storage) !== "undefined") {
                     // Code for localStorage/sessionStorage.
-                    alert('Hey this is storage..');
+                    alert('set and get getUserId..');
+                    sessionStorage.setItem('userId', JSON.stringify(getIdx));
+                    getUserId = JSON.parse(sessionStorage.getItem('userId'));
                   } else {
                      alert('Sorry! No Web Storage support..');
                   }
-                sessionStorage.setItem('userId', JSON.stringify(getIdx));
-                getUserId = JSON.parse(sessionStorage.getItem('userId'));
-                //sessionStorage.clear();
+        
                 setNewData();                 
                 init();     
                 
@@ -630,8 +655,15 @@ for(let i=0; i < users.length; i++) {
             currentUser.image.png = users[x].image.png;// || users[0].image.png;
             currentUser.image.webp = users[x].image.webp;// || users[0].image.webp;
             comments = get.comments;
-            localStorage.setItem('data', JSON.stringify(get));
-            getNew = JSON.parse(localStorage.getItem('data'));
+            if (typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                alert('set newData');
+                localStorage.setItem('data', JSON.stringify(get));
+                getNew = JSON.parse(localStorage.getItem('data'));
+              } else {
+                 alert('Sorry! No Web Storage support..');
+              }
+              init();
         }
     
    
