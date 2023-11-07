@@ -441,7 +441,7 @@ cancel.addEventListener('click', () => {
         modal.classList.remove('show');
         if (typeof(Storage) !== "undefined") {
             // Code for localStorage/sessionStorage.
-            alert('set commId and userId');
+            //alert('set commId and userId');
             sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
             //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
             sessionStorage.setItem('userId', JSON.stringify(tor));
@@ -485,7 +485,7 @@ delet.addEventListener('click', () => {
    window.addEventListener('load', (e) => {
     if (typeof(Storage) !== "undefined") {
         // Code for localStorage/sessionStorage.
-        alert('get commId and userId');
+        //alert('get commId and userId');
         commId = JSON.parse(sessionStorage.getItem('commentId'));
         flag = JSON.parse(sessionStorage.getItem('flag'));
         //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
@@ -574,7 +574,7 @@ function init() {
       } else {
          alert('Sorry! No Web Storage support..');
       }
-    if(localStorage.getItem('data') || sessionStorage.getItem('userId')) {
+    if(localStorage.getItem('data')) {
         alert('flag');
         if(getNew) {
             while(comm.firstChild) {
@@ -633,7 +633,7 @@ for(let i=0; i < users.length; i++) {
                 //let ownerName = owner[getIdx].getAttribute('alt');
                 if (typeof(Storage) !== "undefined") {
                     // Code for localStorage/sessionStorage.
-                    alert('set and get getUserId..');
+                    //alert('set and get getUserId..');
                     sessionStorage.setItem('userId', JSON.stringify(getIdx));
                     getUserId = JSON.parse(sessionStorage.getItem('userId'));
                   } else {
@@ -657,13 +657,12 @@ for(let i=0; i < users.length; i++) {
             comments = get.comments;
             if (typeof(Storage) !== "undefined") {
                 // Code for localStorage/sessionStorage.
-                alert('set newData');
+                //alert('set newData');
                 localStorage.setItem('data', JSON.stringify(get));
                 getNew = JSON.parse(localStorage.getItem('data'));
               } else {
                  alert('Sorry! No Web Storage support..');
               }
-              init();
         }
     
    
