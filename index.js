@@ -569,13 +569,13 @@ delet.addEventListener('click', () => {
 function init() {
     if (typeof(Storage) !== "undefined") {
         // Code for localStorage/sessionStorage.
-        alert('get old data');
+        //alert('get old data');
         getOld = JSON.parse(localStorage.getItem('data'));
       } else {
          alert('Sorry! No Web Storage support..');
       }
     if(localStorage.getItem('data')) {
-        alert('flag');
+        //alert('flag');
         if(getNew) {
             while(comm.firstChild) {
                 comm.removeChild(comm.firstChild);
@@ -590,7 +590,6 @@ function init() {
         currentUser = get.currentUser;       
         exec();
         go();
-        setNewData();
         setTimeout(commentVote, 50);
         setTimeout(replyVote, 50);
     }
@@ -642,7 +641,7 @@ for(let i=0; i < users.length; i++) {
                   }
         
                 setNewData();                 
-                init();     
+                
                 
                 
             });  
@@ -664,6 +663,8 @@ for(let i=0; i < users.length; i++) {
               } else {
                  alert('Sorry! No Web Storage support..');
               }
+              
+            init();
         }
     
    
