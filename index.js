@@ -14,7 +14,7 @@ let genId, genIds, delet, getOwnerName, getUserId;
 let commId, getIdx;
 let owner = document.querySelectorAll('.owner');
 let flag = false;
-let delCont, delComm, delWrap, delGroup, tor, childrens, answ;
+let delCont, delComm, delWrap, delGroup, tor, childrens, answ, test;
 
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
@@ -418,13 +418,13 @@ let modal = document.getElementById("myModal");
 // When the user clicks the button, open the modal 
   modal.classList.add('show');
   
-  users.forEach((item, i) => {
+  users.forEach((item) => {
     if(item.username == rost) {
         tor = item.id;
     }
     
   })
-console.log(tor)
+//console.log(tor)
   
 // When the user clicks anywhere outside of the modal, close it
 /*window.onclick = function(event) {
@@ -445,6 +445,7 @@ cancel.addEventListener('click', () => {
             sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
             //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
             sessionStorage.setItem('userId', JSON.stringify(tor));
+            //sessionStorage.setItem('test', JSON.stringify('Hey'));
           } else {
              alert('Sorry! No Web Storage support..');
           }
@@ -479,75 +480,76 @@ delet.addEventListener('click', () => {
         }
             
         })
-    })
-    
-
-   window.addEventListener('load', (e) => {
-    if (typeof(Storage) !== "undefined") {
-        // Code for localStorage/sessionStorage.
-        //alert('get commId and userId');
-        commId = JSON.parse(sessionStorage.getItem('commentId'));
-        flag = JSON.parse(sessionStorage.getItem('flag'));
-        //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
-        //getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
-        getUserId = JSON.parse(sessionStorage.getItem('userId'));
-    } else {
-         alert('Sorry! No Web Storage support..');
-    }
-        if(e.target) {
-            //console.log(e);
-            myCancelation(getUserId);
-            myDeletion(flag);
-            setNewData();
-            //sessionStorage.removeItem('commentId');
-            sessionStorage.removeItem('flag');
-            //sessionStorage.removeItem('wrapId');
-            //sessionStorage.removeItem('ownerName');
-            //sessionStorage.removeItem('userId');
-            //localStorage.clear();
-        }
-        //alert('reload');
-        //console.log(getUserId);
-    })
-
-    
         
-       function myCancelation(getUserId) {
-            //console.log(getUserId);
-            x = getUserId;
-            //getIdx = commId;
-            //alert('myCancelation');
-            /*let parent = document.getElementById(commId);
-            if(parent != null) {
-                childrens = parent.children[0].children[1].children[0].textContent;
-            }*/
-            
-            //owner[0].classList.add('userstyle');
-           //if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
-                //console.log(x);
-                if(x == null || x  == undefined || x == 0) {
-                    x = 0;
-                    owner[x].classList.add('userstyle');
-                }
-                if(x > 0) {
-                    owner[x].classList.add('userstyle');
-                    owner[0].classList.remove('userstyle');
-                }
-               
-            //}
-            
-            setNewData();
-            init();
-              
-            
-        }
-        
-        function myDeletion(flag) {
-            //console.log(flag);
-            if(flag == true) {
-                alert('hey');
+        window.addEventListener('load', (e) => {
+            if (typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                //alert('get commId and userId');
+                commId = JSON.parse(sessionStorage.getItem('commentId'));
+                flag = JSON.parse(sessionStorage.getItem('flag'));
+                //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
+                //getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
+                getUserId = JSON.parse(sessionStorage.getItem('userId'));
+                //test = JSON.parse(sessionStorage.getItem('test'));
+            } else {
+                 alert('Sorry! No Web Storage support..');
             }
-        }
+                if(e.target) {
+                    //console.log(e);
+                    myCancelation(getUserId);
+                    myDeletion(flag);
+                    setNewData();
+                    //sessionStorage.removeItem('commentId');
+                    sessionStorage.removeItem('flag');
+                    //sessionStorage.removeItem('wrapId');
+                    //sessionStorage.removeItem('ownerName');
+                    //sessionStorage.removeItem('userId');
+                    //localStorage.clear();
+                }
+                //alert('reload');
+                //console.log(getUserId);
+            })
+        
+            function myCancelation(getUserId) {
+                //console.log(getUserId);
+                //alert(test);
+                x = getUserId;
+                //getIdx = commId;
+                //alert('myCancelation');
+                /*let parent = document.getElementById(commId);
+                if(parent != null) {
+                    childrens = parent.children[0].children[1].children[0].textContent;
+                }*/
+                
+                //owner[0].classList.add('userstyle');
+               //if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
+                    //console.log(x);
+                    if(x == null || x  == undefined || x == 0) {
+                        x = 0;
+                        owner[x].classList.add('userstyle');
+                    }
+                    if(x > 0) {
+                        owner[x].classList.add('userstyle');
+                        owner[0].classList.remove('userstyle');
+                    }
+                   
+                //}
+                
+                setNewData();
+                //init();
+                  
+                
+            }
+            
+            function myDeletion(flag) {
+                //console.log(flag);
+                if(flag == true) {
+                    alert('hey');
+                }
+            }
+        
+    })
+    
         
      
         
@@ -628,7 +630,7 @@ for(let i=0; i < users.length; i++) {
                 //console.log(getIdx);
                 //console.log(getUserId);
                 x = getIdx;
-                console.log(x);
+                //console.log(x);
                 this.classList.add('userstyle');
                 //let ownerName = owner[getIdx].getAttribute('alt');
                 if (typeof(Storage) !== "undefined") {
