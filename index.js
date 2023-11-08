@@ -498,7 +498,7 @@ delet.addEventListener('click', () => {
                     //console.log(e);
                     myCancelation(getUserId);
                     myDeletion(flag);
-                    setNewData();
+                    //setNewData();
                     //sessionStorage.removeItem('commentId');
                     sessionStorage.removeItem('flag');
                     //sessionStorage.removeItem('wrapId');
