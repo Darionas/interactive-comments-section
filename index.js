@@ -377,43 +377,6 @@ function hen() {
     })
 
 }
-
-
-//----------------------------------------------------------
-    //Main reply construct with optional owner
-           
-        //owner[0].classList.add('userstyle'); 
-        
-        //click one of iterated value, and on the same event remove class from anothers iterated values
-        //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
-        owner.forEach(function(i) {
-            i.addEventListener('click', function() {
-                for(let i of owner) {
-                    i.classList.remove('userstyle');  
-                }
-                       
-                getIdx = this.parentNode.getAttribute("data-Id");
-                //console.log(getIdx);
-                //console.log(getUserId);
-                x = getIdx;
-                //console.log(x);
-                this.classList.add('userstyle');
-                //let ownerName = owner[getIdx].getAttribute('alt');
-                if (typeof(Storage) !== "undefined") {
-                    // Code for localStorage/sessionStorage.
-                    //alert('set and get getUserId..');
-                    sessionStorage.setItem('userId', JSON.stringify(getIdx));
-                    getUserId = JSON.parse(sessionStorage.getItem('userId'));
-                  } else {
-                     alert('Sorry! No Web Storage support..');
-                  }
-        
-                setNewData();                 
-                
-                
-                
-            });  
-        });
   
 
 //delete owner comment
@@ -648,7 +611,44 @@ for(let i=0; i < users.length; i++) {
     
 }
 */
-      
+
+
+//----------------------------------------------------------
+    //Main reply construct with optional owner
+           
+        //owner[0].classList.add('userstyle'); 
+        
+        //click one of iterated value, and on the same event remove class from anothers iterated values
+        //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
+        owner.forEach(function(i) {
+            i.addEventListener('click', function() {
+                for(let i of owner) {
+                    i.classList.remove('userstyle');  
+                }
+                       
+                getIdx = this.parentNode.getAttribute("data-Id");
+                //console.log(getIdx);
+                //console.log(getUserId);
+                x = getIdx;
+                //console.log(x);
+                this.classList.add('userstyle');
+                //let ownerName = owner[getIdx].getAttribute('alt');
+                if (typeof(Storage) !== "undefined") {
+                    // Code for localStorage/sessionStorage.
+                    //alert('set and get getUserId..');
+                    sessionStorage.setItem('userId', JSON.stringify(getIdx));
+                    getUserId = JSON.parse(sessionStorage.getItem('userId'));
+                  } else {
+                     alert('Sorry! No Web Storage support..');
+                  }
+        
+                setNewData();                 
+                
+                
+                
+            });  
+        });
+        
         function setNewData() {
             //console.log(x);
             //console.log(commId);

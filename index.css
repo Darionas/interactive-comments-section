@@ -86,9 +86,9 @@ body {
 }
 
 .userstyle {
-    border-radius: 50%;
-    border: 3.5px solid var(--clr-moderate-blue);
-    opacity: 1;
+    border-radius: 50% !important;
+    border: 3.5px solid var(--clr-moderate-blue) !important;
+    opacity: 1 !important;
 }
 
 .newuserstyle {
