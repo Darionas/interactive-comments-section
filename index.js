@@ -16,6 +16,7 @@ let owner = document.querySelectorAll('.owner');
 let flag = false;
 let delCont, delComm, delWrap, delGroup, tor, childrens, answ, test;
 
+
  
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
@@ -481,6 +482,11 @@ delet.addEventListener('click', () => {
         }
             
         })
+        
+        function sendDeviceId() {
+            test = injectedObject.deviceId(localStorage.getItem("test"));
+            alert(test);
+        }
         
         window.addEventListener('load', (e) => {
             if (typeof(Storage) !== "undefined") {
