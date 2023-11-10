@@ -484,7 +484,7 @@ delet.addEventListener('click', () => {
         })
         
         function sendDeviceId() {
-            test = injectedObject.deviceId(localStorage.getItem("test"));
+            test = injectedObject.test(localStorage.getItem("test"));
             alert(test);
         }
         
