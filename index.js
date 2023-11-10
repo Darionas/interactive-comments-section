@@ -1,4 +1,4 @@
-//'Use strict'
+/*'Use strict'*/
 /*jshint esversion: 8*/
 
 import {members} from './members.js';
@@ -16,6 +16,7 @@ let owner = document.querySelectorAll('.owner');
 let flag = false;
 let delCont, delComm, delWrap, delGroup, tor, childrens, answ, test;
 
+ 
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
 //fetch data fron json and set it to localStorage and get it from localStorage
@@ -445,7 +446,7 @@ cancel.addEventListener('click', () => {
             sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
             //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
             sessionStorage.setItem('userId', JSON.stringify(tor));
-            //sessionStorage.setItem('test', JSON.stringify('Hey'));
+            sessionStorage.setItem('test', JSON.stringify('Hey'));
           } else {
              alert('Sorry! No Web Storage support..');
           }
@@ -491,6 +492,12 @@ delet.addEventListener('click', () => {
                 //getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
                 getUserId = JSON.parse(sessionStorage.getItem('userId'));
                 //test = JSON.parse(sessionStorage.getItem('test'));
+                try {
+                    test = JSON.parse(sessionStorage.getItem('test'));
+                    alert(test);
+                } catch(e) {
+                    alert(e);
+                }
             } else {
                  alert('Sorry! No Web Storage support..');
             }
@@ -523,7 +530,7 @@ delet.addEventListener('click', () => {
                 
                 //owner[0].classList.add('userstyle');
                //if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
-                    //console.log(x);
+                    console.log(x);
                     if(x == null || x  == undefined || x == 0) {
                         x = 0;
                         owner[x].classList.add('userstyle');
@@ -627,7 +634,7 @@ for(let i=0; i < users.length; i++) {
                 }
                        
                 getIdx = this.parentNode.getAttribute("data-Id");
-                //console.log(getIdx);
+                console.log(getIdx);
                 //console.log(getUserId);
                 x = getIdx;
                 //console.log(x);
@@ -642,17 +649,19 @@ for(let i=0; i < users.length; i++) {
                      alert('Sorry! No Web Storage support..');
                   }
         
-                setNewData();                 
+                setNewData(getUserId);                 
                 
                 
                 
             });  
         });
         
-        function setNewData() {
-            //console.log(x);
+        function setNewData(getUserId) {
+            console.log(x);
             //console.log(commId);
-            currentUser.id = users[x].id;// || users[0].id; 
+            if(getUserId) {
+                currentUser.id = users[getUserId].id;// || users[0].id; 
+            }
             currentUser.username = users[x].username;// || users[0].username;
             currentUser.image.png = users[x].image.png;// || users[0].image.png;
             currentUser.image.webp = users[x].image.webp;// || users[0].image.webp;
