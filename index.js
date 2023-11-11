@@ -447,7 +447,7 @@ cancel.addEventListener('click', () => {
             sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
             //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
             sessionStorage.setItem('userId', JSON.stringify(tor));
-            sessionStorage.setItem('test', JSON.stringify('Hey'));
+            //sessionStorage.setItem('test', JSON.stringify('Hey'));
           } else {
              alert('Sorry! No Web Storage support..');
           }
@@ -483,10 +483,7 @@ delet.addEventListener('click', () => {
             
         })
         
-        function sendDeviceId() {
-            test = injectedObject.test(localStorage.getItem("test"));
-            alert(test);
-        }
+    
         
         window.addEventListener('load', (e) => {
             if (typeof(Storage) !== "undefined") {
@@ -497,13 +494,8 @@ delet.addEventListener('click', () => {
                 //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
                 //getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
                 getUserId = JSON.parse(sessionStorage.getItem('userId'));
+                alert(commId + '&' + getUserId);
                 //test = JSON.parse(sessionStorage.getItem('test'));
-                try {
-                    test = JSON.parse(sessionStorage.getItem('test'));
-                    alert(test);
-                } catch(e) {
-                    alert(e);
-                }
             } else {
                  alert('Sorry! No Web Storage support..');
             }
