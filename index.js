@@ -10,7 +10,7 @@ members();
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply,
 comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
-let genId, genIds, delet, getOwnerName, getUserId;
+let genId, genIds, delet, getOwnerName, getUserId, getTest;
 let commId, getIdx;
 let owner = document.querySelectorAll('.owner');
 let flag = false;
@@ -417,8 +417,11 @@ function hen() {
 // Get the modal
 let modal = document.getElementById("myModal");
 
-// When the user clicks the button, open the modal 
-  modal.classList.add('show');
+// When the user clicks the button, open the modal
+$(document).ready(function() {
+    $('.modal').show();
+})
+  //modal.classList.add('show');
   
   users.forEach((item) => {
     if(item.username == rost) {
@@ -439,7 +442,15 @@ let modal = document.getElementById("myModal");
 
 //https://stackoverflow.com/questions/41904975/refresh-page-and-run-function-after-javascript
 const cancel = document.getElementById('cancel');
-cancel.addEventListener('click', () => {
+$(document).ready(function() {
+    $('#cancel').click(function() {
+        //alert('hey');
+    $('.modal').hide();
+    let txt = 'You are welcome!';
+    sessionStorage.setItem('test', JSON.stringify(txt));
+        
+    location.reload(true);
+/*cancel.addEventListener('click', () => {
         modal.classList.remove('show');
         if (typeof(Storage) !== "undefined") {
             // Code for localStorage/sessionStorage.
@@ -456,9 +467,11 @@ cancel.addEventListener('click', () => {
         location.reload(true);
         
         //alert('cancel');
+})*/
+})
 })
 
-
+/*
 delet = document.getElementById('deletion');
 delet.addEventListener('click', () => {
     modal.classList.remove('show');
@@ -473,7 +486,7 @@ delet.addEventListener('click', () => {
         location.reload(true);
         
     
-})
+})*/
 
            /* } else {
                 //delWrap.remove();
@@ -483,8 +496,15 @@ delet.addEventListener('click', () => {
             
         })
         
-    
         
+        $(window).on('load', function(e) {
+            getTest = JSON.parse(sessionStorage.getItem('test'));
+            if(e.target) {
+                myCancelation(getTest);
+            }
+        })
+    
+        /*
         window.addEventListener('load', (e) => {
             if (typeof(Storage) !== "undefined") {
                 // Code for localStorage/sessionStorage.
@@ -494,8 +514,8 @@ delet.addEventListener('click', () => {
                 //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
                 //getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
                 getUserId = JSON.parse(sessionStorage.getItem('userId'));
-                alert(commId + '&' + getUserId);
-                //test = JSON.parse(sessionStorage.getItem('test'));
+                //alert(commId + '&' + getUserId);
+                test = JSON.parse(sessionStorage.getItem('test'));
             } else {
                  alert('Sorry! No Web Storage support..');
             }
@@ -513,11 +533,11 @@ delet.addEventListener('click', () => {
                 }
                 //alert('reload');
                 //console.log(getUserId);
-            })
+            })*/
         
-            function myCancelation(getUserId) {
+            function myCancelation(getTest) {
                 //console.log(getUserId);
-                //alert(test);
+                alert(getTest);
                 x = getUserId;
                 //getIdx = commId;
                 //alert('myCancelation');
