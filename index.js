@@ -444,9 +444,9 @@ cancel.addEventListener('click', () => {
         if (typeof(Storage) !== "undefined") {
             // Code for localStorage/sessionStorage.
             //alert('set commId and userId');
-            sessionStorage.setItem('commentId', JSON.stringify(delComm.id));
+            localStorage.setItem('commentId', JSON.stringify(delComm.id));
             //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
-            sessionStorage.setItem('userId', JSON.stringify(tor));
+            localStorage.setItem('userId', JSON.stringify(tor));
             //sessionStorage.setItem('test', JSON.stringify('Hey'));
           } else {
              alert('Sorry! No Web Storage support..');
@@ -465,7 +465,7 @@ delet.addEventListener('click', () => {
     
     if (typeof(Storage) !== "undefined") {
         // Code for localStorage/sessionStorage.
-        sessionStorage.setItem('flag', JSON.stringify(true));
+        localStorage.setItem('flag', JSON.stringify(true));
       } else {
          alert('Sorry! No Web Storage support..');
       }
@@ -489,11 +489,11 @@ delet.addEventListener('click', () => {
             if (typeof(Storage) !== "undefined") {
                 // Code for localStorage/sessionStorage.
                 //alert('get commId and userId');
-                commId = JSON.parse(sessionStorage.getItem('commentId'));
-                flag = JSON.parse(sessionStorage.getItem('flag'));
+                commId = JSON.parse(localStorage.getItem('commentId'));
+                flag = JSON.parse(localStorage.getItem('flag'));
                 //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
                 //getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
-                getUserId = JSON.parse(sessionStorage.getItem('userId'));
+                getUserId = JSON.parse(localStorage.getItem('userId'));
                 //alert(commId + '&' + getUserId);
                 //test = JSON.parse(sessionStorage.getItem('test'));
             } else {
@@ -505,7 +505,7 @@ delet.addEventListener('click', () => {
                     myDeletion(flag);
                     //setNewData();
                     //sessionStorage.removeItem('commentId');
-                    sessionStorage.removeItem('flag');
+                    localStorage.removeItem('flag');
                     //sessionStorage.removeItem('wrapId');
                     //sessionStorage.removeItem('ownerName');
                     //sessionStorage.removeItem('userId');
@@ -641,8 +641,8 @@ for(let i=0; i < users.length; i++) {
                 if (typeof(Storage) !== "undefined") {
                     // Code for localStorage/sessionStorage.
                     //alert('set and get getUserId..');
-                    sessionStorage.setItem('userId', JSON.stringify(getIdx));
-                    getUserId = JSON.parse(sessionStorage.getItem('userId'));
+                    localStorage.setItem('userId', JSON.stringify(getIdx));
+                    getUserId = JSON.parse(localStorage.getItem('userId'));
                   } else {
                      alert('Sorry! No Web Storage support..');
                   }
