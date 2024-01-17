@@ -6,7 +6,6 @@ import {users} from './users.js';
 members();
 
 
-
 let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply,
 comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
 let x = 0;
@@ -27,6 +26,7 @@ fetch('data.json')
     .then((data) => {
         if(typeof(Storage) !== 'undefined') {
             //console.log(data);
+            alert('Local storage is supported on this device')
             localStorage.setItem('data', JSON.stringify(data));
             init();
         } else {
@@ -489,6 +489,8 @@ delet.addEventListener('click', () => {
             if (typeof(Storage) !== "undefined") {
                 // Code for localStorage/sessionStorage.
                 //alert('get commId and userId');
+                getNew = JSON.parse(localStorage.getItem('data'));
+                console.log(getNew);
                 commId = JSON.parse(localStorage.getItem('commentId'));
                 flag = JSON.parse(localStorage.getItem('flag'));
                 //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
@@ -528,7 +530,7 @@ delet.addEventListener('click', () => {
                 
                 //owner[0].classList.add('userstyle');
                //if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
-                    console.log(x);
+                    //console.log(x);
                     if(x == null || x  == undefined || x == 0) {
                         x = 0;
                         owner[x].classList.add('userstyle');
@@ -574,6 +576,7 @@ delet.addEventListener('click', () => {
         
  
 function init() {
+    alert(getUserId);
     if (typeof(Storage) !== "undefined") {
         // Code for localStorage/sessionStorage.
         //alert('get old data');
@@ -594,7 +597,10 @@ function init() {
 
 
         comments = get.comments;
-        currentUser = get.currentUser;       
+        if(getUserId) {
+            currentUser.id = getUserId;
+        }
+        currentUser = get.currentUser;
         exec();
         go();
         setTimeout(commentVote, 50);
@@ -632,7 +638,7 @@ for(let i=0; i < users.length; i++) {
                 }
                        
                 getIdx = this.parentNode.getAttribute("data-Id");
-                console.log(getIdx);
+                //console.log(getIdx);
                 //console.log(getUserId);
                 x = getIdx;
                 //console.log(x);
@@ -641,8 +647,13 @@ for(let i=0; i < users.length; i++) {
                 if (typeof(Storage) !== "undefined") {
                     // Code for localStorage/sessionStorage.
                     //alert('set and get getUserId..');
+                    currentUser.id = getIdx;
+                   
                     localStorage.setItem('userId', JSON.stringify(getIdx));
                     getUserId = JSON.parse(localStorage.getItem('userId'));
+                    console.log(currentUser.id);
+                    localStorage.setItem('data', JSON.stringify(get));
+                    
                   } else {
                      alert('Sorry! No Web Storage support..');
                   }
@@ -656,9 +667,9 @@ for(let i=0; i < users.length; i++) {
         
         function setNewData(getUserId) {
             console.log(x);
-            //console.log(commId);
+            console.log(getUserId);
             if(getUserId) {
-                currentUser.id = users[getUserId].id;// || users[0].id; 
+                currentUser.id = getUserId;// || users[0].id; 
             }
             currentUser.username = users[x].username;// || users[0].username;
             currentUser.image.png = users[x].image.png;// || users[0].image.png;
