@@ -6,41 +6,92 @@ import {users} from './users.js';
 members();
 
 
-let get, getOld, getNew, get_update, comments, comm, ownerImage, comment_repl, reply, currentUser, comment_container, comment_container_reply,
-comment__you, comment__editor, reply__you, reply__editor, currentUser_update;
+let comment, get, getOld, getNew, get_update, comm, ownerImage, comment_repl, reply, comment__noReplay, comment__reply,
+comment__you, comment__editor, reply__you, reply__editor, currentUser_update, reply__container;
 let x = 0;
+let m = 10;
 let genId, genIds, delet, getOwnerName, getUserId;
-let commId, getIdx;
+let commId, getIdx, currentUser, comments, data, comms, replyContainer, mainRespond, ownerContainer;
 let owner = document.querySelectorAll('.owner');
 let flag = false;
 let delCont, delComm, delWrap, delGroup, tor, childrens, answ, test;
 
 
- 
+
 
 //https://stackoverflow.com/questions/74522728/how-to-use-data-json-in-browsers-local-storage-to-load-the-page-with-javascript
-//fetch data fron json and set it to localStorage and get it from localStorage
-
+//fetch data from json and set it to local storage
 fetch('data.json')
-    .then((response) => response.json())
-    .then((data) => {
+    .then(function(response) {
+        //console.log(response.json());
+        return response.json();
+    })
+    .then(function(data) {
         if(typeof(Storage) !== 'undefined') {
             //console.log(data);
-            alert('Local storage is supported on this device')
             localStorage.setItem('data', JSON.stringify(data));
-            init();
+            getData();
+            owner[0].classList.add('userstyle');
+            exec();
+            
+            //datos = JSON.parse(localStorage.getItem('data'));
+            //objDestr();
         } else {
             alert('Sorry! No Web Storage support.')
         }
     })
+    .catch(function(err) {console.log(err.message)});
 
-//dynamically populate data to html  
+//get/parse data from local storage
+function getData() {
+    data = JSON.parse(localStorage.getItem('data'));
+    currentUser = data.currentUser;
+    comments = data.comments;
+    //console.log(currentUser);
+}
+
+
+//navigate between users
+for(let i = 0; i < owner.length; i++) {
+    owner[i].addEventListener('click', function() { 
+        let checkClass = owner[i].classList.contains('userstyle');
+        if(checkClass) {
+            console.log(owner[i].parentNode);
+            currentUser.username = owner[i].classList[0];
+            currentUser.id = users[i].id;
+            currentUser.image.png = owner[i].parentNode.childNodes[3].srcset; //get siblings innerHTML
+            currentUser.image.webp = owner[i].parentNode.childNodes[1].srcset; //get siblings innerHTML
+           
+            localStorage.setItem('data', JSON.stringify(data));
+            comms.innerHTML = '';
+            exec();
+        }   
+    })
+}
+
+
 function exec() {
+    //owner[0].classList.add('userstyle');
+    /* data = JSON.parse(localStorage.getItem('data'));
+    currentUser = data.currentUser;
+    comments = data.comments;
+    console.log(currentUser);
+    console.log(comments);
+    console.log(data); */
+    getData();
+    //console.log(data);
+    //console.log(currentUser);
+    console.log(comments);
+    console.log(currentUser);
+    
     let n = 0;
     comments.forEach((item) => {
         //console.log(item.user.username);
         //console.log(currentUser.username);
-        if(item.user.username === currentUser.username) {
+        //console.log(Object.values(item.user).includes(currentUser.username));
+        if(Object.values(item.user).includes(currentUser.username)) {
+           //console.log(item.user.username);
+            //console.log(currentUser.username);
            comment__you = `<span class="comment_header-owner">you</span>`;
            comment__editor = `<div class="comment_editor">
            <div class="comment_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
@@ -52,13 +103,12 @@ function exec() {
             <div class="comment_reply c_reply-single"><img class="replay" src="images/icon-reply.svg" alt="Replay" />Reply</div>
         </div>`;
         }
-              
-        
+            
         //Comment without reply construct
-        if(item.replies.length === 0) {
+       /*  if(item.replies.length === 0) {
             genId = Math.floor(Math.random() * 1001);
             //console.log(name);
-            comment_container =
+            comment__noReplay =
                 `<div class='wrapper__comment' id='${item.id}${genId}'>
                 <div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
                     <div class="comment_header">
@@ -84,17 +134,13 @@ function exec() {
                     <div>
                 </div>`.trim();
               
-            document.querySelector('.main_comments-replies-section').innerHTML += comment_container;
+            document.querySelector('.main_comments-replies-section').innerHTML += comment__noReplay;
             
-        }
+        } */
 
         //Comment with at least one reply construct
-        if(item.replies.length > 0) {
-            //console.log(item.replies);  
-            comment_container_reply = 
-                `<div class='group'>
-                <div class='wrapper__comment' id='${item.id}${genId}'>
-                <div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
+            comment = 
+                `<div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
                     <div class="comment_header">
                         <picture class="comment_header-picture">
                             <source srcset="${item.user.image.webp}" type="image/webp">
@@ -115,25 +161,32 @@ function exec() {
                         <span class="comment_vote-minus"><svg width="11" height="7" xmlns="http://www.w3.org/2000/svg"><path class="minus" d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/></svg></span>
                     </div>
                     ${comment__editor}
-                </div>
-                </div>
                 </div>`.trim();   
-           
-            comm = document.querySelector('.main_comments-replies-section');       
+          
+            //comm = document.querySelector('.main__comments-replies-section');       
             //comment_repl = document.createElement('div');
             //comment_repl.classList.add('main_comment-reply-group');
             //comm.appendChild(comment_repl);
-            document.querySelector('.main_comments-replies-section').innerHTML += comment_container_reply; 
+            comms = document.querySelector('.main__comments-section');
+            //comms.insertAdjacentHTML('afterbegin', comment);
+            //comms.insertAdjacentHTML('afterend', comment);
+            //comms.insertAdjacentHTML('beforebegin', comment);
             
-            const lol = item.id + `${genId}`;
+            comms.insertAdjacentHTML('beforeend', comment);
+            
+            //const lol = item.id + `${genId}`;
             //console.log(lol);
-            const lor = document.getElementById(lol);
+            //const lor = document.getElementById(lol);
             //console.log(lor.parentNode);
             
+                       
+            //console.log(item.replies.length);
+            if(item.replies.length > 0) {
             n++;
-            reply = comments[n].replies;
+            reply = item.replies; //comments[n].replies;
             //console.log(reply);
             reply.forEach((item) => {
+                //console.log(item);
                 genIds = Math.floor(Math.random() * 1001);
                 //console.log(genIds);
                 if(item.user.username === currentUser.username) {
@@ -149,10 +202,10 @@ function exec() {
                  </div>`;
                  }
 
-                const reply_container = document.createElement('div');
-                reply_container.innerHTML =
-                    `<div class='wrapper__reply' id='${item.id}${genIds}'>
-                        <div class="reply" id='${item.id}' style='margin: 0 0 1rem 0;'>
+                //const reply_container = document.createElement('div');
+                reply__container =
+                    `<div class='rep'>
+                    <div class="reply" id='${item.id}' style='margin: 0 0 1rem 0;'>
                             <div class="reply_header">
                                 <picture class="reply_header-picture">
                                     <source srcset="${item.user.image.webp}" type="image/webp">
@@ -174,545 +227,134 @@ function exec() {
                             </div>
                             ${reply__editor}
                         </div>
-                    </div>`.trim();
+                        </div>`.trim();
                
-                lor.after(reply_container);
+                //lor.after(reply_container);
                 
-            })
-        }
+                    //let comm = document.querySelector('.main__replies-section');
+                    //comm.innerHTML += reply__container;
+                    //console.log(comm[i]);
+                    comms.insertAdjacentHTML('beforeend', reply__container);
+                    
         
+                //comm.insertAdjacentHTML('afterend', reply__container);
+                //comm.insertAdjacentHTML('afterbegin', reply__container);
+                //comm.insertAdjacentHTML('beforebegin', reply__container);
+                //comm.insertAdjacentHTML('beforeend', reply__container);
+            
+    //new reply (construct) to reply
+    let replyReply = document.querySelectorAll('.reply_editor');
+    
+    replyReply.forEach((item) => {
+       item.onclick = function (event) {
+           /* let parentId = event.target.parentNode.parentNode.id;
+           console.log(parentId); */
+           
+        newReplyConstruct(event);  
+       
+        /* let parent = document.getElementById(parentId).parentNode;//.parentNode;
+       console.log(parent);
+       parent.insertAdjacentHTML('afterend', replyContainer); */
+       
+       }
+       
+    })
+            
+            
+            })
+        
+           }
+           
+           
+           
+           
+    //new reply (construct) to comment
+    let commentReply = document.querySelectorAll('.comment_editor');
+    
+    commentReply.forEach((item) => {
+       item.onclick = function (event) {
+        newReplyConstruct(event);    
+       
+       }
+       
+    })
       
-    });
-
-           
-//Insert empty owner reply construct after single comment
-hun();
-
-function hun() {
-let wow = document.querySelectorAll('.comment_editor');
-    wow.forEach((item) => {
-    
-    item.addEventListener('click', () => {
-        if(item.childElementCount == 1){
-        
-        const getId = item.parentNode.id;
-
-        const newreply = document.createElement('div');
-        newreply.classList.add('new');
-        
-     
-            newreply.innerHTML = 
-                `<div class="reply_owner">
-                    <picture class="picture_owner">
-                        <source srcset="${currentUser.image.webp}" type="image/webp">
-                        <source srcset="${currentUser.image.png}" type="image/jpeg"> 
-                        <img class="owner-img" src="${currentUser.image.png}" alt="${currentUser.username}">
-                    </picture>
-                    <textarea class="reply_owner-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
-                    <button class="reply_btn">reply</button>
-                </div>`;
-               
-                const res = document.getElementById(getId);
-                //console.log(res);
-
-                res.after(newreply);
-            
-                
-                //https://stackoverflow.com/questions/5465953/how-can-i-delete-the-n-th-element-in-a-list-with-javascsript
-               const num = document.getElementById(getId).parentNode.childElementCount;
-               //console.log(num);
-
-                if(num > 2) {
-                    let rip = document.getElementById(getId).parentNode;
-                    //console.log(rip);
-                    let rof_1 = rip.childNodes[2];
-                    let rof_2 = rip.childNodes[3];
-
-                    rof_1.parentNode.removeChild( rof_1 );
-                    rof_2.parentNode.removeChild( rof_2 );
-                            
-                }
-                                 
-                       
-    } 
-
-})
-})
-
-}
-
-//Insert empty owner reply construct after subcomment
-//https://stackoverflow.com/questions/65653227/how-to-get-the-index-of-an-element-in-a-html-collection-when-that-element-is-cli#answer-65653407
-execute();
-function execute() {
-    let repl = document.querySelectorAll('.reply_editor');
-    repl.forEach((item) => {
-        
-        item.addEventListener('click', ()=>{
-          if(item.childElementCount == 1) { 
-           
-            
-            const getIds = item.parentNode.id;
-                
-                const newreplys = document.createElement('div');
-                newreplys.classList.add('newa');
-                
-             
-                    newreplys.innerHTML = 
-                        `<div class="reply_owner">
-                            <picture class="picture_owner">
-                                <source srcset="${currentUser.image.webp}" type="image/webp">
-                                <source srcset="${currentUser.image.png}" type="image/jpeg"> 
-                                <img class="owner-img" src="${currentUser.image.png}" alt="${currentUser.username}">
-                            </picture>
-                            <textarea class="reply_owner-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
-                            <button class="reply_btn">reply</button>
-                        </div>`;
-                       
-                        const ress = document.getElementById(getIds);
-                        //console.log(ress);
-                        
-                        ress.after(newreplys);
-                        
-                        
-                      
-                       
-                       const numa = document.getElementById(getIds).parentNode.childElementCount;
-                       //console.log(numa);
-                      
-                       
-                        if(numa > 2) {
-                            let rips = document.getElementById(getIds).parentNode;
-                            //console.log(rips);
-                            let rof_1s = rips.childNodes[2];
-                            let rof_2s = rips.childNodes[3];
-        
-                            rof_1s.parentNode.removeChild( rof_1s );
-                            rof_2s.parentNode.removeChild( rof_2s );
-                                    
-                        }
-                    
-                    }   
-    })
-});
-
-}
-
-//Edit owner comment
-
-han();
-function han() {
-       const edit = document.querySelectorAll('.comment_edit');
-       edit.forEach((item) => {
-        item.addEventListener('click', () => {
-            //https://stackoverflow.com/questions/16302045/finding-child-element-of-parent-with-javascript
-            //console.log(item);
-            //console.log(item.parentNode);
-            const gel = item.parentNode;
-            const gew = gel.parentNode.id;
-            //console.log(gew);
-            const editAble = document.getElementById(gew);
-            const children = editAble.querySelector('.comment_content');
-            //console.log(children);
-            //https://stackoverflow.com/questions/6754275/set-keyboard-focus-to-a-div
-            //Set cursor at end of text for content editable div , text area and input field
-            //https://codepen.io/sinfullycoded/details/oNLBJpm
-            
-            //Place cursor at the end of a content editable div
-            if(children.type !== 'textarea' && children.getAttribute('contenteditable') === 'true') {
-                children.focus()
-                window.getSelection().selectAllChildren(children)
-                window.getSelection().collapseToEnd()
-            } else {
-                // Place cursor at the end of text areas and input elements
-                children.focus()
-                children.select()
-                window.getSelection().collapseToEnd()
-            }
-            //*********************************************************
-            children.style.width = '100%';
-            const update = document.getElementById(gew).querySelector('.comment_update');
-            update.classList.toggle('show');
-           
-            
-    })
-    })
-
-}
-
-
-hen();
-function hen() {
-       const editi = document.querySelectorAll('.reply_edit')
-       editi.forEach((item) => {
-        item.addEventListener('click', () => {
-            //https://stackoverflow.com/questions/16302045/finding-child-element-of-parent-with-javascript
-            //console.log(item);
-            //console.log(item.parentNode);
-            const geli = item.parentNode;
-            const gewi = geli.parentNode.id;
-            //console.log(gew);
-            const editAblei = document.getElementById(gewi);
-            const childreni = editAblei.querySelector('.reply_content');
-            //console.log(childreni);
-            //https://stackoverflow.com/questions/6754275/set-keyboard-focus-to-a-div
-            //Set cursor at end of text for content editable div , text area and input field
-            //https://codepen.io/sinfullycoded/details/oNLBJpm
-            
-            //Place cursor at the end of a content editable div
-            if(childreni.type !== 'textarea' && childreni.getAttribute('contenteditable') === 'true') {
-                childreni.focus()
-                window.getSelection().selectAllChildren(childreni)
-                window.getSelection().collapseToEnd()
-            } else {
-                // Place cursor at the end of text areas and input elements
-                childreni.focus()
-                childreni.select()
-                window.getSelection().collapseToEnd()
-            }
-            //*********************************************************
-            childreni.style.width = '100%';
-            const updates = document.getElementById(gewi).querySelector('.reply_update');
-            updates.classList.toggle('show');
-            
-    })
-    })
-
-}
-  
-
-//delete owner comment
-    const del = document.querySelectorAll('.comment_delete');
-    del.forEach((item) => {
-        item.addEventListener('click', () => {
-            const modale = `<!--The modal-->
-            <div id='myModal' class='modal'>
-                <!--Modal content-->
-                <div class='modal__content'>
-                    <h2 class='deletion__title'>Delete comment</h2>
-                    <p class='deletion__content'>Are you sure you want to delete this comment?
-                    This will remove the comment and can't be undone.</p>
-                    <button id='cancel'>No, cancel</button>
-                    <button id='deletion'>Yes, delete</button>
-                </div>
-            </div>`
-            //console.log(item);
-            delCont = item.parentNode;
-            //console.log(delCont);
-            delComm = delCont.parentNode;
-            //console.log(delComm);
-            let rost = delComm.children[0].children[1].children[0].textContent;
-            delWrap = delComm.parentNode;
-            //console.log(delWrap);
-            //delWrap.remove();
-            delGroup = delWrap.parentNode;
-            //console.log(delGroup);
-            //delGroup.remove();
-            const attr = delGroup.getAttributeNode('class');
-            //console.log(attr.value);
-            if(attr.value == 'group') {
-                //delGroup.remove();
-                const body = document.getElementsByTagName('body')[0].innerHTML += modale;
-
-// Get the modal
-let modal = document.getElementById("myModal");
-
-// When the user clicks the button, open the modal 
-  modal.classList.add('show');
-  
-  users.forEach((item) => {
-    if(item.username == rost) {
-        tor = item.id;
-    }
-    
-  })
-//console.log(tor)
-  
-// When the user clicks anywhere outside of the modal, close it
-/*window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}*/
-
-
-
-//https://stackoverflow.com/questions/41904975/refresh-page-and-run-function-after-javascript
-const cancel = document.getElementById('cancel');
-cancel.addEventListener('click', () => {
-        modal.classList.remove('show');
-        if (typeof(Storage) !== "undefined") {
-            // Code for localStorage/sessionStorage.
-            //alert('set commId and userId');
-            localStorage.setItem('commentId', JSON.stringify(delComm.id));
-            //sessionStorage.setItem('wrapId', JSON.stringify(delWrap.id));
-            localStorage.setItem('userId', JSON.stringify(tor));
-            //sessionStorage.setItem('test', JSON.stringify('Hey'));
-          } else {
-             alert('Sorry! No Web Storage support..');
-          }
-        
-    
-        location.reload(true);
-        
-        //alert('cancel');
-})
-
-
-delet = document.getElementById('deletion');
-delet.addEventListener('click', () => {
-    modal.classList.remove('show');
-    
-    if (typeof(Storage) !== "undefined") {
-        // Code for localStorage/sessionStorage.
-        localStorage.setItem('flag', JSON.stringify(true));
-      } else {
-         alert('Sorry! No Web Storage support..');
-      }
-    
-        location.reload(true);
-        
-    
-})
-
-           /* } else {
-                //delWrap.remove();
-                //delodel();
-            }*/
-        }
-            
-        })
-        
-    
-        
-        window.addEventListener('load', (e) => {
-            if (typeof(Storage) !== "undefined") {
-                // Code for localStorage/sessionStorage.
-                //alert('get commId and userId');
-                getNew = JSON.parse(localStorage.getItem('data'));
-                console.log(getNew);
-                commId = JSON.parse(localStorage.getItem('commentId'));
-                flag = JSON.parse(localStorage.getItem('flag'));
-                //wrapId = JSON.parse(sessionStorage.getItem('wrapId'));
-                //getOwnerName = JSON.parse(sessionStorage.getItem('ownerName'));
-                getUserId = JSON.parse(localStorage.getItem('userId'));
-                //alert(commId + '&' + getUserId);
-                //test = JSON.parse(sessionStorage.getItem('test'));
-            } else {
-                 alert('Sorry! No Web Storage support..');
-            }
-                if(e.target) {
-                    //console.log(e);
-                    myCancelation(getUserId);
-                    myDeletion(flag);
-                    //setNewData();
-                    //sessionStorage.removeItem('commentId');
-                    localStorage.removeItem('flag');
-                    //sessionStorage.removeItem('wrapId');
-                    //sessionStorage.removeItem('ownerName');
-                    //sessionStorage.removeItem('userId');
-                    //localStorage.clear();
-                }
-                //alert('reload');
-                //console.log(getUserId);
-            })
-        
-            function myCancelation(getUserId) {
-                //console.log(getUserId);
-                //alert(test);
-                x = getUserId;
-                //getIdx = commId;
-                //alert('myCancelation');
-                /*let parent = document.getElementById(commId);
-                if(parent != null) {
-                    childrens = parent.children[0].children[1].children[0].textContent;
-                }*/
-                
-                //owner[0].classList.add('userstyle');
-               //if(childrens != 'juliusomo' || getOwnerName != 'juliusomo') {
-                    //console.log(x);
-                    if(x == null || x  == undefined || x == 0) {
-                        x = 0;
-                        owner[x].classList.add('userstyle');
-                    }
-                    if(x > 0) {
-                        owner[x].classList.add('userstyle');
-                        owner[0].classList.remove('userstyle');
-                    }
-                   
-                //}
-                
-                setNewData();
-                //init();
-                  
-                
-            }
-            
-            function myDeletion(flag) {
-                //console.log(flag);
-                if(flag == true) {
-                    alert('hey');
-                }
-            }
-        
-    })
-    
-        
-     
-        
-    const delr = document.querySelectorAll('.reply_delete');
-    delr.forEach((item) => {
-        item.addEventListener('click', () => {
+    //comment editing
+    let del = document.querySelectorAll('.comment_delete');
+    //console.log(del);
+    del.forEach((item, key) => {
+        //console.log(key);
         //console.log(item);
-        /*const repBtn = item.parentNode
-        //console.log(repBtn);
-        const repEdit = repBtn.parentNode;
-        repEdit.remove();*/
-        //delodel();
+        item.onclick = function(event) {
+            console.log(item);
+        }
     })
+           
+    })
+    
+    ownerInteractiveContainer();
+    
+}
+//exec();
+
+
+function  ownerInteractiveContainer() {
+    //owner container
+//if(currentUser.username == item.user.username) {
+//console.log(currentUser.id);
+ownerContainer = 
+`<picture class="main__respond-picture">
+    <source srcset="${currentUser.image.webp}" type="image/webp">
+    <source srcset="${currentUser.image.png}" type="image/jpeg"> 
+    <!--stop animation in inline style-->
+    <img class="${currentUser.username}" src="${currentUser.image.png}" alt="${currentUser.username}" style="visibility: visible; animation-duration: 0s; !important;">
+</picture>
+<textarea class="main__respond-content" name='txtArea' rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+<button id="send">send</button>`.trim();
+//console.log(currentUser.username);
+
+mainRespond = document.querySelector('.main__respond');
+mainRespond.innerHTML = '';
+mainRespond.insertAdjacentHTML('beforeend', ownerContainer);
+
+let send = document.querySelector('#send');
+//console.log(send.parentNode.childNodes[0].id);
+
+ send.addEventListener('click', function() {
+    //alert('Hey');
+    getData();
+    let content = document.querySelector('.main__respond-content').value;
+    let created = '1 min ago';
+    let score = 0;
+    
+    
+    function NewComment(id, content, createdAt, score, user, replies) {
+        this.id = id;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.score = score;
+        this.user = user;
+        this.replies = replies;
+    }
+    
+    let newComment = new NewComment(m++, content, created, score, {image: {png: `${currentUser.image.png}`, webp: `${currentUser.image.webp}`}, username: `${currentUser.username}`}, []);
+    //console.log(newComment.id);
+    document.querySelector('.main__respond-content').value = '';
+    comments.push(newComment);
+    //console.log(comments);   
+    
+    if(content.length > 0 && content != ' ' && content != null && content != undefined) {
+        localStorage.setItem('data', JSON.stringify(data));
+    }
+    //getData();
+    comms.innerHTML = '';
+    exec();
+    setTimeout(commentVote, 50);
+    setTimeout(replyVote, 50);
+    
 })
 
 }
-        
- 
-function init() {
-    alert(getUserId);
-    if (typeof(Storage) !== "undefined") {
-        // Code for localStorage/sessionStorage.
-        //alert('get old data');
-        getOld = JSON.parse(localStorage.getItem('data'));
-      } else {
-         alert('Sorry! No Web Storage support..');
-      }
-    if(localStorage.getItem('data')) {
-        //alert('flag');
-        if(getNew) {
-            while(comm.firstChild) {
-                comm.removeChild(comm.firstChild);
-            }
-            get = Object.assign(getNew, getOld);
-        } else {
-            get = getOld;
-        }
-
-
-        comments = get.comments;
-        if(getUserId) {
-            currentUser.id = getUserId;
-        }
-        currentUser = get.currentUser;
-        exec();
-        go();
-        setTimeout(commentVote, 50);
-        setTimeout(replyVote, 50);
-    }
-}
-
-//init();
-
-//--------------------------------------------------------------
-
-//https://stackoverflow.com/questions/50338791/javascript-loop-through-object-array-and-pushing-elements-into-one-array
-/*
-let memb = [];
-for(let i=0; i < users.length; i++) {
-   name = users[i].username;
-    //console.log(name);
-    memb = memb.concat(name.split(','));
-    
-}
-*/
-
-
-//----------------------------------------------------------
-    //Main reply construct with optional owner
-           
-        //owner[0].classList.add('userstyle'); 
-        
-        //click one of iterated value, and on the same event remove class from anothers iterated values
-        //https://stackoverflow.com/questions/56517103/add-a-simple-class-to-this-element-when-clicked-on-and-remove-class-from-other#answer-56517202
-        owner.forEach(function(i) {
-            i.addEventListener('click', function() {
-                for(let i of owner) {
-                    i.classList.remove('userstyle');  
-                }
-                       
-                getIdx = this.parentNode.getAttribute("data-Id");
-                //console.log(getIdx);
-                //console.log(getUserId);
-                x = getIdx;
-                //console.log(x);
-                this.classList.add('userstyle');
-                //let ownerName = owner[getIdx].getAttribute('alt');
-                if (typeof(Storage) !== "undefined") {
-                    // Code for localStorage/sessionStorage.
-                    //alert('set and get getUserId..');
-                    currentUser.id = getIdx;
-                   
-                    localStorage.setItem('userId', JSON.stringify(getIdx));
-                    getUserId = JSON.parse(localStorage.getItem('userId'));
-                    console.log(currentUser.id);
-                    localStorage.setItem('data', JSON.stringify(get));
-                    
-                  } else {
-                     alert('Sorry! No Web Storage support..');
-                  }
-        
-                setNewData(getUserId);                 
-                
-                
-                
-            });  
-        });
-        
-        function setNewData(getUserId) {
-            console.log(x);
-            console.log(getUserId);
-            if(getUserId) {
-                currentUser.id = getUserId;// || users[0].id; 
-            }
-            currentUser.username = users[x].username;// || users[0].username;
-            currentUser.image.png = users[x].image.png;// || users[0].image.png;
-            currentUser.image.webp = users[x].image.webp;// || users[0].image.webp;
-            comments = get.comments;
-            if (typeof(Storage) !== "undefined") {
-                // Code for localStorage/sessionStorage.
-                //alert('set newData');
-                localStorage.setItem('data', JSON.stringify(get));
-                getNew = JSON.parse(localStorage.getItem('data'));
-              } else {
-                 alert('Sorry! No Web Storage support..');
-              }
-              
-            init();
-        }
-    
-   
-
-    
-    function go() {
-        get_update = JSON.parse(localStorage.getItem('data'));
-        currentUser_update = get_update.currentUser;
-        
-        ownerImage = 
-        `<picture id="${currentUser_update.id}" class="main_respond-picture">
-            <source srcset="${currentUser_update.image.webp}" type="image/webp">
-            <source srcset="${currentUser_update.image.png}" type="image/jpeg"> 
-            <!--stop animation in inline style-->
-            <img class="${currentUser_update.username}" src="${currentUser_update.image.png}" alt="${currentUser_update.username}" style="visibility: visible; animation-duration: 0s; !important;">
-        </picture>
-        <textarea class="main_respond-content" rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
-        <button id="send">send</button>`.trim();
-    
-        document.querySelector('.main_respond').innerHTML = ownerImage;
-    
-       const send = document.getElementById('send');
-       send.addEventListener('click', () => {
-          alert('hey');
-       })
-
-    }
-    
 
 //Voting in comments
 function commentVote() {
@@ -749,6 +391,10 @@ function commentVote() {
     })
 }
 
+//commentVote();
+setTimeout(commentVote, 50);
+
+
 //Voting in reply
 function replyVote() {
     let vote_container = document.querySelectorAll('.reply_vote');
@@ -784,28 +430,86 @@ function replyVote() {
     })
 }
 
-//Comment created at time
-/*
-setTimeout(createdAt, 50);
-function createdAt() {
-  let created = document.querySelectorAll('.comment_header-time');
-    for(let i=0; i < created.length; i++) {
-        //console.log(created[i].innerHTML.length);
-        if(created[i].innerHTML.length > 0) {
-            created[i].innerHTML = created[i].innerHTML;
-        } else {
-              created[i].innerHTML = timeCounter();
-        }
-    }
+setTimeout(replyVote, 50);
+
+
+function newReplyConstruct(event) {
+    replyContainer = 
+        `<div class='reply_owner'>
+        <picture class="reply_owner-picture">
+            <source srcset="${currentUser.image.webp}" type="image/webp">
+            <source srcset="${currentUser.image.png}" type="image/jpeg"> 
+            <!--stop animation in inline style-->
+            <img class="${currentUser.username}" src="${currentUser.image.png}" alt="${currentUser.username}" style="visibility: visible; animation-duration: 0s; !important;">
+        </picture>
+        <textarea class="reply_owner-content" name='txtContent' rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
+        <button class="sendReply">Reply</button>
+        </div>`.trim();
+        
+        let parentElem = event.target.parentNode.parentNode;
+        let parentId = event.target.parentNode.parentNode.id;
+        //console.log(parentElem);
+        let parentClassCheck = parentElem.classList.contains('comment');
+        //console.log(event.target.parentNode.parentNode.getElementsByClassName('comment_header-name')[0].textContent);
+           
+       //newReplyConstruct();        
+       
+       let parent = parentClassCheck ? document.getElementById(parentId) : document.getElementById(parentId).parentNode;
+       //console.log(parent);
+       parent.insertAdjacentHTML('afterend', replyContainer);
+       
+       let sendReply = document.querySelector('.sendReply');
+       //console.log(sendReply);
+       sendReply.addEventListener('click', function() {
+           //console.log('Hey');
+           let content = document.querySelector('.reply_owner-content').value;
+           //console.log(content);
+           let created = '1 min ago';
+           let score = 0;
+           let replyingTo = parentClassCheck ? event.target.parentNode.parentNode.getElementsByClassName('comment_header-name')[0].textContent : event.target.parentNode.parentNode.getElementsByClassName('reply_header-name')[0].textContent;
+           
+           function NewReply(id, content, createdAt, score, replyingTo, user) {
+               this.id = id;
+               this.content = content;
+               this.createdAt = createdAt;
+               this.score = score;
+               this.replyingTo = replyingTo;
+               this.user = user;
+              
+           }
+           
+           let newReply = new NewReply(m++, content, created, score, replyingTo, {image: {png: `${currentUser.image.png}`, webp: `${currentUser.image.webp}`}, username: `${currentUser.username}`});
+           //console.log(newReply);
+           document.querySelector('.reply_owner').style.display = 'none';
+         
+           comments.forEach((item, key) => {
+               if(item.id == parentId) {
+                   //console.log(comments[key].replies);
+                   let commReply = comments[key].replies;
+                   //console.log(replies)
+                   commReply.unshift(newReply);
+                   //console.log(replies);
+                   //getData();
+                   localStorage.setItem('data', JSON.stringify(data));
+                   comms.innerHTML = '';
+                   //getData();
+                   exec();
+               }
+               
+            let reply = item.replies;
+            reply.forEach((item, key) => {
+            if(item.id == parentId) {
+                //console.log(item);
+                //console.log(key);
+                //console.log(reply[key]);
+                reply.splice(key + 1, 0, newReply);
+                localStorage.setItem('data', JSON.stringify(data));
+                comms.innerHTML = '';
+                exec(); 
+            }
+        })
+               
+           })
+       })
+         
 }
-
-console.log(Date.now());
-    
-function timeCounter() {
-    commentCreated = Date.now();
-
-}
-*/
-
-
-
