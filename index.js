@@ -6,16 +6,11 @@ import {users} from './users.js';
 members();
 
 
-let comment, get, getOld, getNew, get_update, comm, ownerImage, comment_repl, reply, comment__noReplay, comment__reply,
-comment__you, comment__editor, reply__you, reply__editor, currentUser_update, reply__container;
-let x = 0;
-let m = 10;
-let genId, genIds, delet, getOwnerName, getUserId;
-let commId, getIdx, currentUser, comments, data, comms, replyContainer, mainRespond, ownerContainer;
+let comment, reply, comment__you, comment__editor, reply__you, reply__editor;
+let foc, NewReply, newReply, reply__container, ownerContainer;
+let score, currentUser, comments, data, comms, replyContainer, mainRespond;
 let owner = document.querySelectorAll('.owner');
-let flag = false;
-let delCont, delComm, delWrap, delGroup, tor, childrens, answ, test;
-
+let m = 10;
 
 
 
@@ -23,32 +18,32 @@ let delCont, delComm, delWrap, delGroup, tor, childrens, answ, test;
 //fetch data from json and set it to local storage
 fetch('data.json')
     .then(function(response) {
-        //console.log(response.json());
+        
         return response.json();
     })
     .then(function(data) {
         if(typeof(Storage) !== 'undefined') {
-            //console.log(data);
+            
             localStorage.setItem('data', JSON.stringify(data));
             getData();
             owner[0].classList.add('userstyle');
             exec();
             
-            //datos = JSON.parse(localStorage.getItem('data'));
-            //objDestr();
         } else {
             alert('Sorry! No Web Storage support.')
         }
     })
     .catch(function(err) {console.log(err.message)});
 
+
 //get/parse data from local storage
 function getData() {
     data = JSON.parse(localStorage.getItem('data'));
     currentUser = data.currentUser;
     comments = data.comments;
-    //console.log(currentUser);
+    
 }
+
 
 
 //navigate between users
@@ -56,7 +51,7 @@ for(let i = 0; i < owner.length; i++) {
     owner[i].addEventListener('click', function() { 
         let checkClass = owner[i].classList.contains('userstyle');
         if(checkClass) {
-            console.log(owner[i].parentNode);
+            
             currentUser.username = owner[i].classList[0];
             currentUser.id = users[i].id;
             currentUser.image.png = owner[i].parentNode.childNodes[3].srcset; //get siblings innerHTML
@@ -65,37 +60,26 @@ for(let i = 0; i < owner.length; i++) {
             localStorage.setItem('data', JSON.stringify(data));
             comms.innerHTML = '';
             exec();
+            setTimeout(vote, 50);
         }   
     })
 }
 
 
 function exec() {
-    //owner[0].classList.add('userstyle');
-    /* data = JSON.parse(localStorage.getItem('data'));
-    currentUser = data.currentUser;
-    comments = data.comments;
-    console.log(currentUser);
-    console.log(comments);
-    console.log(data); */
     getData();
-    //console.log(data);
-    //console.log(currentUser);
+   
     console.log(comments);
     console.log(currentUser);
-    
-    let n = 0;
+
+
     comments.forEach((item) => {
-        //console.log(item.user.username);
-        //console.log(currentUser.username);
-        //console.log(Object.values(item.user).includes(currentUser.username));
+        
         if(Object.values(item.user).includes(currentUser.username)) {
-           //console.log(item.user.username);
-            //console.log(currentUser.username);
            comment__you = `<span class="comment_header-owner">you</span>`;
            comment__editor = `<div class="comment_editor">
            <div class="comment_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
-           <div class="comment_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
+           <div class="comment_edit edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
        </div>`
         } else {
             comment__you = ``;
@@ -104,41 +88,8 @@ function exec() {
         </div>`;
         }
             
-        //Comment without reply construct
-       /*  if(item.replies.length === 0) {
-            genId = Math.floor(Math.random() * 1001);
-            //console.log(name);
-            comment__noReplay =
-                `<div class='wrapper__comment' id='${item.id}${genId}'>
-                <div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
-                    <div class="comment_header">
-                        <picture class="comment_header-picture">
-                            <source srcset="${item.user.image.webp}" type="image/webp">
-                            <source srcset="${item.user.image.png}" type="image/jpeg"> 
-                            <img src="${item.user.image.png}" alt="${item.user.username}">
-                        </picture>
-                        <div class="comment_header-container">
-                            <span class="comment_header-name">${item.user.username}</span>
-                            ${comment__you}
-                            <span class="comment_header-time">${item.createdAt}</span>
-                        </div>
-                    </div>
-                    <div class="comment_content" contenteditable='true'>${item.content}</div>
-                    <button class="comment_update">update</button>
-                    <div class="comment_vote">
-                        <span class="comment_vote-plus"><svg width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path class='plus' d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/></svg></span>
-                        <span class="comment_vote-content">${item.score}</span>
-                        <span class="comment_vote-minus"><svg width="11" height="7" xmlns="http://www.w3.org/2000/svg"><path class="minus" d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/></svg></span>
-                    </div>
-                    ${comment__editor}
-                    <div>
-                </div>`.trim();
-              
-            document.querySelector('.main_comments-replies-section').innerHTML += comment__noReplay;
-            
-        } */
 
-        //Comment with at least one reply construct
+        //Comment, reply construct
             comment = 
                 `<div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
                     <div class="comment_header">
@@ -155,45 +106,31 @@ function exec() {
                     </div>
                     <div class="comment_content" contenteditable='true'>${item.content}</div>
                     <button class="comment_update">update</button>
-                    <div class="comment_vote">
-                        <span class="comment_vote-plus"><svg width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path class='plus' d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/></svg></span>
-                        <span class="comment_vote-content">${item.score}</span>
-                        <span class="comment_vote-minus"><svg width="11" height="7" xmlns="http://www.w3.org/2000/svg"><path class="minus" d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/></svg></span>
+                    <div class="comment_vote vote">
+                        <span class="comment_vote-plus vote-plus">+</span>
+                        <span class="comment_vote-content vote-content">${item.score}</span>
+                        <span class="comment_vote-minus vote-minus">-</span>
                     </div>
                     ${comment__editor}
                 </div>`.trim();   
           
-            //comm = document.querySelector('.main__comments-replies-section');       
-            //comment_repl = document.createElement('div');
-            //comment_repl.classList.add('main_comment-reply-group');
-            //comm.appendChild(comment_repl);
+            
             comms = document.querySelector('.main__comments-section');
-            //comms.insertAdjacentHTML('afterbegin', comment);
-            //comms.insertAdjacentHTML('afterend', comment);
-            //comms.insertAdjacentHTML('beforebegin', comment);
             
             comms.insertAdjacentHTML('beforeend', comment);
             
-            //const lol = item.id + `${genId}`;
-            //console.log(lol);
-            //const lor = document.getElementById(lol);
-            //console.log(lor.parentNode);
-            
-                       
-            //console.log(item.replies.length);
+                     
             if(item.replies.length > 0) {
-            n++;
-            reply = item.replies; //comments[n].replies;
-            //console.log(reply);
+            
+            reply = item.replies; 
+           
             reply.forEach((item) => {
-                //console.log(item);
-                genIds = Math.floor(Math.random() * 1001);
-                //console.log(genIds);
+                               
                 if(item.user.username === currentUser.username) {
                     reply__you = `<span class="reply_header-owner">you</span>`;
                     reply__editor = `<div class="reply_editor">
                     <div class="reply_delete"><img class="delete" src="images/icon-delete.svg" alt="Delete" />Delete</div>
-                    <div class="reply_edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
+                    <div class="reply_edit edit"><img class="edit" src="images/icon-edit.svg" alt="Edit" />Edit</div>
                 </div>`
                  } else {
                      reply__you = ``;
@@ -202,7 +139,7 @@ function exec() {
                  </div>`;
                  }
 
-                //const reply_container = document.createElement('div');
+                
                 reply__container =
                     `<div class='rep'>
                     <div class="reply" id='${item.id}' style='margin: 0 0 1rem 0;'>
@@ -218,49 +155,32 @@ function exec() {
                                     <span class="reply_header-time">${item.createdAt}</span>
                                 </div>
                             </div>
-                            <div class="reply_content" contenteditable="true"><span class="replayinTo">${'@'+item.replyingTo}</span> ${item.content}</div>
+                            <div class="reply_content" contenteditable="true"><span class="replayinTo">${'@'+item.replyingTo + ''}</span>${item.content}</div>
                             <button class="reply_update">update</button>
-                            <div class="reply_vote">
-                                <span class="reply_vote-plus"><svg width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path class='plus' d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/></svg></span>
-                                <span class="reply_vote-content">${item.score}</span>
-                                <span class="reply_vote-minus"><svg width="11" height="7" xmlns="http://www.w3.org/2000/svg"><path class="minus" d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/></svg></span>
+                            <div class="reply_vote vote">
+                                <span class="reply_vote-plus vote-plus">+</span>
+                                <span class="reply_vote-content vote-content">${item.score}</span>
+                                <span class="reply_vote-minus vote-minus">-</span>
                             </div>
                             ${reply__editor}
                         </div>
                         </div>`.trim();
                
-                //lor.after(reply_container);
-                
-                    //let comm = document.querySelector('.main__replies-section');
-                    //comm.innerHTML += reply__container;
-                    //console.log(comm[i]);
                     comms.insertAdjacentHTML('beforeend', reply__container);
                     
         
-                //comm.insertAdjacentHTML('afterend', reply__container);
-                //comm.insertAdjacentHTML('afterbegin', reply__container);
-                //comm.insertAdjacentHTML('beforebegin', reply__container);
-                //comm.insertAdjacentHTML('beforeend', reply__container);
-            
+               
     //new reply (construct) to reply
-    let replyReply = document.querySelectorAll('.reply_editor');
+    let replyReply = document.querySelectorAll('.reply_reply');
     
     replyReply.forEach((item) => {
        item.onclick = function (event) {
-           /* let parentId = event.target.parentNode.parentNode.id;
-           console.log(parentId); */
            
         newReplyConstruct(event);  
        
-        /* let parent = document.getElementById(parentId).parentNode;//.parentNode;
-       console.log(parent);
-       parent.insertAdjacentHTML('afterend', replyContainer); */
-       
        }
        
-    })
-            
-            
+    })           
             })
         
            }
@@ -269,39 +189,61 @@ function exec() {
            
            
     //new reply (construct) to comment
-    let commentReply = document.querySelectorAll('.comment_editor');
+    let commentReply = document.querySelectorAll('.comment_reply');
     
     commentReply.forEach((item) => {
        item.onclick = function (event) {
         newReplyConstruct(event);    
-       
+        
        }
        
     })
       
-    //comment editing
-    let del = document.querySelectorAll('.comment_delete');
-    //console.log(del);
-    del.forEach((item, key) => {
-        //console.log(key);
-        //console.log(item);
+    //comment, reply editing       
+    let edit = document.querySelectorAll('.edit');
+    edit.forEach((item, key) => {
+
         item.onclick = function(event) {
-            console.log(item);
+          
+           let comfirm = item.classList.contains('comment_edit');
+            
+            foc = item.parentNode.parentNode.childNodes[3];
+    //https://www.tutorialspoint.com/how-to-set-cursor-position-in-content-editable-element-using-javascript
+    //set cursor at the end of text
+        let selectedText = window.getSelection();
+        let selectedRange = document.createRange();
+        if(comfirm) {
+            selectedRange.setStart(foc.childNodes[0], foc.textContent.length);
+        } else {
+            selectedRange.setStart(foc.childNodes[1], foc.childNodes[1].textContent.length);
+        }
+    
+        selectedRange.collapse(true);
+        selectedText.removeAllRanges();
+        selectedText.addRange(selectedRange);
+        foc.focus();
+              
+            let update = item.parentNode.parentNode.childNodes[5];
+            update.classList.add('show');
+            update.addEventListener('click', function() {
+                update.classList.remove('show');               
+                newReplyConstruct(event);
+                document.querySelector('.reply_owner').remove();
+            })
+            
         }
     })
-           
+    
     })
     
     ownerInteractiveContainer();
     
 }
-//exec();
+
 
 
 function  ownerInteractiveContainer() {
-    //owner container
-//if(currentUser.username == item.user.username) {
-//console.log(currentUser.id);
+
 ownerContainer = 
 `<picture class="main__respond-picture">
     <source srcset="${currentUser.image.webp}" type="image/webp">
@@ -311,21 +253,22 @@ ownerContainer =
 </picture>
 <textarea class="main__respond-content" name='txtArea' rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
 <button id="send">send</button>`.trim();
-//console.log(currentUser.username);
+
 
 mainRespond = document.querySelector('.main__respond');
 mainRespond.innerHTML = '';
 mainRespond.insertAdjacentHTML('beforeend', ownerContainer);
 
 let send = document.querySelector('#send');
-//console.log(send.parentNode.childNodes[0].id);
+
 
  send.addEventListener('click', function() {
-    //alert('Hey');
+   
+    setTimeout(vote, 50);
     getData();
     let content = document.querySelector('.main__respond-content').value;
     let created = '1 min ago';
-    let score = 0;
+    score = 0; 
     
     
     function NewComment(id, content, createdAt, score, user, replies) {
@@ -338,99 +281,20 @@ let send = document.querySelector('#send');
     }
     
     let newComment = new NewComment(m++, content, created, score, {image: {png: `${currentUser.image.png}`, webp: `${currentUser.image.webp}`}, username: `${currentUser.username}`}, []);
-    //console.log(newComment.id);
+
     document.querySelector('.main__respond-content').value = '';
-    comments.push(newComment);
-    //console.log(comments);   
+    comments.push(newComment); 
     
     if(content.length > 0 && content != ' ' && content != null && content != undefined) {
         localStorage.setItem('data', JSON.stringify(data));
     }
-    //getData();
+
     comms.innerHTML = '';
     exec();
-    setTimeout(commentVote, 50);
-    setTimeout(replyVote, 50);
     
 })
 
 }
-
-//Voting in comments
-function commentVote() {
-    let vote_container = document.querySelectorAll('.comment_vote');
-    let vote = document.querySelectorAll('.comment_vote-content');
-    let plus = document.querySelectorAll('.comment_vote-plus');
-    let minus = document.querySelectorAll('.comment_vote-minus');
-   
-    let counter;
-    vote_container.forEach((cont, key) => {
-        cont.addEventListener('mouseover', function() {
-            counter = Number(vote[key].innerHTML);
-        })
-    })
-
-    plus.forEach((item, key) => {
-        item.addEventListener('click', function() {
-            counter++;
-            //console.log(counter);
-            vote[key].innerHTML = counter;            
-        }) 
-    })
-
-    minus.forEach((item, key) => {
-        item.addEventListener('click', function() {
-            if(counter < 1) {
-                return 0;
-            } else {
-                counter--;
-                //console.log(counter); 
-                vote[key].innerHTML = counter;
-            }          
-        })
-    })
-}
-
-//commentVote();
-setTimeout(commentVote, 50);
-
-
-//Voting in reply
-function replyVote() {
-    let vote_container = document.querySelectorAll('.reply_vote');
-    let vote = document.querySelectorAll('.reply_vote-content');
-    let plus = document.querySelectorAll('.reply_vote-plus');
-    let minus = document.querySelectorAll('.reply_vote-minus');
-   
-    let counter = 0;
-    vote_container.forEach((cont, key) => {
-        cont.addEventListener('mouseover', function() {
-            counter = Number(vote[key].innerHTML);
-        })
-    })
-
-    plus.forEach((item, key) => {
-        item.addEventListener('click', function() {
-            counter++;
-            //console.log(counter);
-            vote[key].innerHTML = counter;            
-        }) 
-    })
-
-    minus.forEach((item, key) => {
-        item.addEventListener('click', function() {
-            if(counter < 1) {
-                return 0;
-            } else {
-                counter--;
-                //console.log(counter); 
-                vote[key].innerHTML = counter;
-            }          
-        })
-    })
-}
-
-setTimeout(replyVote, 50);
 
 
 function newReplyConstruct(event) {
@@ -448,27 +312,23 @@ function newReplyConstruct(event) {
         
         let parentElem = event.target.parentNode.parentNode;
         let parentId = event.target.parentNode.parentNode.id;
-        //console.log(parentElem);
-        let parentClassCheck = parentElem.classList.contains('comment');
-        //console.log(event.target.parentNode.parentNode.getElementsByClassName('comment_header-name')[0].textContent);
-           
-       //newReplyConstruct();        
+       
+        let parentClassCheck = parentElem.classList.contains('comment');        
        
        let parent = parentClassCheck ? document.getElementById(parentId) : document.getElementById(parentId).parentNode;
-       //console.log(parent);
-       parent.insertAdjacentHTML('afterend', replyContainer);
        
+        parent.insertAdjacentHTML('afterend', replyContainer);
+       
+    
        let sendReply = document.querySelector('.sendReply');
-       //console.log(sendReply);
-       sendReply.addEventListener('click', function() {
-           //console.log('Hey');
+       sendReply.addEventListener('click', function(event) {
+        setTimeout(vote, 50);
            let content = document.querySelector('.reply_owner-content').value;
-           //console.log(content);
            let created = '1 min ago';
-           let score = 0;
+            score = 0; 
            let replyingTo = parentClassCheck ? event.target.parentNode.parentNode.getElementsByClassName('comment_header-name')[0].textContent : event.target.parentNode.parentNode.getElementsByClassName('reply_header-name')[0].textContent;
            
-           function NewReply(id, content, createdAt, score, replyingTo, user) {
+          NewReply = function (id, content, createdAt, score, replyingTo, user) {
                this.id = id;
                this.content = content;
                this.createdAt = createdAt;
@@ -477,39 +337,113 @@ function newReplyConstruct(event) {
                this.user = user;
               
            }
+        
+           newReply = new NewReply(m++, content, created, score, replyingTo, {image: {png: `${currentUser.image.png}`, webp: `${currentUser.image.webp}`}, username: `${currentUser.username}`});
+           console.log(newReply);
            
-           let newReply = new NewReply(m++, content, created, score, replyingTo, {image: {png: `${currentUser.image.png}`, webp: `${currentUser.image.webp}`}, username: `${currentUser.username}`});
-           //console.log(newReply);
            document.querySelector('.reply_owner').style.display = 'none';
-         
+            
            comments.forEach((item, key) => {
                if(item.id == parentId) {
-                   //console.log(comments[key].replies);
-                   let commReply = comments[key].replies;
-                   //console.log(replies)
+                  let commReply = comments[key].replies;
                    commReply.unshift(newReply);
-                   //console.log(replies);
-                   //getData();
                    localStorage.setItem('data', JSON.stringify(data));
                    comms.innerHTML = '';
-                   //getData();
                    exec();
                }
+               
                
             let reply = item.replies;
             reply.forEach((item, key) => {
             if(item.id == parentId) {
-                //console.log(item);
-                //console.log(key);
-                //console.log(reply[key]);
+                console.log(reply[key]);
                 reply.splice(key + 1, 0, newReply);
                 localStorage.setItem('data', JSON.stringify(data));
                 comms.innerHTML = '';
-                exec(); 
+                exec();
             }
         })
                
            })
+           
+           
        })
-         
+
 }
+
+
+//Voting in comments and replays
+ let counter = 0;
+function vote() {
+    let vote_container = document.querySelectorAll('.vote');
+    let voteNr = document.querySelectorAll('.vote-content');
+    let plus = document.querySelectorAll('.vote-plus');
+    let minus = document.querySelectorAll('.vote-minus');
+   
+   
+    //voting up
+    voteNr.innerHTML = 0;
+    for(let i = 0; i < plus.length; i++) {
+        plus[i].addEventListener('click', () => {
+            let commentClass = plus[i].parentNode.parentNode.classList.contains('comment');
+            let replyClass = plus[i].parentNode.parentNode.classList.contains('reply');
+            let elementId = plus[i].parentNode.parentNode.id;
+            if(commentClass) {
+                comments.forEach((item) => {
+                    //console.log(item);
+                    if(item.id == elementId) {
+                    item.score = 1 + voteNr[i].innerHTML++;
+                    localStorage.setItem('data', JSON.stringify(data));
+                    }
+                    
+                })
+            }
+            
+            if(replyClass) {
+            comments.forEach((item) => {
+                let replyScore = item.replies;
+                replyScore.forEach((item) => {
+                    if(item.id == elementId) {
+                        //console.log(item.score);
+                        item.score = 1 + voteNr[i].innerHTML++;
+                        localStorage.setItem('data', JSON.stringify(data));
+                    }
+                })
+            })
+        }
+        });
+    }
+    
+    //voiting down
+    for(let i = 0; i < minus.length; i++) {
+        minus[i].addEventListener('click', () => {
+            let commentClass = minus[i].parentNode.parentNode.classList.contains('comment');
+            let replyClass = minus[i].parentNode.parentNode.classList.contains('reply');
+            let elementId = minus[i].parentNode.parentNode.id;
+            if(commentClass) {
+                comments.forEach((item) => {
+                    //console.log(item);
+                    if(item.id == elementId) {
+                    item.score = voteNr[i].innerHTML < 1 ? voteNr[i].innerHTML = 0 : (voteNr[i].innerHTML--) - 1;
+                    localStorage.setItem('data', JSON.stringify(data));
+                    }
+                    
+                })
+            }
+            
+            if(replyClass) {
+            comments.forEach((item) => {
+                let replyScore = item.replies;
+                replyScore.forEach((item) => {
+                    if(item.id == elementId) {
+                        item.score = voteNr[i].innerHTML < 1 ? voteNr[i].innerHTML = 0 : (voteNr[i].innerHTML--) - 1;
+                        localStorage.setItem('data', JSON.stringify(data));
+                    }
+                })
+            })
+        }
+        });
+    }
+    
+}
+setTimeout(vote, 50);

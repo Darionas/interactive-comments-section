@@ -208,6 +208,7 @@ body {
 
 .comment_content {
     color: var(--clr-grayish-blue);
+    width: 100%;
     /*border: 2px solid green;*/
 }
 
