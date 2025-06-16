@@ -85,15 +85,25 @@ body {
     padding: .2rem;
 }
 .owner {
+    cursor: pointer;
+    border: none;
     opacity: .6;
+    transition: opacity 0.3s;
 }
 
-.userstyle {
-    border-radius: 50% !important;
-    border: 3.5px solid var(--clr-moderate-blue) !important;
-    opacity: 1 !important;
+.owner.userstyle {
+    border-radius: 50%;
+    border: 3.5px solid var(--clr-moderate-blue);
+    opacity: 1;
 }
 
+.owner:hover,
+.owner:focus-visible{
+  opacity: 1;
+  border-radius: 50%;
+  outline: 2px solid var(--clr-soft-red); 
+  outline-offset: 2px;
+}
 
 /* style 2nd component - mobile */
 .main {
@@ -193,7 +203,7 @@ body {
     padding: 0.3rem;
 }
 
-.comment__update {
+.update-btn {
     cursor: pointer;
     width: 6rem;
     padding: .5rem .2rem;
@@ -223,6 +233,18 @@ body {
 .comment__vote-content {
     font-weight: var(--fw-500);
     color: hsl(238, 40%, 52%);
+}
+
+.vote-plus {
+    border: none;
+    background-color: var(--clr-very-light-gray);
+    color: var(--clr-light-grayish-blue);
+}
+
+.vote-minus {
+    border: none;
+    background-color: var(--clr-very-light-gray);
+    color: var(--clr-light-grayish-blue);
 }
 
 .comment__editor {
@@ -261,6 +283,21 @@ body {
     font-weight: var(--fw-500);
     color: var(--clr-moderate-blue);
     gap: .3rem;
+}
+
+.reply__rc {
+    border: none;
+    background-color: var(--clr-very-light-gray);
+}
+
+.del {
+    border: none;
+    background-color: var(--clr-very-light-gray);
+}
+
+.edit {
+    border: none;
+    background-color: var(--clr-very-light-gray);
 }
 
 /*--reply--*/
@@ -342,20 +379,6 @@ body {
     width: 100%;
     color: var(--clr-moderate-blue);
     font-weight: var(--fw-500);   
-}
-
-.reply__update {
-    cursor: pointer;
-    width: 6rem;
-    padding: .5rem .2rem;
-    border-radius: .4rem;
-    border: none;
-    text-transform: uppercase;
-    font-weight: var(--fw-500);
-    color: var(--clr-white);
-    background-color: var(--clr-moderate-blue);
-    justify-self: end;
-    display: none;
 }
 
 .reply__vote {
@@ -476,7 +499,7 @@ body {
     padding: 1rem;
     border-radius: 0.4rem;
     overflow-y: auto;
-    width: 95;
+    width: 95%;
     height: 7rem;
     color: var(--clr-dark-blue);
     border-color: var(--clr-light-gray);
@@ -511,7 +534,6 @@ body {
     top: 0;
     left: 0;
     background-color: hsl(211, 10%, 45%, 0.5);
-    overflow-x: hidden;
   }
   
   .deletion__container {
@@ -555,8 +577,17 @@ body {
     color: var(--clr-white);
   } 
   
+  .cancel__btn:focus,
+  .cancel__btn:focus-visible,
+  .delete__btn:focus,
+  .delete__btn:focus-visible
+  {
+     outline: 2px solid var(--clr-dark-blue);
+     outline-offset: 2px;
+  }
+  
   .show__element {
-    display: block !important;
+    display: inline-block;
 }
   
   .pointTo__element {
