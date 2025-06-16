@@ -1,3 +1,6 @@
+/*'Use strict'*/
+/*jshint esversion: 9*/
+
 import {users} from './users.js';
 const header = document.querySelector('.header');
 
@@ -19,11 +22,12 @@ export function admin() {
             </button>`.trim();
             
         header.appendChild(image);
-    })
+    });
     
     
     let setOwner = document.querySelectorAll('.owner');
-       setOwner[0]?.classList.add('userstyle'); // Set first user as active by default
+       // Set first user as active by default
+       setOwner[0]?.classList.add('userstyle'); 
 
     setOwner.forEach(ownerBtn => {
         ownerBtn.addEventListener('click', () => {
@@ -42,7 +46,7 @@ export function admin() {
     for(let i = 0; i < styleOwner.length; i++) {
         styleOwner[i].addEventListener('animationstart', function(){
             styleOwner[i].style.visibility = 'visible';
-        }, false)
+        }, false);
     }
 
 }

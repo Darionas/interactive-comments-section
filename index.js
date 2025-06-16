@@ -1,12 +1,12 @@
 /*'Use strict'*/
-/*jshint esversion: 8*/
+/*jshint esversion: 9*/
 
 import {admin} from './currentUser.js';
 import {removeAllOwnerStyles} from './currentUser.js';
 import {users} from './users.js';
 admin();
 
-const owner = document.querySelectorAll('.owner');
+
 let data, comms, comments, currentUser, modal;
 
 
@@ -113,7 +113,7 @@ document.addEventListener('click', function(e) {
                 comment__editor = `<div class="comment__editor">
                    <button type="button" class="comment__delete del"><img src="images/icon-delete.svg" alt="Delete" />Delete</button>
                    <button type="button" class="comment__edit edit"><img src="images/icon-edit.svg" alt="Edit" />Edit</button>
-                </div>`
+                </div>`;
             } else {
                 comment__you = ``;
                 comment__editor = `<div class="comment__editor">
@@ -157,7 +157,7 @@ document.addEventListener('click', function(e) {
                     reply__editor = `<div class="reply__editor">
                         <button type="button" class="reply__delete del"><img src="images/icon-delete.svg" alt="Delete" />Delete</button>
                         <button type="button" class="reply__edit edit"><img src="images/icon-edit.svg" alt="Edit" />Edit</button>
-                    </div>`
+                    </div>`;
                 } else {
                     reply__you = ``;
                     reply__editor = `<div class="reply__editor">
@@ -192,11 +192,11 @@ document.addEventListener('click', function(e) {
                     </div>`.trim();
                
                 comms.insertAdjacentHTML('beforeend', reply__container);         
-            })
+            });
         } 
                
         countAllCommentsAndReplies(comments);
-    })
+    });
   }
   /* populateData function is now correctly calling ownerInteractiveContainer(currentUser) once, after the comments 
   and replies are rendered. 
@@ -327,7 +327,7 @@ function newReplyConstruct(event, currentUser, comments) {
                             this.score = score;
                             this.replyingTo = replyingTo;
                             this.user = user;
-                        }
+                        };
         
                         let newReply = new NewReply(m++, content, createdAt, score, replyingTo, {image: {png: `${currentUser.image.png}`, webp: `${currentUser.image.webp}`}, username: `${currentUser.username}`});
                         document.querySelector('.reply__owner').style.display = 'none';
@@ -401,7 +401,6 @@ setInterval(() => {
 
 
 //Voting in comments and replys
-let counter = 0;
 function vote() {
     let voteNr = document.querySelectorAll('.vote-content');
     let plus = document.querySelectorAll('.vote-plus');
@@ -552,10 +551,10 @@ function editing(event, item) {
                                 setTimeout(vote, 50);
                             }
                         });
-                    })
+                    });
                         
             }
-        }
+        };
     }
     
 }
@@ -576,7 +575,7 @@ function deleting(event, delBtn) {
                 <button type="button" class='cancel__btn'>no, cancel</button>
                 <button type="button" class='delete__btn'>yes, delete</button>
             </div>
-        </div>`
+        </div>`;
                 
     let gridContainer = document.querySelector('.grid__container');
     if (gridContainer) {
