@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         deleting(event, event.target.closest('.del'));
                     }
                     if (event.target.closest('.reply__rc')) {
-                        newReplyConstruct(event, data.currentUser, comments);
+                        newReplyConstruct(event, currentUser, comments);
                     }
                 };
             }
@@ -111,19 +111,19 @@ document.addEventListener('click', function(e) {
             if(Object.values(item.user).includes(currentUser.username)) {
                 comment__you = `<span class="comment__header-owner">you</span>`;
                 comment__editor = `<div class="comment__editor">
-                   <button type="button" class="comment__delete del"><img src="images/icon-delete.svg" alt="Delete" />Delete</button>
-                   <button type="button" class="comment__edit edit"><img src="images/icon-edit.svg" alt="Edit" />Edit</button>
+                   <button type="button" class="comment__delete del" aria-label="Delete comment"><img src="images/icon-delete.svg" alt="" />Delete</button>
+                   <button type="button" class="comment__edit edit" aria-label="Edit comment"><img src="images/icon-edit.svg" alt="" />Edit</button>
                 </div>`;
             } else {
                 comment__you = ``;
                 comment__editor = `<div class="comment__editor">
-                    <button type="button" class="reply__rc comment__reply"><img src="images/icon-reply.svg" alt="Reply" />Reply</button>
+                    <button type="button" class="reply__rc comment__reply" aria-label="Reply to comment"><img src="images/icon-reply.svg" alt="" />Reply</button>
                 </div>`;
             }
     
     
         const comment = 
-           `<div class='comment' id='${item.id}' style='margin: 0 0 1rem 0;'>
+           `<div class='comment' data-id='${item.id}'>
                 <div class="comment__header">
                     <picture class="comment__header-picture">
                         <source srcset="${item.user.image.webp}" type="image/webp">
@@ -155,19 +155,19 @@ document.addEventListener('click', function(e) {
                 if(item.user.username === currentUser.username) {
                     reply__you = `<span class="reply__header-owner">you</span>`;
                     reply__editor = `<div class="reply__editor">
-                        <button type="button" class="reply__delete del"><img src="images/icon-delete.svg" alt="Delete" />Delete</button>
-                        <button type="button" class="reply__edit edit"><img src="images/icon-edit.svg" alt="Edit" />Edit</button>
+                        <button type="button" class="reply__delete del" aria-label="Delete reply"><img src="images/icon-delete.svg" alt="" />Delete</button>
+                        <button type="button" class="reply__edit edit" aria-label="Edit reply"><img src="images/icon-edit.svg" alt="" />Edit</button>
                     </div>`;
                 } else {
                     reply__you = ``;
                     reply__editor = `<div class="reply__editor">
-                        <button type="button" class="reply__rc reply__reply"><img src="images/icon-reply.svg" alt="Reply" />Reply</button>
+                        <button type="button" class="reply__rc reply__reply" aria-label="Reply to comment"><img src="images/icon-reply.svg" alt="" />Reply</button>
                     </div>`;
                 }
                 
                 const reply__container =
                     `<div class='rep'>
-                        <div class="reply" id='${item.id}' style='margin: 0 0 1rem 0;'>
+                        <div class="reply" data-id='${item.id}'>
                             <div class="reply__header">
                                 <picture class="reply__header-picture">
                                     <source srcset="${item.user.image.webp}" type="image/webp">
@@ -227,9 +227,8 @@ function  ownerInteractiveContainer(currentUser) {
         const ownerContainer = 
         `<picture class="main__respond-picture">
             <source srcset="${currentUser.image.webp}" type="image/webp">
-            <source srcset="${currentUser.image.png}" type="image/jpeg"> 
-            <!--stop animation in inline style-->
-            <img class="${currentUser.username}" src="${currentUser.image.png}" alt="${currentUser.username}" style="visibility: visible; animation-duration: 0s; !important;">
+            <source srcset="${currentUser.image.png}" type="image/jpeg">
+            <img class="${currentUser.username}" src="${currentUser.image.png}" alt="${currentUser.username}">
         </picture>
         <textarea class="main__respond-content" name='txtArea' rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
         <button type="button" id="send">send</button>`.trim();
@@ -293,17 +292,16 @@ function newReplyConstruct(event, currentUser, comments) {
             <picture class="reply__owner-picture">
                 <source srcset="${currentUser.image.webp}" type="image/webp">
                 <source srcset="${currentUser.image.png}" type="image/jpeg"> 
-                <!--stop animation in inline style-->
-                <img class="${currentUser.username}" src="${currentUser.image.png}" alt="${currentUser.username}" style="visibility: visible; animation-duration: 0s; !important;">
+                <img class="${currentUser.username}" src="${currentUser.image.png}" alt="${currentUser.username}">
             </picture>
             <textarea class="reply__owner-content" name='txtContent' rows="3" aria-label="Write comment" placeholder="Add a comment..."></textarea>
             <button type="button" class="sendReply">Reply</button>
         </div>`.trim();
         
     const parentElem = event.target.parentNode.parentNode;
-    const parentId = event.target.parentNode.parentNode.id;
+    const parentId = parentElem.dataset.id;
     const parentClassCheck = parentElem.classList.contains('comment');        
-    const parent = parentClassCheck ? document.getElementById(parentId) : document.getElementById(parentId).parentNode;
+    const parent = parentClassCheck ? document.querySelector(`[data-id="${parentId}"]`) : document.querySelector(`[data-id="${parentId}"]`).parentNode;
        
     parent.insertAdjacentHTML('afterend', replyContainer);
        
@@ -330,7 +328,6 @@ function newReplyConstruct(event, currentUser, comments) {
                         };
         
                         let newReply = new NewReply(m++, content, createdAt, score, replyingTo, {image: {png: `${currentUser.image.png}`, webp: `${currentUser.image.webp}`}, username: `${currentUser.username}`});
-                        document.querySelector('.reply__owner').style.display = 'none';
             
                         comments.forEach((item, key) => {
                             if(item.id == parentId) {
@@ -410,7 +407,7 @@ function vote() {
     for(let i = 0; i < plus.length; i++) {
         plus[i].onclick = () => {
             const parent = plus[i].closest('.comment, .reply');
-            const elementId = parent.id;
+            const elementId = parent.dataset.id;
             const isComment = parent.classList.contains('comment');
             const isReply = parent.classList.contains('reply');
             const voteContent = parent.querySelector('.vote-content');
@@ -443,7 +440,7 @@ function vote() {
     //voiting down
     for (let i = 0; i < minus.length; i++) {
         minus[i].onclick = () => {
-            const elementId = minus[i].parentNode.parentNode.id;
+            const elementId = minus[i].parentNode.parentNode.dataset.id;
             const isComment = minus[i].parentNode.parentNode.classList.contains('comment');
             const isReply = minus[i].parentNode.parentNode.classList.contains('reply');
             const currentScore = parseInt(voteNr[i].innerHTML, 10);
@@ -526,7 +523,7 @@ function editing(event, item) {
                 commentEdit.setAttribute('contenteditable', 'false');
                 commentEdit.classList.remove('pointTo__element', 'border__show');
                 comments.forEach((item) => {
-                    if(item.id == commentEdit.parentNode.id) {
+                    if(item.id == commentEdit.parentNode.dataset.id) {
                         item.content = commentEdit.textContent;
                         localStorage.setItem('data', JSON.stringify(data));
                         comms.innerHTML = '';
@@ -543,7 +540,7 @@ function editing(event, item) {
                 if (replyingToSpan) replyingToSpan.remove();
                     comments.forEach((item) => {
                         item.replies.forEach((reply) => {
-                            if(reply.id == replyEdit.parentNode.parentNode.id) {
+                            if(reply.id == replyEdit.parentNode.parentNode.dataset.id) {
                                 reply.content = replyEdit.textContent;
                                 localStorage.setItem('data', JSON.stringify(data));
                                 comms.innerHTML = '';
@@ -591,10 +588,6 @@ function deleting(event, delBtn) {
     if (cancelBtn) cancelBtn.addEventListener('click', off);
                 
     let overlay = document.querySelector('.overlay');
-    if (overlay) {
-        overlay.style.display = 'grid';
-        overlay.style.width = '100%';
-    }
                 
     function off() {
         overlay.remove();
@@ -608,7 +601,7 @@ function deleting(event, delBtn) {
         let rep = delBtn.closest('.rep');
                         
         comments.forEach((item, key) => {
-            if(com && com.id == item.id) {
+            if(com && com.dataset.id == item.id) {
                 comments.splice(key, 1);
                 localStorage.setItem('data', JSON.stringify(data));
                 comms.innerHTML = '';
@@ -617,10 +610,10 @@ function deleting(event, delBtn) {
             }
                     
             if(rep) {
+                const repId = rep.querySelector('.reply').dataset.id;
                 item.replies.forEach((repItem, rKey) => {
-                    if(rep.querySelector('.reply').id == repItem.id) {
+                    if(repId == repItem.id) {
                         item.replies.splice(rKey, 1);
-                        /* rep.remove(); */
                         localStorage.setItem('data', JSON.stringify(data));
                         comms.innerHTML = '';
                         populateData(data.currentUser, comments);
